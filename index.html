@@ -1,63 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+    <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-    <title>Full - Start Bootstrap Template</title>
-
-
-
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <!-- SETH: to get everything in one file, I commented this out and moved the content of full.css into the <style> tags below. -->
-    <!-- <link href="css/full.css" rel="stylesheet"> -->
+        <title>Hey baby, what's your sign going to be?</title>
 
 
-	
+
+        <!-- Bootstrap core CSS -->
+        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://unpkg.com/tippy.js@2.5.4/dist/tippy.all.min.js"></script>
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+
+
+        <!-- Custom styles for this template -->
+        <!-- SETH: to get everything in one file, I commented this out and moved the content of full.css into the <style> tags below. -->
+<!-- <link href="css/full.css" rel="stylesheet"> -->
+
+
+
 <style>
 
 body {
-  /*SETH: I didn't want the background to show, so I commented it out.*/
-  /*background: url("./back.png") no-repeat center center fixed;*/
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
-  -o-background-size: cover;
+    /*SETH: I didn't want the background to show, so I commented it out.*/
+    /*background: url("./back.png") no-repeat center center fixed;*/
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
 }
 
 
 body {
-  background: #eee;
+    background: #eee;
 }
 
 svg {
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .filler {
-  background: #20B7AF;
-  position: absolute;
-  bottom: 50%;
-  top: 0;
-  left: 0;
-  right: 0;
+    background: #20B7AF;
+    position: absolute;
+    bottom: 50%;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 
 
 .page-content {
-	height: 100%;
-	padding-top: 150px;
+    height: 100%;
+    padding-top: 150px;
 }
 
 
@@ -65,191 +70,264 @@ svg {
 
 
 .title-bar {
-	font-size: 32pt;
+    font-size: 32pt;
 }
 .appear-stuck {  
-  animation: 5s fadeIn;
-  animation-fill-mode: forwards;  
-  visibility: hidden;
-	opacity: 0;
-}
-
-@keyframes fadeIn {
-  0% {
+    animation: 5s fadeIn;
+    animation-fill-mode: forwards;  
     visibility: hidden;
     opacity: 0;
+}
+
+  @keyframes fadeIn {
+      0% {
+          visibility: hidden;
+          opacity: 0;
+      }
+      100% {
+          visibility: visible;
+          opacity: 1;
+      }
   }
-  100% {
-    visibility: visible;
-    opacity: 1;
+
+
+
+  .astrological-input {
+      font-size: 20pt;
+          text-align: center;
+      margin-left: 50px;
   }
-}
+  .astrological-input-form {
+  }
 
+  .astrological-output > .illustration {
+      padding-top: 10px;
+  }
 
+  .svg-obj-planetary {
+  }
 
-.astrological-input {
-	font-size: 20pt;
-}
+  .svg-obj-surrogate {
+  }
 
-.astrological-output > .illustration {
-	padding-top: 10px;
-}
-
+  .tippy-tooltip.hbwys-theme {
+      width: 70%;
+  }
+    .form-part,
+    .form-part > input {
+        text-align: center;
+    }
+    .form-part > label {
+        /*display: inline;*/
+        display: block;
+    }
+    .form-part > input ,
+    .form-part > select {
+        width:250px;
+        border-radius: 10px;
+        border: 0;
+    }
+    .form-part > select {
+        border:0;
+        background-color: white;
+        padding: 5px;
+    }
+    .form-part > input[name="submit"] {
+        background-color: #4558de;
+        color: white;
+        box-shadow: 0 6px 15px 0 rgba(0,0,0,10);
+    }
 </style>
 
 
-	
-  </head>
 
-  <body>
+    </head>
 
-<div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true"  data-dismiss="modal">
-    <div class="modal-dialog" data-dismiss="modal">
-        <div class="modal-content">
-            <!--
-	    <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <body>
+
+        <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true"  data-dismiss="modal">
+            <div class="modal-dialog" data-dismiss="modal">
+                <div class="modal-content">
+                    <!--
+                        <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                    -->
+                    <div class="modal-body explainer">
+                        <h3>What is this?</h3>
+                        <p>A common interpretation of astrology is that is depends on the gravity of the planets at the moment of birth.  Isaac Newton taught us when the gravity of a large planet far away equals a smaller object up close.  For example, Jupiter's pull on you right now equals a truck a few meters away. 
+                        </p>
+                        <p>When you're giving birth, if you line stuff up around you to cancel out one planet and simulate another, you can give your baby any sign you'd like. 	We did all the math for you, so have fun.
+                        </p>
+                    </div>
+                    <!--
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-default">Close</button>
+                        </div>
+                    -->
+                </div>
             </div>
-            -->
-            <div class="modal-body explainer">
-                <h3>What is this?</h3>
-		<p>A common interpretation of astrology is that is depends on the gravity of the planets at the moment of birth.  Isaac Newton taught us when the gravity of a large planet far away equals a smaller object up close.  For example, Jupiter's pull on you right now equals a truck a few meters away. 
-		</p>
-		<p>When you're giving birth, if you line stuff up around you to cancel out one planet and simulate another, you can give your baby any sign you'd like. 	We did all the math for you, so have fun.
-</p>
-            </div>
-            <!--
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default">Close</button>
-            </div>
-            -->
         </div>
-    </div>
-</div>
 
-    <!-- Navigation -->
-      <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" onHover="makeAppear()">
-        <a class="navbar-brand title-bar" href="#">Hey Baby, what's your sign? <span class="appear-stuck"> What do you want it to be?</span></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a href="#" class="nav-link" data-toggle="modal" data-target="#basicModal">Huh?</a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li>
-          </ul>
+        <!-- Navigation -->
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" onHover="makeAppear()">
+                <a class="navbar-brand title-bar" href="#">Hey <big>👶</big>, what's your sign? <span class="appear-stuck"> What do you want it to be?</span></a>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#basicModal">Huh?</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Home
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Services</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </div>
-    </nav>
-      </div>
- 
 
-    <!-- Page Content -->
 
-<!-- SETH: These few lines below, and their closing tags throughout the document, will make it easier to make our site mobile friendly -->
-<div class="container-fluid page-content">
-	  <div class="row">
-		<div class="col-md-3">
+        <!-- Page Content -->
 
-    <!-- Input part -->
-    <!-- SETH: Forms are the basis of the Internet.  The code below defines a minimal form that the site will take input from to edit the image-->
-		  <div class="astrological-input">
-Hey baby, what's your sign going to be?
-What do you want it to be?
-<form>
-<p class=form-part><label for="name">Name:</label><input id="name" name="name" size="6"></p>
-<p class=form-part><label for="date">Date:</label><input id="date" name="date" size="6"></p>
-<p class=form-part><label for="time">Time:</label><input id="time" name="time" size="6"></p>
-<p class=form-part><label for="location">Where:</label> <input id="location" name="location" size="5"></p>
-<p class=form-part><label for="desiredsign">Desired sign:</label> <input id="desiredsign" name="desiredsign" size="3"></p>
-<p class=form-part><input name="button" type="button" class="btn" value="Select" onclick="updateHour();fetchSwissAstro();"/></p>
-</form>
-</div>
-		</div>
-<div class="col-md-9">
+        <!-- SETH: These few lines below, and their closing tags throughout the document, will make it easier to make our site mobile friendly -->
+        <div class="container-fluid page-content">
+            <div class="row">
+                <div class="col-md-3">
 
-    <!-- Output part -->
-		  <div class="astrological-output">
-<!-- SETH: I copied everything below from the codepen of the clock at https://codepen.io/mohebifar/pen/KwdeMz .  We will use it as the basis of our illustration because it has the basic rudiments of our endgoal.  You will see that, just like the <head> section uses tag language to define the site's metadata, and the <body> section uses tag language to define its content, the <svg> section uses tag language to define exactly the type of "SVG" graphics that you use to build powerpoint slides. That makes it easy to plug programmable vector graphics into a webpage.  That will be the centerpiece of our site.-->
+                    <!-- Input part -->
+                    <!-- SETH: Forms are the basis of the Internet.  The code below defines a minimal form that the site will take input from to edit the image-->
+                    <div class="astrological-input">
+                        <h2>
+                            Tell us about your bundle of joy!
+                        </h2>
+                        <form id="astro-main-form" class="astrological-input-form" onsubmit="
+                                                              event.preventDefault();
+                                                              updateHour();
+                                                              fetchSwissAstro(this);
+                                                              //return false prevents form submission
+                                                              return false;
+                                                              ">
+                            <p class=form-part><label for="date">Date:</label><input id="date" name="date" placeholder="DD.MM.YYYY"></p>
+                            <p class=form-part><label for="time">Time (UTC):</label><input id="time" name="time" ></p>
+                            <p class=form-part>
+                                <label for="locationLat">Lat:</label> <input id="locationLat" name="locationLat" >
+                                <label for="locationLon">Lon:</label> <input id="locationLon" name="locationLon" >
+                            <i class="fas fa-info-circle tooltipped" title="75W is -75, same for S"></i>
+                            </p>
+                                <p class=form-part><label for="desiredsign">Desired sign:</label> 
+                                <select id="desiredsign" name="desiredsign" >
+                                    <option value="nosign" selected >No sign</option>
+                                    <option value="aries">Aries</option>
+                                    <option value="taurus">Taurus</option>
+                                    <option value="gemini">Gemini</option>
+                                    <option value="saab">Saab</option>
+                                    <option value="saab">Saab</option>
+                                    <option value="saab">Saab</option>
+                                    <option value="saab">Saab</option>
+                                    <option value="saab">Saab</option>
+                                    <option value="saab">Saab</option>
+                                    <option value="saab">Saab</option>
+                                    <option value="saab">Saab</option>
+                                    <option value="saab">Saab</option>
+                                </select></p>
+                            <p class=form-part><input name="submit" type="submit" class="btn tooltipped" value="Submit" title="hodwy"/></p>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-9">
 
-<svg width="600" height="600" class="illustration">
+                    <!-- Output part -->
+                    <div class="astrological-output">
+                    <template id="countermass-sun-label">
+                        At <strong id='counter-sun-angle'></strong>&deg; and <strong id='counter-sun-mass'>40</strong>m away, the weight of <br> the Golden Gate bridge (<strong id='counter-sun-mass'>420</strong> tons), counters the Sun's gravity.
+                    </template>
+                    <template id="mass-sun-label">
+                        Sol, our nearest star, weighs <strong id='sun-mass'>330,000</strong> Earths and is <strong id='sun-distance'>150 million</strong> km away
+                    </template>
+                        <!-- SETH: I copied everything below from the codepen of the clock at https://codepen.io/mohebifar/pen/KwdeMz .  We will use it as the basis of our illustration because it has the basic rudiments of our endgoal.  You will see that, just like the <head> section uses tag language to define the site's metadata, and the <body> section uses tag language to define its content, the <svg> section uses tag language to define exactly the type of "SVG" graphics that you use to build powerpoint slides. That makes it easy to plug programmable vector graphics into a webpage.  That will be the centerpiece of our site.-->
 
-    <filter id="innerShadow" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
-        <feOffset in="blur" dx="2.5" dy="2.5"/>
-    </filter>
+                        <svg width="600" height="600" class="illustration">
 
-    <g>
-        <circle id="circle" style="stroke: #FFF; stroke-width: 12px; fill:#20B7AF" cx="300" cy="300" r="160"></circle>
+                            <filter id="innerShadow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+                            <feOffset in="blur" dx="2.5" dy="2.5"/>
+                            </filter>
+
+                            <g>
+                            <circle id="circle" style="stroke: #FFF; stroke-width: 12px; fill:#20B7AF" cx="300" cy="300" r="160"></circle>
+                            </g>
+                            <g>
+                            <line x1="300" y1="300" x2="300" y2="220" transform="rotate(320 300 300)" style="stroke-width: 3px; stroke: #fffbf9;" id="hourhand">
+                            <animatetransform attributeName="transform"
+                                              attributeType="XML"
+                                              type="rotate"
+                                              dur="43200s"
+                                              repeatCount="indefinite"/>
+                            </line>
+                            <line x1="300" y1="300" x2="300" y2="160" style="stroke-width: 4px; stroke: #fdfdfd;" id="minutehand">
+
+
+                            <animatetransform attributeName="transform"
+                                              attributeType="XML"
+                                              type="rotate"
+                                              dur="3600s"
+                                              repeatCount="indefinite"/>
+                            </line>
+                            <!--SETH: To get the moon in place of the second hand, I commented out the <line> below and replaced it with the <image> command, which lets you embed an SVG (or other type of image) within an SVG image.  I pulled the image from flaticon.com By keeping the id="secondhand", I ensured that the javascript at the bottom of the page, in the <script> tags, would speak to this image rather than to the line that used to function as the second hand.  -->
+                            <!-- <line x1="300" y1="300" x2="300" y2="120" style="stroke-width: 2px; stroke: #C1EFED;" id="secondhand"> -->
+                            <image x="300" y="120" width="60" height="60" xlink:href="25665.svg"  id="secondhand" >
+    <animatetransform attributeName="transform"
+                      attributeType="XML"
+                      type="rotate"
+                      dur="60s"
+                      repeatCount="indefinite"/>
+    </image>
     </g>
-    <g>
-        <line x1="300" y1="300" x2="300" y2="220" transform="rotate(320 300 300)" style="stroke-width: 3px; stroke: #fffbf9;" id="hourhand">
-            <animatetransform attributeName="transform"
-                              attributeType="XML"
-                              type="rotate"
-                              dur="43200s"
-                              repeatCount="indefinite"/>
-        </line>
-        <line x1="300" y1="300" x2="300" y2="160" style="stroke-width: 4px; stroke: #fdfdfd;" id="minutehand">
-
-
-            <animatetransform attributeName="transform"
-                              attributeType="XML"
-                              type="rotate"
-                              dur="3600s"
-                              repeatCount="indefinite"/>
-        </line>
-	<!--SETH: To get the moon in place of the second hand, I commented out the <line> below and replaced it with the <image> command, which lets you embed an SVG (or other type of image) within an SVG image.  I pulled the image from flaticon.com By keeping the id="secondhand", I ensured that the javascript at the bottom of the page, in the <script> tags, would speak to this image rather than to the line that used to function as the second hand.  -->
-        <!-- <line x1="300" y1="300" x2="300" y2="120" style="stroke-width: 2px; stroke: #C1EFED;" id="secondhand"> -->
-	<image x="300" y="120" width="60" height="60" xlink:href="25665.svg"  id="secondhand" >
-            <animatetransform attributeName="transform"
-                              attributeType="XML"
-                              type="rotate"
-                              dur="60s"
-                              repeatCount="indefinite"/>
-        </image>
-	<image x="0" y="0" width="150" height="150" xlink:href="188820.svg"  id="countermass-sun" >
+    <g class="astro-supporting-elements">
+                            <image x="500" y="100" width="120" height="120" xlink:href="96640_simple.svg"  id="secondhand" >
+    </g>
+    <g class="sun-pair">
+        <image x="0" y="0" width="150" height="150" xlink:href="188820.svg"  id="countermass-sun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
+        <image x="50" y="50" width="150" height="150" xlink:href="787892.svg"  id="mass-sun" class="svg-obj-planetary invisible tooltipped" title="" data-tippy />
     </g>
     <circle id="center" style="fill:#128A86; stroke: #C1EFED; stroke-width: 2px;" cx="300" cy="300" r="6">  </circle>
 <!--SETH: I got the baby in the middle by plugging it in with an image tag below. I wasn't sure where to put it, so I tried putting it in lots of places in the SVG until I got it right.  But an educated guess said to put it near the main middle circle, so I mainly just had to find that.  Is there something about the circle above that gives us a hint its the right one?-->
-<image x="230" y="230" width="150" height="150" xlink:href="birthmother.svg"  />
+    <image x="230" y="230" width="150" height="150" xlink:href="birthmother.svg"  />
 
-</svg>
+    </svg>
 
-</div>
-</div>
-	  </div>
-</div>
+    </div>
+    </div>
+    </div>
+    </div>
 
-
+<footer class="page-footer font-small blue pt-4" height=100>
+    </footer>
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 
-<div id="tweet-list"></div>
-  </body>
+    <div id="tweet-list"></div>
+                        </body>
 
-    <!-- SETH: I copied the javascript below from the codepen.  you can embed javascript into HTML with <script> tags. This makes your html file into something that literally edits itself on the fly. That's how the clock keeps moving. The code above for the hands above says they should be roughly at the 4 o'clock position, the default that you'll see if you break the script below.  The script below rewrite the numbers specificy that default to be whatever the time is. -->
+                        <!-- SETH: I copied the javascript below from the codepen.  you can embed javascript into HTML with <script> tags. This makes your html file into something that literally edits itself on the fly. That's how the clock keeps moving. The code above for the hands above says they should be roughly at the 4 o'clock position, the default that you'll see if you break the script below.  The script below rewrite the numbers specificy that default to be whatever the time is. -->
 <script>
 
 /**
+* from https://gist.github.com/Xeoncross/7663273
  * IE 5.5+, Firefox, Opera, Chrome, Safari XHR object
  * 
  * @param string url
@@ -257,33 +335,34 @@ What do you want it to be?
  * @param mixed data
  * @param null x
  */
-function ajax(url, callback, data, x) {
-	try {
-		x = new(this.XMLHttpRequest || ActiveXObject)('MSXML2.XMLHTTP.3.0');
-		x.open(data ? 'POST' : 'GET', url, 1);
-		x.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-		x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-		x.onreadystatechange = function () {
-			x.readyState > 3 && callback && callback(x.responseText, x);
-		};
-		x.send(data)
-	} catch (e) {
-		window.console && console.log(e);
-	}
-};
+    function ajax(url, callback, data, x) {
+        try {
+            x = new(this.XMLHttpRequest || ActiveXObject)('MSXML2.XMLHTTP.3.0');
+            x.open(data ? 'POST' : 'GET', url, 1);
+            x.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            x.onreadystatechange = function () {
+                x.readyState > 3 && callback && callback(x.responseText, x);
+            };
+            x.send(data)
+        } catch (e) {
+            window.console && console.log(e);
+        }
+    };
 
 var hands = [];
-hands.push(document.querySelector('#secondhand > *'));
-hands.push(document.querySelector('#minutehand > *'));
-hands.push(document.querySelector('#hourhand > *'));
-hands.push(document.querySelector('#countermass-sun'));
+hands.push(document.querySelector('#secondhand > *')); //0
+hands.push(document.querySelector('#minutehand > *')); //1
+hands.push(document.querySelector('#hourhand > *')); //2
+hands.push(document.querySelector('#countermass-sun')); //3
+hands.push(document.querySelector('#mass-sun')); //4
 
 var cx = 300;
 var cy = 300;
 var radius = 200;
 
 function shifter(val) {
-  return [val, cx, cy].join(' ');
+    return [val, cx, cy].join(' ');
 }
 
 var date = new Date();
@@ -299,64 +378,179 @@ hands[2].setAttribute('from', shifter(hoursAngle));
 hands[2].setAttribute('to', shifter(hoursAngle + 360));
 
 for(var i = 1; i <= 12; i++) {
-  var el = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-  el.setAttribute('x1', '300');
-  el.setAttribute('y1', '160');
-  el.setAttribute('x2', '300');
-  el.setAttribute('y2', '150');
-  el.setAttribute('transform', 'rotate(' + (i*360/12) + ' 300 300)');
-  el.setAttribute('style', 'stroke: #ffffff;');
-  document.querySelector('svg').appendChild(el);
+    var el = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    el.setAttribute('x1', '300');
+    el.setAttribute('y1', '160');
+    el.setAttribute('x2', '300');
+    el.setAttribute('y2', '150');
+    el.setAttribute('transform', 'rotate(' + (i*360/12) + ' 300 300)');
+    el.setAttribute('style', 'stroke: #ffffff;');
+    document.querySelector('svg').appendChild(el);
 }
 
-    <!-- SETH: I didn't change any of the Javascript copied from the clock app.  All i did was add teh function below, which borrows selectively from different parts of that code.  If you search the doce for updateHour, you'll see that it's called by the form when the button is clicked.  And if you search the page for desired sign, you'll see that this function takes the value that was entered in the first form field in the first line.  The next three lines of the function, copied from different places in the code above, set the hour hand to the value that was entered.-->
+<!-- SETH: I didn't change any of the Javascript copied from the clock app.  All i did was add teh function below, which borrows selectively from different parts of that code.  If you search the doce for updateHour, you'll see that it's called by the form when the button is clicked.  And if you search the page for desired sign, you'll see that this function takes the value that was entered in the first form field in the first line.  The next three lines of the function, copied from different places in the code above, set the hour hand to the value that was entered.-->
 function updateHour() {
-       var theInput = document.getElementById('desiredsign').value;
-	hoursAngle = 360 * theInput / 12 + date.getMinutes() / 2;
-	hands[2].setAttribute('from', shifter(hoursAngle));
-	hands[2].setAttribute('to', shifter(hoursAngle + 360));
+    var theInput = document.getElementById('desiredsign').value;
+    hoursAngle = 360 * theInput / 12 + date.getMinutes() / 2;
+    hands[2].setAttribute('from', shifter(hoursAngle));
+    hands[2].setAttribute('to', shifter(hoursAngle + 360));
 }
-var shellOut;
-function fetchSwissAstro() {
-	//window.alert("hi");
-        var theInput = document.getElementById('desiredsign').value;
-	var sunAngle, meridian, ascendant;
-	var astroUrl = "http://www.astro.com/cgi/swetest.cgi?b=30."+ theInput +".2018&n=1&s=1&p=0&e=-eswe&f=PLBRsGg&arg=-house121.74%2C38.54%2CK+-ut11%3A00%3A00+-topo121.74%2C38.54%2C0"
-	var astroDegs = String.raw``
-	ajax("https://cors-anywhere.herokuapp.com/"+astroUrl
-		, function (data) {
-		        // this runs after we get the data from the other site, which should trigger lots of action.
-			// pull the astro printout from the return value
-			//    it comes out as a string, which we convert to a DOM object for easy searching
-			//console.log(data);
-			var parser = new DOMParser()
-			var doc = parser.parseFromString(data, "text/html");
-		        //console.log(doc);
-			shellOut = doc.querySelector("pre > font").innerText;
-		        console.log(shellOut);
+var sAstroShell;
+var elOut;
+function fetchSwissAstro( el ) {
+    console.log( el );
+    elOut = el;
+    // useful for making html in strings easily manipulable
+    var parser = new DOMParser()
+    // extract form's input variables
+    var inLat, inLon, inDate, inTime, inDesiredSign;
+    inLat = el.querySelector("#locationLat").value;
+    inLon = el.querySelector("#locationLon").value;
+    date = new Date;
+    inDate = el.querySelector("#date").value;
+    inTime = el.querySelector("#time").value;
+    //{// adjust time from user's local time to UTC
+        //inTime = inTime.split(":");
+        //inTime = (parseInt(inTime[0]) + date.getTimezoneOffset()/60).toString().padStart(2,0) + ":" + inTime[1];
+    //}
+    inDesiredSign = el.querySelector("#desiredsign").value;
+    //console.log(inLat, inLon, inDate, inTime, inDesiredSign);
 
-			// now use regexes to search the printout for the right digits. 
-			//  according to the math team, we need angles for the sun, AC and MC.
-			sunAngle = shellOut.match(/\bSun\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
-			ascendant = shellOut.match(/\bAscendant\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
-			meridian = shellOut.match(/\bMC\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
-			console.log(sunAngle);
+    // assemble and submit request, and define code that handles response text.
+    var sunAngle, meridian, ascendant;
+    //var astroUrl = "http://www.astro.com/cgi/swetest.cgi?b="+ inDate +"&n=1&s=1&p=0&e=-eswe&f=PLBRsGg&arg=-house" + inLon + "%2C" + inLat + "%2CK+-ut" + inTime + "%3A00+-topo" + inLon + "%2C" + inLat + "%2C0";
+    var astroUrl = "https://enfascination.com/swissephemeris/swetest.php?b="+ 
+        encodeURIComponent(inDate) +
+        "&p=0&emos&f=PLBRsGg&house=" + 
+        encodeURIComponent(inLon) + "%2C" + encodeURIComponent(inLat) + 
+        "%2Cp&ut=" + encodeURIComponent(inTime) + "%3A00";
+    console.log(astroUrl);
+    var astroDegs = String.raw``
+    //ajax("https://cors-anywhere.herokuapp.com/"+astroUrl
+    ajax(astroUrl, 
+        function (sAstroData) {
+            // this runs after we get the data from the other site, which should trigger lots of action.
+            // pull the astro printout from the return value
+            //    it comes out as a string, which we convert to a DOM object for easy searching
+            //console.log(data);
+            //var htmlAstro = parser.parseFromString(sAstroData, "text/html");
+            //console.log(htmlAstro);
+            //sAstroShell = htmlAstro.querySelector("pre > font").innerText;
+            sAstroShell = sAstroData;
+            console.log( sAstroShell);
 
-			// Position object using output
-			// use sun angle, AC and MC to calculate position of object relative to baby
-			//minuteAngle = sunAngle;
-			minuteAngle = 360 * sunAngle / 60;	
-			hands[1].setAttribute('from', shifter(minuteAngle));
-			hands[1].setAttribute('to', shifter(minuteAngle + 360));
-			hands[3].setAttribute('x',cx - 75 + radius*Math.cos(Math.PI));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
-			hands[3].setAttribute('y',cy - 75 + radius*Math.sin(Math.PI));
-		}, null, null)
+            // now use regexes to search the printout for the right digits. 
+            //  according to the math team, we need angles for the sun, AC and MC.
+            sunAngle = sAstroShell.match(/\bSun\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
+            ascendant = sAstroShell.match(/\bAscendant\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
+            meridian = sAstroShell.match(/\bMC\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
+            console.log(sunAngle);
+
+            // Position object using output
+            // use sun angle, AC and MC to calculate position of object relative to baby
+            //minuteAngle = sunAngle;
+            minuteAngle = 360 * sunAngle / 60;	
+            var secAngle = 360 * date.getSeconds() / 60; //really just here for testing
+            var astroAngle = Math.PI/2 + ascendant - meridian ;
+            hands[3].setAttribute('x',cx - 75 + radius*Math.cos(astroAngle));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
+            hands[3].setAttribute('y',cy - 75 + radius*Math.sin(astroAngle));
+            hands[4].setAttribute('x',cx - 75 + radius*Math.cos(astroAngle + Math.PI));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
+            hands[4].setAttribute('y',cy - 75 + radius*Math.sin(astroAngle + Math.PI));
+
+            // activate illustration 
+            // (popoulate labels with caluclated content)
+            //var elFurnitureLabel = document.querySelector("template#countermass-sun-label").content;
+            //console.log(elFurnitureLabel );
+            //elFurnitureLabel.querySelector("#counter-sun-angle").value = astroAngle;
+            // (make it visible)
+            hands[3].classList.remove("invisible");
+            hands[3].classList.add("visible");
+
+        }, null, null)
 
 
 }
 
+function inquireSurrogate(el, direction) {
+    if (true) {
+        if (direction == "in") {
+            el.parentElement.querySelector("#mass-sun").classList.remove("invisible");
+            el.parentElement.querySelector("#mass-sun").classList.add("visible");
+        } else if (direction == "out") {
+            el.parentElement.querySelector("#mass-sun").classList.add("invisible");
+            el.parentElement.querySelector("#mass-sun").classList.remove("visible");
+        }
+    }
+}
+function populateFormWithDefaults(form) {
+    form.querySelector("#locationLat").value = "38.54";
+    form.querySelector("#locationLon").value = "-121.74";
+    /* // browser doesn't like this code: makes browser raise its security hackles.
+    // https://developer.mozilla.org/en-US/docs/Web/API/Coordinates/longitude
+    navigator.geolocation.getCurrentPosition(function(position) {
+        let lat = position.coords.latitude;
+        let long = position.coords.longitude;
+
+        form.querySelector("#locationLat").innerText = lat.toFixed(2);
+        form.querySelector("#locationLon").innerText = long.toFixed(2);
+    });
+    */
+    var date = new Date();
+    form.querySelector("#date").value = date.getDate().toString().padStart(2,0) + "." + (date.getMonth()+1).toString().padStart(2,0) + "." + date.getFullYear();
+    //form.querySelector("#time").value = date.getHours().toString().padStart(2,0) + ":" + date.getMinutes().toString().padStart(2,0);
+    form.querySelector("#time").value = date.getUTCHours().toString().padStart(2,0) + ":" + date.getUTCMinutes().toString().padStart(2,0);
+    form.querySelector("#desiredsign").value = "No sign";
+}
+
+var mainForm = document.getElementById('astro-main-form');
+populateFormWithDefaults(mainForm);
+
+// run this with default values on page load.  Then again on form submit
+fetchSwissAstro( mainForm );
 
 
+
+</script>
+<script>
+    ///interactive elements of SVG
+
+    //Link counterbalanced entities
+    // a la https://codepen.io/anon/pen/BOowqg https://github.com/atomiks/tippyjs/issues/283 
+    tippy('.tooltipped');
+
+    var elFurniture = document.querySelector("#countermass-sun.tooltipped");
+    var elPlanet = document.querySelector("#mass-sun.tooltipped");
+    var tippyFurniture = tippy.one( elFurniture , {
+        //html: document.querySelector("template#countermass-sun-label"),
+        html: "template#countermass-sun-label",
+        delay: 0,
+        duration: 0,
+        placement: 'top',
+        theme: 'hbwys',
+        //dynamicTitle: true,
+                                                  });
+    var tippyPlanet = tippy.one( elPlanet, { 
+        trigger : 'manual',
+        html: "template#mass-sun-label",
+        delay: 0,
+        duration: 0,
+        placement: 'top',
+        theme: 'hbwys',
+    } );
+
+    // default trigger === 'mouseenter focus'
+    const showEvents = ['mouseenter', 'focus'];
+    const hideEvents = ['mouseleave', 'blur'];
+    showEvents.forEach(e => {
+            elFurniture.addEventListener(e, () => {
+                    tippyPlanet.show();
+                });
+    });
+    hideEvents.forEach(e => {
+            elFurniture.addEventListener(e, () => {
+                    tippyPlanet.hide();
+                });
+    });
 </script>
 
 </html>
