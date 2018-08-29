@@ -451,7 +451,7 @@ function fetchSwissAstro( el ) {
             //minuteAngle = sunAngle;
             minuteAngle = 360 * sunAngle / 60;	
             var secAngle = 360 * date.getSeconds() / 60; //really just here for testing
-            var astroAngle = Math.PI/2 + ascendant - meridian ;
+            var astroAngle = Math.PI - Math.PI + Math.PI/2 + ascendant - meridian ;
             hands[3].setAttribute('x',cx - 75 + radius*Math.cos(astroAngle));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
             hands[3].setAttribute('y',cy - 75 + radius*Math.sin(astroAngle));
             hands[4].setAttribute('x',cx - 75 + radius*Math.cos(astroAngle + Math.PI));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
