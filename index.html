@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Full - Start Bootstrap Template</title>
+
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <!-- SETH: to get everything in one file, I commented this out and moved the content of full.css into the <style> tags below. -->
+    <!-- <link href="css/full.css" rel="stylesheet"> -->
+
+
+	
+<style>
+
+body {
+  /*SETH: I didn't want the background to show, so I commented it out.*/
+  /*background: url("./back.png") no-repeat center center fixed;*/
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+
+body {
+  background: #eee;
+}
+
+svg {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.filler {
+  background: #20B7AF;
+  position: absolute;
+  bottom: 50%;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+/*SETH: I added these two classes below to style the key sections below.*/
+.astrological_input {
+	font-size: 32pt;
+}
+.astrological_output {
+"
+</style>
+
+
+	
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Start Bootstrap</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+ 
+
+    <!-- Page Content -->
+
+<!-- SETH: These few lines below, and their closing tags throughout the document, will make it easier to make our site mobile friendly -->
+<div class="container-fluid">
+	  <div class="row">
+		<div class="col-md-3">
+
+    <!-- Input part -->
+    <!-- SETH: Forms are the basis of the Internet.  The code below defines a minimal form that the site will take input from to edit the image-->
+		  <div class="astrological_input">
+<br>
+
+Hey baby, what's your sign going to be?
+What do you want it to be?
+<form>
+<input id="desiredsign" >
+<input name="button" type="button" class="btn" value="Select" onclick="updateHour()"/>
+</form>
+</div>
+		</div>
+<div class="col-md-9">
+
+    <!-- Output part -->
+		  <div class="astrological_output">
+<!-- SETH: I copied everything below from the codepen of the clock at https://codepen.io/mohebifar/pen/KwdeMz .  We will use it as the basis of our illustration because it has the basic rudiments of our endgoal.  You will see that, just like the <head> section uses tag language to define the site's metadata, and the <body> section uses tag language to define its content, the <svg> section uses tag language to define exactly the type of "SVG" graphics that you use to build powerpoint slides. That makes it easy to plug programmable vector graphics into a webpage.  That will be the centerpiece of our site.-->
+
+<svg width="200" height="200">
+
+    <filter id="innerShadow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+        <feOffset in="blur" dx="2.5" dy="2.5"/>
+    </filter>
+
+    <g>
+        <circle id="shadow" style="fill:rgba(0,0,0,0.1)" cx="97" cy="100" r="87" filter="url(#innerShadow)"></circle>
+        <circle id="circle" style="stroke: #FFF; stroke-width: 12px; fill:#20B7AF" cx="100" cy="100" r="80"></circle>
+    </g>
+    <g>
+        <line x1="100" y1="100" x2="100" y2="55" transform="rotate(80 100 100)" style="stroke-width: 3px; stroke: #fffbf9;" id="hourhand">
+            <animatetransform attributeName="transform"
+                              attributeType="XML"
+                              type="rotate"
+                              dur="43200s"
+                              repeatCount="indefinite"/>
+        </line>
+        <line x1="100" y1="100" x2="100" y2="40" style="stroke-width: 4px; stroke: #fdfdfd;" id="minutehand">
+
+
+            <animatetransform attributeName="transform"
+                              attributeType="XML"
+                              type="rotate"
+                              dur="3600s"
+                              repeatCount="indefinite"/>
+        </line>
+	<!--SETH: To get the moon in place of the second hand, I commented out the <line> below and replaced it with the <image> command, which lets you embed an SVG (or other type of image) within an SVG image.  I pulled the image from flaticon.com By keeping the id="secondhand", I ensured that the javascript at the bottom of the page, in the <script> tags, would speak to this image rather than to the line that used to function as the second hand.  -->
+        <!-- <line x1="100" y1="100" x2="100" y2="30" style="stroke-width: 2px; stroke: #C1EFED;" id="secondhand"> -->
+	<image x="100" y="30" width="30" height="30" xlink:href="25665.svg"  id="secondhand" >
+        
+            <animatetransform attributeName="transform"
+                              attributeType="XML"
+                              type="rotate"
+                              dur="60s"
+                              repeatCount="indefinite"/>
+        </image>
+    </g>
+    <circle id="center" style="fill:#128A86; stroke: #C1EFED; stroke-width: 2px;" cx="100" cy="100" r="3">  </circle>
+<!--SETH: I got the baby in the middle by plugging it in with an image tag below. I wasn't sure where to put it, so I tried putting it in lots of places in the SVG until I got it right.  But an educated guess said to put it near the main middle circle, so I mainly just had to find that.  Is there something about the circle above that gives us a hint its the right one?-->
+<image x="85" y="85" width="30" height="30" xlink:href="822174.svg"  />
+
+</svg>
+
+</div>
+</div>
+	  </div>
+</div>
+
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  </body>
+
+    <!-- SETH: I copied the javascript below from the codepen.  you can embed javascript into HTML with <script> tags. This makes your html file into something that literally edits itself on the fly. That's how the clock keeps moving. The code above for the hands above says they should be roughly at the 4 o'clock position, the default that you'll see if you break the script below.  The script below rewrite the numbers specificy that default to be whatever the time is. -->
+<script>
+
+
+var hands = [];
+hands.push(document.querySelector('#secondhand > *'));
+hands.push(document.querySelector('#minutehand > *'));
+hands.push(document.querySelector('#hourhand > *'));
+
+var cx = 100;
+var cy = 100;
+
+function shifter(val) {
+  return [val, cx, cy].join(' ');
+}
+
+var date = new Date();
+var hoursAngle = 360 * date.getHours() / 12 + date.getMinutes() / 2;
+var minuteAngle = 360 * date.getMinutes() / 60;
+var secAngle = 360 * date.getSeconds() / 60;
+
+hands[0].setAttribute('from', shifter(secAngle));
+hands[0].setAttribute('to', shifter(secAngle + 360));
+hands[1].setAttribute('from', shifter(minuteAngle));
+hands[1].setAttribute('to', shifter(minuteAngle + 360));
+hands[2].setAttribute('from', shifter(hoursAngle));
+hands[2].setAttribute('to', shifter(hoursAngle + 360));
+
+for(var i = 1; i <= 12; i++) {
+  var el = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  el.setAttribute('x1', '100');
+  el.setAttribute('y1', '30');
+  el.setAttribute('x2', '100');
+  el.setAttribute('y2', '40');
+  el.setAttribute('transform', 'rotate(' + (i*360/12) + ' 100 100)');
+  el.setAttribute('style', 'stroke: #ffffff;');
+  document.querySelector('svg').appendChild(el);
+}
+
+    <!-- SETH: I didn't change any of the Javascript copied from the clock app.  All i did was add teh function below, which borrows selectively from different parts of that code.  If you search the doce for updateHour, you'll see that it's called by the form when the button is clicked.  And if you search the page for desired sign, you'll see that this function takes the value that was entered in the first form field in the first line.  The next three lines of the function, copied from different places in the code above, set the hour hand to the value that was entered.-->
+function updateHour(){
+       var theInput = document.getElementById('desiredsign').value;
+hoursAngle = 360 * theInput / 12 + date.getMinutes() / 2;
+hands[2].setAttribute('from', shifter(hoursAngle));
+hands[2].setAttribute('to', shifter(hoursAngle + 360));
+}
+</script>
+
+</html>
