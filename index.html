@@ -226,7 +226,7 @@ svg {
                             </p>
                                 <p class=form-part><label for="desiredsign">Desired sign:</label> 
                                 <select id="desiredsign" name="desiredsign" >
-                                    <option value="NULL" selected >No sign</option>
+                                    <option value="null" selected >No sign</option>
                                     <option value="1">Aries</option>
                                     <option value="2">Taurus</option>
                                     <option value="3">Gemini</option>
@@ -325,6 +325,11 @@ svg {
                         <!-- SETH: I copied the javascript below from the codepen.  you can embed javascript into HTML with <script> tags. This makes your html file into something that literally edits itself on the fly. That's how the clock keeps moving. The code above for the hands above says they should be roughly at the 4 o'clock position, the default that you'll see if you break the script below.  The script below rewrite the numbers specificy that default to be whatever the time is. -->
 <script>
 
+// fix modulo: https://stackoverflow.com/questions/4467539/javascript-modulo-gives-a-negative-result-for-negative-numbers
+Number.prototype.mod = function(n) {
+    return ((this%n)+n)%n;
+};
+
 /**
 * from https://gist.github.com/Xeoncross/7663273
  * IE 5.5+, Firefox, Opera, Chrome, Safari XHR object
@@ -353,8 +358,10 @@ var hands = [];
 hands.push(document.querySelector('#secondhand > *')); //0
 hands.push(document.querySelector('#minutehand > *')); //1
 hands.push(document.querySelector('#hourhand > *')); //2
-hands.push(document.querySelector('#countermass-sun')); //3
-hands.push(document.querySelector('#mass-sun')); //4
+
+var elsvg = [];
+elsvg.push(document.querySelector('#countermass-sun')); //3
+elsvg.push(document.querySelector('#mass-sun')); //4
 
 var cx = 300;
 var cy = 300;
@@ -418,15 +425,15 @@ function fetchSwissAstro( el ) {
     inTime = el.querySelector("#time").value;
     //{// adjust time from user's local time to UTC
         //inTime = inTime.split(":");
-        //inTime = (parseInt(inTime[0]) + date.getTimezoneOffset()/60).toString().padStart(2,0) + ":" + inTime[1];
+        //inTime = (+inTime[0] + date.getTimezoneOffset()/60).toString().padStart(2,0) + ":" + inTime[1];
     //}
     inDesiredSign = el.querySelector("#desiredsign").value;
     var desiredDate = inDate.split(".");
-    console.log("inDesiredSign is " + inDesiredSign);
     var currentSign;
-    if (inDesiredSign != "null") {
-        var signDiff = (parseInt(currentSign) - inDesiredSign) % 12;
-        desiredDate = desiredDate[0] + "." + parseInt(desiredDate)+(30*signDiff) + "." + desiredDate;
+    if (inDesiredSign !== "null") {
+        console.log("JDFLK: named dsign that is not null");
+        var signDiff = (+currentSign - inDesiredSign) % 12;
+        desiredDate = desiredDate[0] + "." + +desiredDate+(30*signDiff) + "." + desiredDate;
         //console.log(inLat, inLon, inDate, inTime, inDesiredSign);
         console.log(inDate, desiredDate);
     }
@@ -440,33 +447,70 @@ function fetchSwissAstro( el ) {
         "&ut=" + encodeURIComponent(inTime) + "%3A00";
     console.log(astroUrl);
     //ajax("https://cors-anywhere.herokuapp.com/"+astroUrl
-    ajax(astroUrl, 
-        postSubmit, null, null)
-
-
+    ajax(astroUrl, postSubmit, null, null);
+        return 1
 }
-function postSubmit(sAstroData) {
-    console.log("JLKDFKLJ");
-    // this runs after we get the data from the other site, which should trigger lots of action.
-    // pull the astro printout from the return value
-    //    it comes out as a string, which we convert to a DOM object for easy searching
-    //console.log(data);
-    {
-        // vestigates fromwhen I was scraping from http://www.astro.com/swisseph/swetest.htm
-        //var htmlAstro = parser.parseFromString(sAstroData, "text/html");
-        //console.log(htmlAstro);
-        //sAstroShell = htmlAstro.querySelector("pre > font").innerText;
-        sAstroShell = sAstroData;
-    }
-    console.log( sAstroShell);
 
+/**
+    this runs after we get the data from the other site, which should trigger lots of action.
+    pull the astro printout from the return value
+it comes out as a string, which we convert to a DOM object for easy searching
+*/
+function postSubmit(sAstroShell) {
+    // parse raw input 
+    //    (custonmize edepending on control over backend) 
+    //    DON't need for current backend
+    // sAstroShell = parseAstroResponse( sAstroShell ); 
+
+    // extract angles from parsed response
     var angles = getAngles(sAstroShell);
-    var sunAngle = angles[0];
-    var ascendant = angles[1];
-    var meridian = angles[2];
-    var sunSign = angles[3];
+    var sunAngle = angles['sunAngle'];
+    var ascendant = angles['ascendant'];
+    var meridian = angles['meridian'];
+    var sunSign = angles['sunSign'];
 
-    // Position object using output
+    // Position object into SVG using output
+    //  compute angle to send to image
+    var astroAngle = imageAngleFromAstroAngle(ascendant, meridian, sunAngle);
+    // edit HTML
+    positionObjectPairInSVG(elsvg[0], elsvg[1], radius, astroAngle); 
+    activateIllustration(elsvg[0]);
+
+};
+function parseAstroResponse( sAstroShell ) {
+    // vestigates fromwhen I was scraping from http://www.astro.com/swisseph/swetest.htm
+    var htmlAstro = parser.parseFromString(sAstroData, "text/html");
+    console.log(htmlAstro);
+    sAstroShell = htmlAstro.querySelector("pre > font").innerText;
+    console.log( sAstroShell);
+    return sAstroShell
+}
+
+function getAngles(sAstroShell) {
+    var sunAngle, sunSign, meridian, ascendant;
+    // now use regexes to search the printout for the right digits. 
+    //  according to the math team, we need angles for the sun, AC and MC.
+    sunAngle = sAstroShell.match(
+        /\bSun\s+([0-9\.]+)\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/
+    );
+    sunSign = +sunAngle[1];
+    sunAngle = sunAngle[2];
+    ascendant = sAstroShell.match(/\bAscendant\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
+    meridian = sAstroShell.match(/\bMC\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
+    // convert to radians
+    sunAngle = (sunAngle / 360) * 2 * Math.PI;
+    ascendant = (ascendant / 360) * 2 * Math.PI;
+    meridian = (meridian / 360) * 2 * Math.PI;
+    var angles = {
+        "sunAngle" : sunAngle,
+        "ascendant" : ascendant,
+        "meridian" : meridian,
+        "sunSign" : sunSign,
+    }
+    return(angles);
+};
+
+function imageAngleFromAstroAngle(ascendant, meridian, sunAngle) {
     // use sun angle, AC and MC to calculate position of object relative to baby
     //minuteAngle = sunAngle;
     minuteAngle = 360 * sunAngle / 60;	
@@ -476,51 +520,35 @@ function postSubmit(sAstroData) {
         - (2*Math.PI - ascendant) //to get the ascendant zeroed to the east (substracting distance from spring equinox)
         - meridian // to add the effect of being at noon
         + (meridian - sunAngle) //to get actual hour of day
-    );
+    ) % (2*Math.PI);
     var astroAngle2 = -( //negate because mirror image from looking down instead of up
         Math.PI //to counterbalance mass
         + (ascendant - sunAngle) //to get angle from east facing
-    );
+    ) % (2*Math.PI);
+    astroAngle = astroAngle.mod( 2*Math.PI );
+    astroAngle2 = astroAngle2.mod( 2*Math.PI );
     console.log((astroAngle/(Math.PI*2)*360), (astroAngle2/(Math.PI*2)*360) );
-    hands[3].setAttribute('x',cx - 75 + radius*Math.cos(astroAngle));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
-    hands[3].setAttribute('y',cy - 75 + radius*Math.sin(astroAngle));
-    hands[4].setAttribute('x',cx - 75 + radius*Math.cos(astroAngle + Math.PI));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
-    hands[4].setAttribute('y',cy - 75 + radius*Math.sin(astroAngle + Math.PI));
+    return(astroAngle);
+}
 
+function positionObjectPairInSVG(counterMass, mass, radius, astroAngle) {
+    counterMass.setAttribute('x',cx - 75 + radius*Math.cos(astroAngle));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
+    counterMass.setAttribute('y',cy - 75 + radius*Math.sin(astroAngle));
+    mass.setAttribute('x',cx - 75 + radius*Math.cos(astroAngle + Math.PI));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
+    mass.setAttribute('y',cy - 75 + radius*Math.sin(astroAngle + Math.PI));
+}
+
+function activateIllustration(counterMass){
     // activate illustration 
     // (popoulate labels with caluclated content)
     //var elFurnitureLabel = document.querySelector("template#countermass-sun-label").content;
     //console.log(elFurnitureLabel );
     //elFurnitureLabel.querySelector("#counter-sun-angle").value = astroAngle;
     // (make it visible)
-    hands[3].classList.remove("invisible");
-    hands[3].classList.add("visible");
+    counterMass.classList.remove("invisible");
+    counterMass.classList.add("visible");
+}
 
-};
-
-function getAngles(sAstroShell) {
-    var sunAngle, sunSign, meridian, ascendant;
-    // now use regexes to search the printout for the right digits. 
-    //  according to the math team, we need angles for the sun, AC and MC.
-    sunAngle = sAstroShell.match(
-        /\bSun\s+([0-9\.]+)\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/
-    );
-    sunSign = parseInt(sunAngle[1]);
-    sunAngle = sunAngle[2];
-    ascendant = sAstroShell.match(/\bAscendant\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
-    meridian = sAstroShell.match(/\bMC\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
-    // convert to radians
-    sunAngle = (sunAngle / 360) * 2 * Math.PI;
-    ascendant = (ascendant / 360) * 2 * Math.PI;
-    meridian = (meridian / 360) * 2 * Math.PI;
-    angles = {
-        "sunAngle" : sunAngle,
-        "ascendant" : ascendant,
-        "meridian" : meridian,
-        "sunSign" : sunSign,
-    }
-    return angles
-};
 
 function inquireSurrogate(el, direction) {
     if (true) {
@@ -533,6 +561,7 @@ function inquireSurrogate(el, direction) {
         }
     }
 }
+
 function populateFormWithDefaults(form) {
     form.querySelector("#locationLat").defaultValue = "38.54";
     form.querySelector("#locationLon").defaultValue = "-121.74";
