@@ -212,12 +212,11 @@ svg {
                             Tell us about your bundle of joy!
                         </h2>
                         <form id="astro-main-form" class="astrological-input-form" onsubmit="
-                                                              event.preventDefault();
-                                                              updateHour();
-                                                              fetchSwissAstro(this);
-                                                              //return false prevents form submission
-                                                              return false;
-                                                              ">
+                    event.preventDefault();
+                    fetchSwissAstro(this);
+                    //return false prevents form submission
+                    return false;
+                                ">
                             <p class=form-part><label for="date">Date:</label><input id="date" name="date" placeholder="DD.MM.YYYY"></p>
                             <p class=form-part><label for="time">Time (UTC):</label><input id="time" name="time" ></p>
                             <p class=form-part>
@@ -388,13 +387,6 @@ for(var i = 1; i <= 12; i++) {
     document.querySelector('svg').appendChild(el);
 }
 
-<!-- SETH: I didn't change any of the Javascript copied from the clock app.  All i did was add teh function below, which borrows selectively from different parts of that code.  If you search the doce for updateHour, you'll see that it's called by the form when the button is clicked.  And if you search the page for desired sign, you'll see that this function takes the value that was entered in the first form field in the first line.  The next three lines of the function, copied from different places in the code above, set the hour hand to the value that was entered.-->
-function updateHour() {
-    var theInput = document.getElementById('desiredsign').value;
-    hoursAngle = 360 * theInput / 12 + date.getMinutes() / 2;
-    hands[2].setAttribute('from', shifter(hoursAngle));
-    hands[2].setAttribute('to', shifter(hoursAngle + 360));
-}
 var sAstroShell;
 var elOut;
 function fetchSwissAstro( el ) {
@@ -428,7 +420,12 @@ function fetchSwissAstro( el ) {
     var astroDegs = String.raw``
     //ajax("https://cors-anywhere.herokuapp.com/"+astroUrl
     ajax(astroUrl, 
-        function (sAstroData) {
+        postSubmit, null, null)
+
+
+}
+function postSubmit(sAstroData) {
+    console.log("JLKDFKLJ");
             // this runs after we get the data from the other site, which should trigger lots of action.
             // pull the astro printout from the return value
             //    it comes out as a string, which we convert to a DOM object for easy searching
@@ -479,10 +476,7 @@ function fetchSwissAstro( el ) {
             hands[3].classList.remove("invisible");
             hands[3].classList.add("visible");
 
-        }, null, null)
-
-
-}
+        }
 
 function inquireSurrogate(el, direction) {
     if (true) {
@@ -496,8 +490,8 @@ function inquireSurrogate(el, direction) {
     }
 }
 function populateFormWithDefaults(form) {
-    form.querySelector("#locationLat").value = "38.54";
-    form.querySelector("#locationLon").value = "-121.74";
+    form.querySelector("#locationLat").defaultValue = "38.54";
+    form.querySelector("#locationLon").defaultValue = "-121.74";
     /* // browser doesn't like this code: makes browser raise its security hackles.
     // https://developer.mozilla.org/en-US/docs/Web/API/Coordinates/longitude
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -509,10 +503,9 @@ function populateFormWithDefaults(form) {
     });
     */
     var date = new Date();
-    form.querySelector("#date").value = date.getDate().toString().padStart(2,0) + "." + (date.getMonth()+1).toString().padStart(2,0) + "." + date.getFullYear();
-    //form.querySelector("#time").value = date.getHours().toString().padStart(2,0) + ":" + date.getMinutes().toString().padStart(2,0);
-    form.querySelector("#time").value = date.getUTCHours().toString().padStart(2,0) + ":" + date.getUTCMinutes().toString().padStart(2,0);
-    form.querySelector("#desiredsign").value = "No sign";
+    form.querySelector("#date").defaultValue = date.getDate().toString().padStart(2,0) + "." + (date.getMonth()+1).toString().padStart(2,0) + "." + date.getFullYear();
+    //form.querySelector("#time").defaultValue = date.getHours().toString().padStart(2,0) + ":" + date.getMinutes().toString().padStart(2,0);
+    form.querySelector("#time").defaultValue = date.getUTCHours().toString().padStart(2,0) + ":" + date.getUTCMinutes().toString().padStart(2,0);
 }
 
 var mainForm = document.getElementById('astro-main-form');
