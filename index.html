@@ -369,6 +369,21 @@ var hoursAngle = 360 * date.getHours() / 12 + date.getMinutes() / 2;
 var minuteAngle = 360 * date.getMinutes() / 60;
 var secAngle = 360 * date.getSeconds() / 60;
 
+var houses = {
+    "Aries":1,
+    "Taurus":2,
+    "Gemini":3,
+    "Cancer":4,
+    "Leo":5,
+    "Virgo":6,
+    "Libra":7,
+    "Scorpio":8,
+    "Sagittarius":9,
+    "Capricorn":10,
+    "Aquarius":11,
+    "Pisces":12,
+};
+
 hands[0].setAttribute('from', shifter(secAngle));
 hands[0].setAttribute('to', shifter(secAngle + 360));
 hands[1].setAttribute('from', shifter(minuteAngle));
@@ -407,15 +422,16 @@ function fetchSwissAstro( el ) {
     //}
     inDesiredSign = el.querySelector("#desiredsign").value;
     var desiredDate = inDate.split(".");
-    if (desiredDate != "null") {
-        var signDiff = (int(currentSign) - inDesiredSign) % 12;
-        desiredDate = desiredDate[0] + "." + int(desiredDate)+(30*signDiff) + "." + desiredDate;
+    console.log("inDesiredSign is " + inDesiredSign);
+    var currentSign;
+    if (inDesiredSign != "null") {
+        var signDiff = (parseInt(currentSign) - inDesiredSign) % 12;
+        desiredDate = desiredDate[0] + "." + parseInt(desiredDate)+(30*signDiff) + "." + desiredDate;
         //console.log(inLat, inLon, inDate, inTime, inDesiredSign);
         console.log(inDate, desiredDate);
     }
 
     // assemble and submit request, and define code that handles response text.
-    var sunAngle, meridian, ascendant;
     var astroUrl = "https://enfascination.com/swissephemeris/swetest.php?" + 
         "b="+ encodeURIComponent(inDate) +
         "&p=0" + "&emos" + "&f=PjLBRsGg" + 
@@ -423,7 +439,6 @@ function fetchSwissAstro( el ) {
         encodeURIComponent(inLat) + "%2CN" + 
         "&ut=" + encodeURIComponent(inTime) + "%3A00";
     console.log(astroUrl);
-    var astroDegs = String.raw``
     //ajax("https://cors-anywhere.herokuapp.com/"+astroUrl
     ajax(astroUrl, 
         postSubmit, null, null)
@@ -432,57 +447,80 @@ function fetchSwissAstro( el ) {
 }
 function postSubmit(sAstroData) {
     console.log("JLKDFKLJ");
-            // this runs after we get the data from the other site, which should trigger lots of action.
-            // pull the astro printout from the return value
-            //    it comes out as a string, which we convert to a DOM object for easy searching
-            //console.log(data);
-            //var htmlAstro = parser.parseFromString(sAstroData, "text/html");
-            //console.log(htmlAstro);
-            //sAstroShell = htmlAstro.querySelector("pre > font").innerText;
-            sAstroShell = sAstroData;
-            console.log( sAstroShell);
+    // this runs after we get the data from the other site, which should trigger lots of action.
+    // pull the astro printout from the return value
+    //    it comes out as a string, which we convert to a DOM object for easy searching
+    //console.log(data);
+    {
+        // vestigates fromwhen I was scraping from http://www.astro.com/swisseph/swetest.htm
+        //var htmlAstro = parser.parseFromString(sAstroData, "text/html");
+        //console.log(htmlAstro);
+        //sAstroShell = htmlAstro.querySelector("pre > font").innerText;
+        sAstroShell = sAstroData;
+    }
+    console.log( sAstroShell);
 
-            // now use regexes to search the printout for the right digits. 
-            //  according to the math team, we need angles for the sun, AC and MC.
-            sunAngle = sAstroShell.match(/\bSun\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
-            ascendant = sAstroShell.match(/\bAscendant\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
-            meridian = sAstroShell.match(/\bMC\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
-            // convert to radians
-            sunAngle = (sunAngle / 360) * 2 * Math.PI;
-            ascendant = (ascendant / 360) * 2 * Math.PI;
-            meridian = (meridian / 360) * 2 * Math.PI;
+    var angles = getAngles(sAstroShell);
+    var sunAngle = angles[0];
+    var ascendant = angles[1];
+    var meridian = angles[2];
+    var sunSign = angles[3];
 
-            // Position object using output
-            // use sun angle, AC and MC to calculate position of object relative to baby
-            //minuteAngle = sunAngle;
-            minuteAngle = 360 * sunAngle / 60;	
-            var secAngle = 360 * date.getSeconds() / 60; //really just here for testing
-            var astroAngle = -( //negate because mirror image from looking down instead of up
-                Math.PI //to orient SVG coordinate system
-                - (2*Math.PI - ascendant) //to get the ascendant zeroed to the east (substracting distance from spring equinox)
-                - meridian // to add the effect of being at noon
-                + (meridian - sunAngle) //to get actual hour of day
-            );
-            var astroAngle2 = -( //negate because mirror image from looking down instead of up
-                Math.PI //to counterbalance mass
-                + (ascendant - sunAngle) //to get angle from east facing
-            );
-            console.log((astroAngle/(Math.PI*2)*360), (astroAngle2/(Math.PI*2)*360) );
-            hands[3].setAttribute('x',cx - 75 + radius*Math.cos(astroAngle));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
-            hands[3].setAttribute('y',cy - 75 + radius*Math.sin(astroAngle));
-            hands[4].setAttribute('x',cx - 75 + radius*Math.cos(astroAngle + Math.PI));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
-            hands[4].setAttribute('y',cy - 75 + radius*Math.sin(astroAngle + Math.PI));
+    // Position object using output
+    // use sun angle, AC and MC to calculate position of object relative to baby
+    //minuteAngle = sunAngle;
+    minuteAngle = 360 * sunAngle / 60;	
+    var secAngle = 360 * date.getSeconds() / 60; //really just here for testing
+    var astroAngle = -( //negate because mirror image from looking down instead of up
+        Math.PI //to orient SVG coordinate system
+        - (2*Math.PI - ascendant) //to get the ascendant zeroed to the east (substracting distance from spring equinox)
+        - meridian // to add the effect of being at noon
+        + (meridian - sunAngle) //to get actual hour of day
+    );
+    var astroAngle2 = -( //negate because mirror image from looking down instead of up
+        Math.PI //to counterbalance mass
+        + (ascendant - sunAngle) //to get angle from east facing
+    );
+    console.log((astroAngle/(Math.PI*2)*360), (astroAngle2/(Math.PI*2)*360) );
+    hands[3].setAttribute('x',cx - 75 + radius*Math.cos(astroAngle));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
+    hands[3].setAttribute('y',cy - 75 + radius*Math.sin(astroAngle));
+    hands[4].setAttribute('x',cx - 75 + radius*Math.cos(astroAngle + Math.PI));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
+    hands[4].setAttribute('y',cy - 75 + radius*Math.sin(astroAngle + Math.PI));
 
-            // activate illustration 
-            // (popoulate labels with caluclated content)
-            //var elFurnitureLabel = document.querySelector("template#countermass-sun-label").content;
-            //console.log(elFurnitureLabel );
-            //elFurnitureLabel.querySelector("#counter-sun-angle").value = astroAngle;
-            // (make it visible)
-            hands[3].classList.remove("invisible");
-            hands[3].classList.add("visible");
+    // activate illustration 
+    // (popoulate labels with caluclated content)
+    //var elFurnitureLabel = document.querySelector("template#countermass-sun-label").content;
+    //console.log(elFurnitureLabel );
+    //elFurnitureLabel.querySelector("#counter-sun-angle").value = astroAngle;
+    // (make it visible)
+    hands[3].classList.remove("invisible");
+    hands[3].classList.add("visible");
 
-        }
+};
+
+function getAngles(sAstroShell) {
+    var sunAngle, sunSign, meridian, ascendant;
+    // now use regexes to search the printout for the right digits. 
+    //  according to the math team, we need angles for the sun, AC and MC.
+    sunAngle = sAstroShell.match(
+        /\bSun\s+([0-9\.]+)\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/
+    );
+    sunSign = parseInt(sunAngle[1]);
+    sunAngle = sunAngle[2];
+    ascendant = sAstroShell.match(/\bAscendant\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
+    meridian = sAstroShell.match(/\bMC\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
+    // convert to radians
+    sunAngle = (sunAngle / 360) * 2 * Math.PI;
+    ascendant = (ascendant / 360) * 2 * Math.PI;
+    meridian = (meridian / 360) * 2 * Math.PI;
+    angles = {
+        "sunAngle" : sunAngle,
+        "ascendant" : ascendant,
+        "meridian" : meridian,
+        "sunSign" : sunSign,
+    }
+    return angles
+};
 
 function inquireSurrogate(el, direction) {
     if (true) {
