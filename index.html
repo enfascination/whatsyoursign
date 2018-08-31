@@ -226,19 +226,19 @@ svg {
                             </p>
                                 <p class=form-part><label for="desiredsign">Desired sign:</label> 
                                 <select id="desiredsign" name="desiredsign" >
-                                    <option value="nosign" selected >No sign</option>
-                                    <option value="aries">Aries</option>
-                                    <option value="taurus">Taurus</option>
-                                    <option value="gemini">Gemini</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="saab">Saab</option>
+                                    <option value="NULL" selected >No sign</option>
+                                    <option value="1">Aries</option>
+                                    <option value="2">Taurus</option>
+                                    <option value="3">Gemini</option>
+                                    <option value="4">Cancer</option>
+                                    <option value="5">Leo</option>
+                                    <option value="6">Virgo</option>
+                                    <option value="7">Libra</option>
+                                    <option value="8">Scorpio</option>
+                                    <option value="9">Sagittarius</option>
+                                    <option value="10">Capricorn</option>
+                                    <option value="11">Aquarius</option>
+                                    <option value="12">Pisces</option>
                                 </select></p>
                             <p class=form-part><input name="submit" type="submit" class="btn tooltipped" value="Submit" title="hodwy"/></p>
                         </form>
@@ -390,7 +390,7 @@ for(var i = 1; i <= 12; i++) {
 var sAstroShell;
 var elOut;
 function fetchSwissAstro( el ) {
-    console.log( el );
+    //console.log( el );
     elOut = el;
     // useful for making html in strings easily manipulable
     var parser = new DOMParser()
@@ -406,16 +406,22 @@ function fetchSwissAstro( el ) {
         //inTime = (parseInt(inTime[0]) + date.getTimezoneOffset()/60).toString().padStart(2,0) + ":" + inTime[1];
     //}
     inDesiredSign = el.querySelector("#desiredsign").value;
-    //console.log(inLat, inLon, inDate, inTime, inDesiredSign);
+    var desiredDate = inDate.split(".");
+    if (desiredDate != "null") {
+        var signDiff = (int(currentSign) - inDesiredSign) % 12;
+        desiredDate = desiredDate[0] + "." + int(desiredDate)+(30*signDiff) + "." + desiredDate;
+        //console.log(inLat, inLon, inDate, inTime, inDesiredSign);
+        console.log(inDate, desiredDate);
+    }
 
     // assemble and submit request, and define code that handles response text.
     var sunAngle, meridian, ascendant;
-    //var astroUrl = "http://www.astro.com/cgi/swetest.cgi?b="+ inDate +"&n=1&s=1&p=0&e=-eswe&f=PLBRsGg&arg=-house" + inLon + "%2C" + inLat + "%2CK+-ut" + inTime + "%3A00+-topo" + inLon + "%2C" + inLat + "%2C0";
-    var astroUrl = "https://enfascination.com/swissephemeris/swetest.php?b="+ 
-        encodeURIComponent(inDate) +
-        "&p=0&emos&f=PLBRsGg&house=" + 
-        encodeURIComponent(inLon) + "%2C" + encodeURIComponent(inLat) + 
-        "%2Cp&ut=" + encodeURIComponent(inTime) + "%3A00";
+    var astroUrl = "https://enfascination.com/swissephemeris/swetest.php?" + 
+        "b="+ encodeURIComponent(inDate) +
+        "&p=0" + "&emos" + "&f=PjLBRsGg" + 
+        "&house=" + encodeURIComponent(inLon) + "%2C" + 
+        encodeURIComponent(inLat) + "%2CN" + 
+        "&ut=" + encodeURIComponent(inTime) + "%3A00";
     console.log(astroUrl);
     var astroDegs = String.raw``
     //ajax("https://cors-anywhere.herokuapp.com/"+astroUrl
