@@ -136,6 +136,10 @@ svg {
         color: white;
         box-shadow: 0 6px 15px 0 rgba(0,0,0,10);
     }
+    .form-list-signs > label.disabled {
+        cursor: not-allowed; /*change curser*/
+        pointer-events: none; /*makes it so other radio options don't get deselected when this one is clicked*/
+    }
 </style>
 
 
@@ -219,8 +223,7 @@ svg {
                             Tell us about your baby!
                         </h2>
                             <p class=form-part><label for="date">Date:</label><input id="date" name="date" placeholder="DD.MM.YYYY"></p>
-                            <p class=form-part><label for="time">Time (UTC):</label><input id="time" name="time" ><i class="fas f
-a-info-circle tooltipped" title="military time"></i></p>
+                            <p class=form-part><label for="time">Time (UTC):</label><input id="time" name="time" ><i class="fas fa-info-circle tooltipped" title="military time"></i></p>
                             <p class=form-part>
                                 <label for="locationLat">Lat:</label> <input id="locationLat" name="locationLat" >
                                 <label for="locationLon">Lon:</label> <input id="locationLon" name="locationLon" >
@@ -233,7 +236,7 @@ a-info-circle tooltipped" title="military time"></i></p>
                             What sign do want?
                         </h2>
                         <p class=form-part>
-                        <div class="btn-group-toggle btn-group-vertical mr-2" data-toggle="buttons" role="group" aria-label="Signs group" id="desiredsign">
+                        <div id="desiredsign" class="form-list-signs btn-group-toggle btn-group-vertical mr-2" data-toggle="buttons" role="group" aria-label="Signs group">
                             <label class="btn btn-secondary active"><input type="radio" name="options" class="radio-sign" value="null">No Sign</label>
                             <label class="btn btn-secondary"><input type="radio" name="options" class="radio-sign" value="1">Aries</label>
                             <label class="btn btn-secondary"><input type="radio" name="options" class="radio-sign" value="2">Taurus</label>
@@ -311,6 +314,10 @@ a-info-circle tooltipped" title="military time"></i></p>
         <image x="0" y="0" width="150" height="150" xlink:href="188820.svg"  id="countermass-sun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
         <image x="50" y="50" width="150" height="150" xlink:href="787892.svg"  id="mass-sun" class="svg-obj-planetary invisible tooltipped" title="" data-tippy />
     </g>
+    <g class="new-sun-pair">
+        <image x="0" y="0" width="150" height="150" xlink:href="188820.svg"  id="countermass-newsun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
+        <image x="50" y="50" width="150" height="150" xlink:href="787892.svg"  id="mass-newsun" class="svg-obj-planetary invisible tooltipped" title="" data-tippy />
+    </g>
     <circle id="center" style="fill:#128A86; stroke: #C1EFED; stroke-width: 2px;" cx="300" cy="300" r="6">  </circle>
 <!--SETH: I got the baby in the middle by plugging it in with an image tag below. I wasn't sure where to put it, so I tried putting it in lots of places in the SVG until I got it right.  But an educated guess said to put it near the main middle circle, so I mainly just had to find that.  Is there something about the circle above that gives us a hint its the right one?-->
     <image x="230" y="230" width="150" height="150" xlink:href="birthmother.svg"  />
@@ -384,9 +391,12 @@ hands.push(document.querySelector('#secondhand > *')); //0
 hands.push(document.querySelector('#minutehand > *')); //1
 hands.push(document.querySelector('#hourhand > *')); //2
 
-var elsvg = [];
-elsvg.push(document.querySelector('#countermass-sun')); //3
-elsvg.push(document.querySelector('#mass-sun')); //4
+var sunCurrentSVG = [];
+sunCurrentSVG.push(document.querySelector('#countermass-sun')); //3
+sunCurrentSVG.push(document.querySelector('#mass-sun')); //4
+var sunDesiredSVG = [];
+sunDesiredSVG.push(document.querySelector('#countermass-newsun')); //3
+sunDesiredSVG.push(document.querySelector('#mass-newsun')); //4
 
 var cx = 300;
 var cy = 300;
@@ -496,31 +506,52 @@ function fetchSwissAstroSun( el ) {
         "&ut=" + encodeURIComponent(inTime) + "%3A00";
     console.log(astroUrlUndoSun);
     //ajax("https://cors-anywhere.herokuapp.com/"+astroUrlUndoSun
-    ajax(astroUrlUndoSun, postSubmit, null, null);
+    ajax(astroUrlUndoSun, function(dat) {
+            postSubmit(dat , sunCurrentSVG)
+            }, null, null);
 
     var iday = inDate.split(".")[0];
     var imonth = inDate.split(".")[1];
     var iyear = inDate.split(".")[2];
     var currentSunSign = getZodiacSign(iday, imonth);
     if (inDesiredSunSign !== "null") {
-        var signDiff = (+currentSunSign - inDesiredSunSign) % 12;
+        var signDiff = (+currentSunSign - inDesiredSunSign).mod( 12 );
         var desiredDate = new Date(year = iyear, monthIndex = imonth-1, day = iday); //month is 0 indexed
-        desiredDate.addDays( (30*signDiff) )
+        desiredDate = desiredDate.addDays( (30*signDiff) )
         var sDesiredDate = $.datepicker.formatDate("d.m.yy", desiredDate);
         //console.log(inLat, inLon, inDate, inTime, inDesiredSunSign);
-        console.log(inDesiredSunSign, inDate, "ASDF",desiredDate, "ASDF", sDesiredDate);
+        console.log(inDesiredSunSign, inDate, "ASDF",desiredDate, "ASDF", sDesiredDate, signDiff);
 
         // assemble and submit request, and define code that handles response text.
         var astroUrlNewSun = "https://enfascination.com/swissephemeris/swetest.php?" + 
-            "b="+ encodeURIComponent(inDate) +
+            "b="+ encodeURIComponent(sDesiredDate) +
             "&p=0" + "&emos" + "&f=PjLBRsGg" + 
             "&house=" + encodeURIComponent(inLon) + "%2C" + 
             encodeURIComponent(inLat) + "%2CN" + 
             "&ut=" + encodeURIComponent(inTime) + "%3A00";
         console.log(astroUrlNewSun);
-        ajax(astroUrlNewSun, postSubmit, null, null);
-
+        ajax(astroUrlNewSun, function(dat) {
+                postSubmit(dat , sunDesiredSVG)
+                }, null, null);
     }
+
+    // https://plainjs.com/javascript/manipulation/wrap-an-html-structure-around-an-element-28/
+    function wrap(el, wrapper) {
+            el.parentNode.insertBefore(wrapper, el);
+                wrapper.appendChild(el);
+    }
+
+
+    // DISABLE current sign as an option
+    var formSignOption = el.querySelector("#desiredsign input[value='5']"); //get option
+    var formSignOptionLabel = formSignOption.parentElement;
+    formSignOption.classList.add('disabled'); //disabled the input tag
+    // TELL boostrap about disabling disabled 
+    //   parent is the label tag which has most of the styling
+    formSignOptionLabel.classList.add('disabled'); 
+    // TELL tippy about disabling (keeping in mind tha tdisabled elements don't fire events)
+    formSignOptionLabel.setAttribute('title', 'This is your current sign, so if you want it, you don\'t have to do anything.');
+    formSignOptionLabel.classList.add("tooltipped");
 
 }
 
@@ -554,7 +585,7 @@ function fetchSwissAstroSunDesired( el ) {
     pull the astro printout from the return value
 it comes out as a string, which we convert to a DOM object for easy searching
 */
-function postSubmit(sAstroShell) {
+function postSubmit(sAstroShell, elsvg) {
     // parse raw input 
     //    (custonmize edepending on control over backend) 
     //    DON't need for current backend
@@ -653,11 +684,11 @@ function activateIllustration(counterMass){
 function inquireSurrogate(el, direction) {
     if (true) {
         if (direction == "in") {
-            el.parentElement.querySelector("#mass-sun").classList.remove("invisible");
-            el.parentElement.querySelector("#mass-sun").classList.add("visible");
+            el.parentElement.querySelector(".svg-obj-planetary").classList.remove("invisible");
+            el.parentElement.querySelector(".svg-obj-planetary").classList.add("visible");
         } else if (direction == "out") {
-            el.parentElement.querySelector("#mass-sun").classList.add("invisible");
-            el.parentElement.querySelector("#mass-sun").classList.remove("visible");
+            el.parentElement.querySelector(".svg-obj-planetary").classList.add("invisible");
+            el.parentElement.querySelector(".svg-obj-planetary").classList.remove("visible");
         }
     }
 }
