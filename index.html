@@ -14,7 +14,6 @@
 
         <!-- Bootstrap core CSS -->
         <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://unpkg.com/tippy.js@2.5.4/dist/tippy.all.min.js"></script>
 
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
@@ -203,20 +202,22 @@ svg {
         <!-- SETH: These few lines below, and their closing tags throughout the document, will make it easier to make our site mobile friendly -->
         <div class="container-fluid page-content">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-5">
 
                     <!-- Input part -->
                     <!-- SETH: Forms are the basis of the Internet.  The code below defines a minimal form that the site will take input from to edit the image-->
                     <div class="astrological-input">
-                        <h2>
-                            Tell us about your baby!
-                        </h2>
                         <form id="astro-main-form" class="astrological-input-form" onsubmit="
                     event.preventDefault();
-                    fetchSwissAstro(this);
+                    fetchSwissAstroSun(this);
                     //return false prevents form submission
                     return false;
                                 ">
+            <div class="row">
+                <div class="col">
+                        <h2>
+                            Tell us about your baby!
+                        </h2>
                             <p class=form-part><label for="date">Date:</label><input id="date" name="date" placeholder="DD.MM.YYYY"></p>
                             <p class=form-part><label for="time">Time (UTC):</label><input id="time" name="time" ><i class="fas f
 a-info-circle tooltipped" title="military time"></i></p>
@@ -226,17 +227,14 @@ a-info-circle tooltipped" title="military time"></i></p>
                             <i class="fas fa-info-circle tooltipped" title="75W is -75, same for S"></i>
                             </p>
                             <p class=form-part><input name="submit" type="submit" class="btn tooltipped" value="Submit" title="hodwy"/></p>
-                        </form>
                 </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="astrological-input">
+                <div class="col">
                         <h2>
                             What sign do want?
                         </h2>
                         <p class=form-part>
                         <div class="btn-group-toggle btn-group-vertical mr-2" data-toggle="buttons" role="group" aria-label="Signs group" id="desiredsign">
-                            <label class="btn btn-secondary active"><input type="radio" name="options" class="radio-sign" value="null" checked>No Sign</label>
+                            <label class="btn btn-secondary active"><input type="radio" name="options" class="radio-sign" value="null">No Sign</label>
                             <label class="btn btn-secondary"><input type="radio" name="options" class="radio-sign" value="1">Aries</label>
                             <label class="btn btn-secondary"><input type="radio" name="options" class="radio-sign" value="2">Taurus</label>
                             <label class="btn btn-secondary"><input type="radio" name="options" class="radio-sign" value="3">Gemini</label>
@@ -252,6 +250,10 @@ a-info-circle tooltipped" title="military time"></i></p>
                         </div>
                         </p>
                 </div>
+            </div>
+                        </form>
+            </div>
+
                 </div>
                 <div class="col-md-7">
 
@@ -323,12 +325,20 @@ a-info-circle tooltipped" title="military time"></i></p>
 <footer class="page-footer font-small blue pt-4" height=100>
     </footer>
 
+    <!-- jquery -->
+    <!--<script src="vendor/jquery/jquery.min.js"></script>-->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+    <!--other helpers-->
+        <script src="https://unpkg.com/tippy.js@2.5.4/dist/tippy.all.min.js"></script>
+    <!--zoidan sign helper function getZodiacSign(day, month) from https://gist.github.com/kladov/5080233 -->
+        
 
-    <div id="tweet-list"></div>
+
+
                         </body>
 
                         <!-- SETH: I copied the javascript below from the codepen.  you can embed javascript into HTML with <script> tags. This makes your html file into something that literally edits itself on the fly. That's how the clock keeps moving. The code above for the hands above says they should be roughly at the 4 o'clock position, the default that you'll see if you break the script below.  The script below rewrite the numbers specificy that default to be whatever the time is. -->
@@ -338,6 +348,12 @@ a-info-circle tooltipped" title="military time"></i></p>
 Number.prototype.mod = function(n) {
     return ((this%n)+n)%n;
 };
+// copute addition over dates https://stackoverflow.com/questions/563406/add-days-to-javascript-date
+Date.prototype.addDays = function(days) {
+        var date = new Date(this.valueOf());
+        date.setDate(date.getDate() + days);
+        return date;
+}
 
 /**
 * from https://gist.github.com/Xeoncross/7663273
@@ -385,20 +401,56 @@ var hoursAngle = 360 * date.getHours() / 12 + date.getMinutes() / 2;
 var minuteAngle = 360 * date.getMinutes() / 60;
 var secAngle = 360 * date.getSeconds() / 60;
 
-var houses = {
-    "Aries":1,
-    "Taurus":2,
-    "Gemini":3,
-    "Cancer":4,
-    "Leo":5,
-    "Virgo":6,
-    "Libra":7,
-    "Scorpio":8,
-    "Sagittarius":9,
-    "Capricorn":10,
-    "Aquarius":11,
-    "Pisces":12,
-};
+/**
+ * Return zodiac sugn by month and day
+ *
+     * @param day
+ * @param month
+ * @return {string} name of zodiac sign
+ */
+var zodiacSigns = {
+    'capricorn':10,
+    'aquarius':11,
+    'pisces':12,
+    'aries': 1,
+    'taurus': 2,
+    'gemini': 3,
+    'cancer': 4,
+    'leo':5,
+    'virgo':6,
+    'libra':7,
+    'scorpio':8,
+    'sagittarius':9,
+}
+
+function getZodiacSign(day, month) {
+
+    if((month == 1 && day <= 20) || (month == 12 && day >=22)) {
+        return zodiacSigns.capricorn;
+    } else if ((month == 1 && day >= 21) || (month == 2 && day <= 18)) {
+        return zodiacSigns.aquarius;
+    } else if((month == 2 && day >= 19) || (month == 3 && day <= 20)) {
+        return zodiacSigns.pisces;
+    } else if((month == 3 && day >= 21) || (month == 4 && day <= 20)) {
+        return zodiacSigns.aries;
+    } else if((month == 4 && day >= 21) || (month == 5 && day <= 20)) {
+        return zodiacSigns.taurus;
+    } else if((month == 5 && day >= 21) || (month == 6 && day <= 21)) {
+        return zodiacSigns.gemini;
+    } else if((month == 6 && day >= 22) || (month == 7 && day <= 22)) {
+        return zodiacSigns.cancer;
+    } else if((month == 7 && day >= 23) || (month == 8 && day <= 23)) {
+        return zodiacSigns.leo;
+    } else if((month == 8 && day >= 24) || (month == 9 && day <= 23)) {
+        return zodiacSigns.virgo;
+    } else if((month == 9 && day >= 24) || (month == 10 && day <= 23)) {
+        return zodiacSigns.libra;
+    } else if((month == 10 && day >= 24) || (month == 11 && day <= 22)) {
+        return zodiacSigns.scorpio;
+    } else if((month == 11 && day >= 23) || (month == 12 && day <= 21)) {
+        return zodiacSigns.sagittarius;
+    }
+}
 
 hands[0].setAttribute('from', shifter(secAngle));
 hands[0].setAttribute('to', shifter(secAngle + 360));
@@ -419,44 +471,82 @@ for(var i = 1; i <= 12; i++) {
 }
 
 var sAstroShell;
-var elOut;
-function fetchSwissAstro( el ) {
+function fetchSwissAstroSun( el ) {
+    var inLat, inLon, inDate, inTime, currentSunSign, outSunSign, inDesiredSunSign;
     //console.log( el );
-    elOut = el;
-    // useful for making html in strings easily manipulable
-    var parser = new DOMParser()
     // extract form's input variables
-    var inLat, inLon, inDate, inTime, inDesiredSign;
     inLat = el.querySelector("#locationLat").value;
     inLon = el.querySelector("#locationLon").value;
-    date = new Date;
     inDate = el.querySelector("#date").value;
     inTime = el.querySelector("#time").value;
+    inDesiredSunSign = el.querySelector("#desiredsign > .active > input").value;
+
+    //date = new Date;
     //{// adjust time from user's local time to UTC
         //inTime = inTime.split(":");
         //inTime = (+inTime[0] + date.getTimezoneOffset()/60).toString().padStart(2,0) + ":" + inTime[1];
     //}
-    inDesiredSign = el.querySelector("#desiredsign").value;
-    var desiredDate = inDate.split(".");
-    var currentSign;
-    if (inDesiredSign !== "null") {
-        console.log("JDFLK: named dsign that is not null");
-        var signDiff = (+currentSign - inDesiredSign) % 12;
-        desiredDate = desiredDate[0] + "." + +desiredDate+(30*signDiff) + "." + desiredDate;
-        //console.log(inLat, inLon, inDate, inTime, inDesiredSign);
-        console.log(inDate, desiredDate);
-    }
 
     // assemble and submit request, and define code that handles response text.
-    var astroUrl = "https://enfascination.com/swissephemeris/swetest.php?" + 
+    var astroUrlUndoSun = "https://enfascination.com/swissephemeris/swetest.php?" + 
         "b="+ encodeURIComponent(inDate) +
         "&p=0" + "&emos" + "&f=PjLBRsGg" + 
         "&house=" + encodeURIComponent(inLon) + "%2C" + 
         encodeURIComponent(inLat) + "%2CN" + 
         "&ut=" + encodeURIComponent(inTime) + "%3A00";
-    console.log(astroUrl);
-    //ajax("https://cors-anywhere.herokuapp.com/"+astroUrl
-    ajax(astroUrl, postSubmit, null, null);
+    console.log(astroUrlUndoSun);
+    //ajax("https://cors-anywhere.herokuapp.com/"+astroUrlUndoSun
+    ajax(astroUrlUndoSun, postSubmit, null, null);
+
+    var iday = inDate.split(".")[0];
+    var imonth = inDate.split(".")[1];
+    var iyear = inDate.split(".")[2];
+    var currentSunSign = getZodiacSign(iday, imonth);
+    if (inDesiredSunSign !== "null") {
+        var signDiff = (+currentSunSign - inDesiredSunSign) % 12;
+        var desiredDate = new Date(year = iyear, monthIndex = imonth-1, day = iday); //month is 0 indexed
+        desiredDate.addDays( (30*signDiff) )
+        var sDesiredDate = $.datepicker.formatDate("d.m.yy", desiredDate);
+        //console.log(inLat, inLon, inDate, inTime, inDesiredSunSign);
+        console.log(inDesiredSunSign, inDate, "ASDF",desiredDate, "ASDF", sDesiredDate);
+
+        // assemble and submit request, and define code that handles response text.
+        var astroUrlNewSun = "https://enfascination.com/swissephemeris/swetest.php?" + 
+            "b="+ encodeURIComponent(inDate) +
+            "&p=0" + "&emos" + "&f=PjLBRsGg" + 
+            "&house=" + encodeURIComponent(inLon) + "%2C" + 
+            encodeURIComponent(inLat) + "%2CN" + 
+            "&ut=" + encodeURIComponent(inTime) + "%3A00";
+        console.log(astroUrlNewSun);
+        ajax(astroUrlNewSun, postSubmit, null, null);
+
+    }
+
+}
+
+function fetchSwissAstroSunDesired( el ) {
+    // extract form's input variables
+    inDesiredSign = document.querySelector("#desiredsign > active").value;
+    var signDiff = (inDesiredSign - outSunSign)
+    var desiredDate = inDate.split(".");
+    var currentSign;
+    if (inDesiredSign !== "null") {
+        console.log("JDFLK: named dsign that is not null");
+        var signDiff = (+currentSign - inDesiredSign) % 12;
+        desiredDate = desiredDate[0] + "." + +desiredDate[1]+(30*signDiff) + "." + desiredDate[2];
+        //console.log(inLat, inLon, inDate, inTime, inDesiredSign);
+        console.log(inDate, desiredDate);
+    }
+
+    // assemble and submit request, and define code that handles response text.
+    var astroUrlFutureSun = "https://enfascination.com/swissephemeris/swetest.php?" + 
+        "b="+ encodeURIComponent(desiredDate) +
+        "&p=0" + "&emos" + "&f=PjLBRsGg" + 
+        "&house=" + encodeURIComponent(inLon) + "%2C" + 
+        encodeURIComponent(inLat) + "%2CN" + 
+        "&ut=" + encodeURIComponent(inTime) + "%3A00";
+    console.log(astroUrlFutureSun);
+    ajax(astroUrlUndoSun, postSubmit, null, null);
 }
 
 /**
@@ -475,7 +565,7 @@ function postSubmit(sAstroShell) {
     var sunAngle = angles['sunAngle'];
     var ascendant = angles['ascendant'];
     var meridian = angles['meridian'];
-    var sunSign = angles['sunSign'];
+    outSunSign = Math.floor( angles['sunSign'] );
 
     // Position object into SVG using output
     //  compute angle to send to image
@@ -487,6 +577,8 @@ function postSubmit(sAstroShell) {
 };
 function parseAstroResponse( sAstroShell ) {
     // vestigates fromwhen I was scraping from http://www.astro.com/swisseph/swetest.htm
+    // useful for making html in strings easily manipulable
+    var parser = new DOMParser()
     var htmlAstro = parser.parseFromString(sAstroData, "text/html");
     console.log(htmlAstro);
     sAstroShell = htmlAstro.querySelector("pre > font").innerText;
@@ -501,7 +593,7 @@ function getAngles(sAstroShell) {
     sunAngle = sAstroShell.match(
         /\bSun\s+([0-9\.]+)\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/
     );
-    sunSign = +sunAngle[1];
+    sunSign = +(sunAngle[1]);
     sunAngle = sunAngle[2];
     ascendant = sAstroShell.match(/\bAscendant\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
     meridian = sAstroShell.match(/\bMC\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
@@ -593,7 +685,7 @@ var mainForm = document.getElementById('astro-main-form');
 populateFormWithDefaults(mainForm);
 
 // run this with default values on page load.  Then again on form submit
-fetchSwissAstro( mainForm );
+fetchSwissAstroSun( mainForm );
 
 
 
