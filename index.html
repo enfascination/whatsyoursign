@@ -218,7 +218,8 @@ svg {
                     return false;
                                 ">
                             <p class=form-part><label for="date">Date:</label><input id="date" name="date" placeholder="DD.MM.YYYY"></p>
-                            <p class=form-part><label for="time">Time (UTC):</label><input id="time" name="time" ><i class="fas fa-info-circle tooltipped" title="military time"></i></p>
+                            <p class=form-part><label for="time">Time (UTC):</label><input id="time" name="time" ><i class="fas f
+a-info-circle tooltipped" title="military time"></i></p>
                             <p class=form-part>
                                 <label for="locationLat">Lat:</label> <input id="locationLat" name="locationLat" >
                                 <label for="locationLon">Lon:</label> <input id="locationLon" name="locationLon" >
@@ -242,9 +243,35 @@ svg {
                                 </select></p>
                             <p class=form-part><input name="submit" type="submit" class="btn tooltipped" value="Submit" title="hodwy"/></p>
                         </form>
-                    </div>
                 </div>
-                <div class="col-md-9">
+                </div>
+                <div class="col-md-2">
+                    <div class="astrological-input">
+                        <h2>
+                            What sign do want?
+                        </h2>
+                        <p class=form-part>
+                        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                        <div class="btn-group-vertical button-group-toggle mr-2" data-toggle="buttons" role="group" aria-label="Signs group">
+                            <button type="radio" name="options" id="options1" class="btn btn-secondary" value="null" checked>No Sign</button>
+                            <button type="radio" name="options" id="options2" class="btn btn-secondary" value="1">Aries</button>
+                            <button type="radio" name="options" id="options3" class="btn btn-secondary" value="2">Taurus</button>
+                            <button type="radio" name="options" id="options4" class="btn btn-secondary" value="3">Gemini</button>
+                            <button type="radio" name="options" id="options5" class="btn btn-secondary" value="4">Cancer</button>
+                            <button type="radio" name="options" id="options6" class="btn btn-secondary" value="5">Leo</button>
+                            <button type="radio" name="options" id="options7" class="btn btn-secondary" value="6">Virgo</button>
+                            <button type="radio" name="options" id="options8" class="btn btn-secondary" value="7">Libra</button>
+                            <button type="radio" name="options" id="options9" class="btn btn-secondary" value="8">Scorpio</button>
+                            <button type="radio" name="options" id="options10" class="btn btn-secondary" value="9">Sagittarius</button>
+                            <button type="radio" name="options" id="options11" class="btn btn-secondary" value="10">Capricorn</button>
+                            <button type="radio" name="options" id="options12" class="btn btn-secondary" value="11">Aquarius</button>
+                            <button type="radio" name="options" id="options13" class="btn btn-secondary" value="12">Pisces</button>
+                        </div>
+                        </div>
+                        </p>
+                </div>
+                </div>
+                <div class="col-md-7">
 
                     <!-- Output part -->
                     <div class="astrological-output">
