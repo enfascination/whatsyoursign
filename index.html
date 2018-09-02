@@ -313,12 +313,12 @@ svg {
                             <image x="500" y="100" width="120" height="120" xlink:href="96640_simple.svg"  id="secondhand" >
     </g>
     <g class="sun-pair">
-        <image x="0" y="0" width="150" height="150" xlink:href="188820.svg"  id="countermass-sun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
         <image x="50" y="50" width="150" height="150" xlink:href="787892.svg"  id="mass-sun" class="svg-obj-planetary invisible tooltipped" title="" data-tippy />
+        <image x="0" y="0" width="150" height="150" xlink:href="188820.svg"  id="countermass-sun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
     </g>
     <g class="new-sun-pair">
-        <image x="0" y="0" width="150" height="150" xlink:href="188820.svg"  id="countermass-newsun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
         <image x="50" y="50" width="150" height="150" xlink:href="787892.svg"  id="mass-newsun" class="svg-obj-planetary invisible tooltipped" title="" data-tippy />
+        <image x="0" y="0" width="150" height="150" xlink:href="188820.svg"  id="countermass-newsun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
     </g>
     <circle id="center" style="fill:#128A86; stroke: #C1EFED; stroke-width: 2px;" cx="300" cy="300" r="6">  </circle>
 <!--SETH: I got the baby in the middle by plugging it in with an image tag below. I wasn't sure where to put it, so I tried putting it in lots of places in the SVG until I got it right.  But an educated guess said to put it near the main middle circle, so I mainly just had to find that.  Is there something about the circle above that gives us a hint its the right one?-->
@@ -518,7 +518,7 @@ function fetchSwissAstroSun( el ) {
     var currentSunSign = getZodiacSign(iday, imonth);
     if (inDesiredSunSign !== "null") {
         //console.log("got in here", inDesiredSunSign );
-        var signDiff = (+currentSunSign - inDesiredSunSign).mod( 12 );
+        var signDiff = (inDesiredSunSign - +currentSunSign ).mod( 12 );
         var desiredDate = new Date(year = iyear, monthIndex = imonth-1, day = iday); //month is 0 indexed
         desiredDate = desiredDate.addDays( (30*signDiff) )
         var sDesiredDate = $.datepicker.formatDate("d.m.yy", desiredDate);
@@ -534,7 +534,7 @@ function fetchSwissAstroSun( el ) {
             "&ut=" + encodeURIComponent(inTime) + "%3A00";
         console.log("call to", astroUrlNewSun);
         ajax(astroUrlNewSun, function(dat) {
-                postSubmit(dat , sunDesiredSVG)
+                postSubmit(dat , sunDesiredSVG, mode="simulate")
                 }, null, null);
     } else {
         // if they do pick "no sign", be sure to disappear the other objects
@@ -572,7 +572,7 @@ function fetchSwissAstroSun( el ) {
     pull the astro printout from the return value
 it comes out as a string, which we convert to a DOM object for easy searching
 */
-function postSubmit(sAstroShell, elsvg) {
+function postSubmit(sAstroShell, elsvg, mode="cancel") {
     // parse raw input 
     //    (custonmize edepending on control over backend) 
     //    DON't need for current backend
@@ -590,7 +590,7 @@ function postSubmit(sAstroShell, elsvg) {
     //  compute angle to send to image
     var astroAngle = imageAngleFromAstroAngle(ascendant, meridian, sunAngle);
     // edit HTML
-    positionObjectPairInSVG(elsvg[0], elsvg[1], radius, astroAngle); 
+    positionObjectPairInSVG(elsvg[0], elsvg[1], radius, astroAngle, mode=mode); 
     activateIllustration(elsvg[0]);
 
 };
@@ -635,13 +635,15 @@ function imageAngleFromAstroAngle(ascendant, meridian, sunAngle) {
     minuteAngle = 360 * sunAngle / 60;	
     var secAngle = 360 * date.getSeconds() / 60; //really just here for testing
     var astroAngle = -( //negate because mirror image from looking down instead of up
-        Math.PI //to orient SVG coordinate system
+        //Math.PI //to counterbalance mass
+        0 // to show the planetary body, not its opposite
         - (2*Math.PI - ascendant) //to get the ascendant zeroed to the east (substracting distance from spring equinox)
         - meridian // to add the effect of being at noon
         + (meridian - sunAngle) //to get actual hour of day
     ) % (2*Math.PI);
     var astroAngle2 = -( //negate because mirror image from looking down instead of up
-        Math.PI //to counterbalance mass
+        //Math.PI //to counterbalance mass
+        0 // to show the planetary body, not its opposite
         + (ascendant - sunAngle) //to get angle from east facing
     ) % (2*Math.PI);
     astroAngle = astroAngle.mod( 2*Math.PI );
@@ -650,11 +652,12 @@ function imageAngleFromAstroAngle(ascendant, meridian, sunAngle) {
     return(astroAngle);
 }
 
-function positionObjectPairInSVG(counterMass, mass, radius, astroAngle) {
-    counterMass.setAttribute('x',cx - 75 + radius*Math.cos(astroAngle));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
-    counterMass.setAttribute('y',cy - 75 + radius*Math.sin(astroAngle));
-    mass.setAttribute('x',cx - 75 + radius*Math.cos(astroAngle + Math.PI));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
-    mass.setAttribute('y',cy - 75 + radius*Math.sin(astroAngle + Math.PI));
+function positionObjectPairInSVG(counterMass, mass, radius, astroAngle, mode="cancel") {
+    var angleOffset = (mode == "cancel") ? Math.PI : 0; // are we cancelling out or simulating a heavenly body?
+    mass.setAttribute('x',cx - 75 + radius*Math.cos(astroAngle));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
+    mass.setAttribute('y',cy - 75 + radius*Math.sin(astroAngle));
+    counterMass.setAttribute('x',cx - 75 + radius*Math.cos(astroAngle + angleOffset));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
+    counterMass.setAttribute('y',cy - 75 + radius*Math.sin(astroAngle + angleOffset));
 }
 
 function activateIllustration(counterMass, deactivate=false){
