@@ -499,33 +499,44 @@ function fetchSwissAstroSun( el ) {
         //inTime = (+inTime[0] + date.getTimezoneOffset()/60).toString().padStart(2,0) + ":" + inTime[1];
     //}
 
-    // assemble and submit request, and define code that handles response text.
+    var iday = inDate.split(".")[0];
+    var imonth = inDate.split(".")[1];
+    var iyear = inDate.split(".")[2];
+    var currentSunSign = getZodiacSign(iday, imonth);
+    var signDiff = (inDesiredSunSign - +currentSunSign ).mod( 12 );
+
+    // assemble and submit request to cancel current sign, and define code that handles response text.
     var astroUrlUndoSun = "https://enfascination.com/swissephemeris/swetest.php?" + 
         "b="+ encodeURIComponent(inDate) +
         "&p=0" + "&emos" + "&f=PjLBRsGg" + 
         "&house=" + encodeURIComponent(inLon) + "%2C" + 
         encodeURIComponent(inLat) + "%2CN" + 
         "&ut=" + encodeURIComponent(inTime) + "%3A00";
-    console.log("call to", astroUrlUndoSun);
-    //ajax("https://cors-anywhere.herokuapp.com/"+astroUrlUndoSun
-    ajax(astroUrlUndoSun, function(dat) {
-            postSubmit(dat , sunCurrentSVG)
-            }, null, null);
 
-    var iday = inDate.split(".")[0];
-    var imonth = inDate.split(".")[1];
-    var iyear = inDate.split(".")[2];
-    var currentSunSign = getZodiacSign(iday, imonth);
-    if (inDesiredSunSign !== "null") {
+    if (signDiff == 0) {
+        // if they do pick their current sign, nothing should happen
+        activateIllustration( sunCurrentSVG[0], deactivate=true);
+        activateIllustration( sunDesiredSVG[0], deactivate=true);
+
+    // still some cases to consider: did user click "no sign" (one object) or some sign besides their current sign (2 objects)
+    } else if (inDesiredSunSign !== "null") {
+
+        // cancel out current sign 
+        console.log("call to", astroUrlUndoSun);
+        //ajax("https://cors-anywhere.herokuapp.com/"+astroUrlUndoSun
+        ajax(astroUrlUndoSun, function(dat) {
+            postSubmit(dat , sunCurrentSVG)
+        }, null, null);
+
+        // prep to simulate other sign
         //console.log("got in here", inDesiredSunSign );
-        var signDiff = (inDesiredSunSign - +currentSunSign ).mod( 12 );
         var desiredDate = new Date(year = iyear, monthIndex = imonth-1, day = iday); //month is 0 indexed
         desiredDate = desiredDate.addDays( (30*signDiff) )
         var sDesiredDate = $.datepicker.formatDate("d.m.yy", desiredDate);
         //console.log(inLat, inLon, inDate, inTime, inDesiredSunSign);
         //console.log(inDesiredSunSign, inDate, "ASDF",desiredDate, "ASDF", sDesiredDate, signDiff);
 
-        // assemble and submit request, and define code that handles response text.
+        // assemble and submit request to simulate other sign, and define code that handles response text.
         var astroUrlNewSun = "https://enfascination.com/swissephemeris/swetest.php?" + 
             "b="+ encodeURIComponent(sDesiredDate) +
             "&p=0" + "&emos" + "&f=PjLBRsGg" + 
@@ -538,6 +549,15 @@ function fetchSwissAstroSun( el ) {
                 }, null, null);
     } else {
         // if they do pick "no sign", be sure to disappear the other objects
+
+        // first cancel out current sign 
+        console.log("call to", astroUrlUndoSun);
+        //ajax("https://cors-anywhere.herokuapp.com/"+astroUrlUndoSun
+            ajax(astroUrlUndoSun, function(dat) {
+                postSubmit(dat , sunCurrentSVG)
+            }, null, null);
+
+        // disappear the other objects
         activateIllustration( sunDesiredSVG[0], deactivate=true);
 
     }
