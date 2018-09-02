@@ -701,8 +701,11 @@ function fetchSwissAstroSun( el ) {
 
     if (signDiff == 0) {
         // if they do pick their current sign, nothing should happen
+        // visible illustrations shold be decativated
         activateIllustration( sunCurrentSVG[0], deactivate=true);
         activateIllustration( sunDesiredSVG[0], deactivate=true);
+        // label prep: interpolate sign and manually show
+        prepareLabels(  elNoChangeLabel, null, currentSunSign);
         tippyNoChange.show();
 
     // still some cases to consider: did user click "no sign" (one object) or some sign besides their current sign (2 objects)
@@ -907,6 +910,7 @@ function prepareLabels(labelTemplate, astroAngle, sSign ) {
     if (templateSign !== null) {
         templateSign.innerText = zodiacSignsInv[sSign];
     }
+    console.log(templateAngle);
 };
 
 function inquireSurrogate(el, direction) {
