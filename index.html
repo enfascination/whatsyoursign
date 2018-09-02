@@ -131,7 +131,7 @@ svg {
         background-color: white;
         padding: 5px;
     }
-    .form-part > input[name="submit"] {
+    .form-part > input.btnSubmit {
         background-color: #4558de;
         color: white;
         box-shadow: 0 6px 15px 0 rgba(0,0,0,10);
@@ -229,27 +229,29 @@ svg {
                                 <label for="locationLon">Lon:</label> <input id="locationLon" name="locationLon" >
                             <i class="fas fa-info-circle tooltipped" title="75W is -75, same for S"></i>
                             </p>
-                            <p class=form-part><input name="submit" type="submit" class="btn tooltipped" value="Submit" title="hodwy"/></p>
+                            <p class=form-part><input name="btnSubmit" type="submit" class="btnSubmit btn tooltipped" value="Submit" title="hodwy"/></p>
                 </div>
                 <div class="col">
                         <h2>
                             What sign do want?
                         </h2>
                         <p class=form-part>
-                        <div id="desiredsign" class="form-list-signs btn-group-toggle btn-group-vertical mr-2" data-toggle="buttons" role="group" aria-label="Signs group">
-                            <label class="btn btn-secondary active"><input type="radio" name="options" class="radio-sign" value="null">No Sign</label>
-                            <label class="btn btn-secondary"><input type="radio" name="options" class="radio-sign" value="1">Aries</label>
-                            <label class="btn btn-secondary"><input type="radio" name="options" class="radio-sign" value="2">Taurus</label>
-                            <label class="btn btn-secondary"><input type="radio" name="options" class="radio-sign" value="3">Gemini</label>
-                            <label class="btn btn-secondary"><input type="radio" name="options" class="radio-sign" value="4">Cancer</label>
-                            <label class="btn btn-secondary"><input type="radio" name="options" class="radio-sign" value="5">Leo</label>
-                            <label class="btn btn-secondary"><input type="radio" name="options" class="radio-sign" value="6">Virgo</label>
-                            <label class="btn btn-secondary"><input type="radio" name="options" class="radio-sign" value="7">Libra</label>
-                            <label class="btn btn-secondary"><input type="radio" name="options" class="radio-sign" value="8">Scorpio</label>
-                            <label class="btn btn-secondary"><input type="radio" name="options"  class="radio-sign" value="9">Sagittarius</label>
-                            <label class="btn btn-secondary"><input type="radio" name="options"  class="radio-sign" value="10">Capricorn</label>
-                            <label class="btn btn-secondary"><input type="radio" name="options"  class="radio-sign" value="11">Aquarius</label>
-                            <label class="btn btn-secondary"><input type="radio" name="options"  class="radio-sign" value="12">Pisces</label>
+                        <div id="desiredsign" class="form-list-signs btn-group-toggle btn-group-vertical mr-2" data-toggle="buttons" role="group" aria-label="Signs group" onclick="
+                                this.closest('#astro-main-form').btnSubmit.click();
+                                ">
+                            <label class="btn btn-secondary active" onclick="toggleActive(this);"><input type="radio" name="options" class="radio-sign" value="null">No Sign</label>
+                            <label class="btn btn-secondary" onclick="toggleActive(this);"><input type="radio" name="options" class="radio-sign" value="1">Aries</label>
+                            <label class="btn btn-secondary" onclick="toggleActive(this);"><input type="radio" name="options" class="radio-sign" value="2">Taurus</label>
+                            <label class="btn btn-secondary" onclick="toggleActive(this);"><input type="radio" name="options" class="radio-sign" value="3">Gemini</label>
+                            <label class="btn btn-secondary" onclick="toggleActive(this);"><input type="radio" name="options" class="radio-sign" value="4">Cancer</label>
+                            <label class="btn btn-secondary" onclick="toggleActive(this);"><input type="radio" name="options" class="radio-sign" value="5">Leo</label>
+                            <label class="btn btn-secondary" onclick="toggleActive(this);"><input type="radio" name="options" class="radio-sign" value="6">Virgo</label>
+                            <label class="btn btn-secondary" onclick="toggleActive(this);"><input type="radio" name="options" class="radio-sign" value="7">Libra</label>
+                            <label class="btn btn-secondary" onclick="toggleActive(this);"><input type="radio" name="options" class="radio-sign" value="8">Scorpio</label>
+                            <label class="btn btn-secondary" onclick="toggleActive(this);"><input type="radio" name="options"  class="radio-sign" value="9">Sagittarius</label>
+                            <label class="btn btn-secondary" onclick="toggleActive(this);"><input type="radio" name="options"  class="radio-sign" value="10">Capricorn</label>
+                            <label class="btn btn-secondary" onclick="toggleActive(this);"><input type="radio" name="options"  class="radio-sign" value="11">Aquarius</label>
+                            <label class="btn btn-secondary" onclick="toggleActive(this);"><input type="radio" name="options"  class="radio-sign" value="12">Pisces</label>
                         </div>
                         </p>
                 </div>
@@ -482,7 +484,7 @@ for(var i = 1; i <= 12; i++) {
 
 var sAstroShell;
 function fetchSwissAstroSun( el ) {
-    var inLat, inLon, inDate, inTime, currentSunSign, outSunSign, inDesiredSunSign;
+    var inLat, inLon, inDate, inTime, currentSunSign, inDesiredSunSign;
     //console.log( el );
     // extract form's input variables
     inLat = el.querySelector("#locationLat").value;
@@ -504,7 +506,7 @@ function fetchSwissAstroSun( el ) {
         "&house=" + encodeURIComponent(inLon) + "%2C" + 
         encodeURIComponent(inLat) + "%2CN" + 
         "&ut=" + encodeURIComponent(inTime) + "%3A00";
-    console.log(astroUrlUndoSun);
+    console.log("call to", astroUrlUndoSun);
     //ajax("https://cors-anywhere.herokuapp.com/"+astroUrlUndoSun
     ajax(astroUrlUndoSun, function(dat) {
             postSubmit(dat , sunCurrentSVG)
@@ -515,12 +517,13 @@ function fetchSwissAstroSun( el ) {
     var iyear = inDate.split(".")[2];
     var currentSunSign = getZodiacSign(iday, imonth);
     if (inDesiredSunSign !== "null") {
+        //console.log("got in here", inDesiredSunSign );
         var signDiff = (+currentSunSign - inDesiredSunSign).mod( 12 );
         var desiredDate = new Date(year = iyear, monthIndex = imonth-1, day = iday); //month is 0 indexed
         desiredDate = desiredDate.addDays( (30*signDiff) )
         var sDesiredDate = $.datepicker.formatDate("d.m.yy", desiredDate);
         //console.log(inLat, inLon, inDate, inTime, inDesiredSunSign);
-        console.log(inDesiredSunSign, inDate, "ASDF",desiredDate, "ASDF", sDesiredDate, signDiff);
+        //console.log(inDesiredSunSign, inDate, "ASDF",desiredDate, "ASDF", sDesiredDate, signDiff);
 
         // assemble and submit request, and define code that handles response text.
         var astroUrlNewSun = "https://enfascination.com/swissephemeris/swetest.php?" + 
@@ -529,7 +532,7 @@ function fetchSwissAstroSun( el ) {
             "&house=" + encodeURIComponent(inLon) + "%2C" + 
             encodeURIComponent(inLat) + "%2CN" + 
             "&ut=" + encodeURIComponent(inTime) + "%3A00";
-        console.log(astroUrlNewSun);
+        console.log("call to", astroUrlNewSun);
         ajax(astroUrlNewSun, function(dat) {
                 postSubmit(dat , sunDesiredSVG)
                 }, null, null);
@@ -543,42 +546,22 @@ function fetchSwissAstroSun( el ) {
 
 
     // DISABLE current sign as an option
-    var formSignOption = el.querySelector("#desiredsign input[value='5']"); //get option
+    //   SUPE BUGGY (event handling and disabling are interfereing with tippy
+    /*
+    var formSignOption = el.querySelector(`#desiredsign input[value='${currentSunSign}']`); //get option
     var formSignOptionLabel = formSignOption.parentElement;
     formSignOption.classList.add('disabled'); //disabled the input tag
-    // TELL boostrap about disabling disabled 
-    //   parent is the label tag which has most of the styling
-    formSignOptionLabel.classList.add('disabled'); 
     // TELL tippy about disabling (keeping in mind tha tdisabled elements don't fire events)
     formSignOptionLabel.setAttribute('title', 'This is your current sign, so if you want it, you don\'t have to do anything.');
     formSignOptionLabel.classList.add("tooltipped");
+    // TELL boostrap about disabling disabled 
+    //   parent is the label tag which has most of the styling
+    formSignOptionLabel.classList.add('disabled'); 
+    //formSignOptionLabel.removeAttribute("onclick"); //trying to get tooltip back
+    */
 
 }
 
-function fetchSwissAstroSunDesired( el ) {
-    // extract form's input variables
-    inDesiredSign = document.querySelector("#desiredsign > active").value;
-    var signDiff = (inDesiredSign - outSunSign)
-    var desiredDate = inDate.split(".");
-    var currentSign;
-    if (inDesiredSign !== "null") {
-        console.log("JDFLK: named dsign that is not null");
-        var signDiff = (+currentSign - inDesiredSign) % 12;
-        desiredDate = desiredDate[0] + "." + +desiredDate[1]+(30*signDiff) + "." + desiredDate[2];
-        //console.log(inLat, inLon, inDate, inTime, inDesiredSign);
-        console.log(inDate, desiredDate);
-    }
-
-    // assemble and submit request, and define code that handles response text.
-    var astroUrlFutureSun = "https://enfascination.com/swissephemeris/swetest.php?" + 
-        "b="+ encodeURIComponent(desiredDate) +
-        "&p=0" + "&emos" + "&f=PjLBRsGg" + 
-        "&house=" + encodeURIComponent(inLon) + "%2C" + 
-        encodeURIComponent(inLat) + "%2CN" + 
-        "&ut=" + encodeURIComponent(inTime) + "%3A00";
-    console.log(astroUrlFutureSun);
-    ajax(astroUrlUndoSun, postSubmit, null, null);
-}
 
 /**
     this runs after we get the data from the other site, which should trigger lots of action.
@@ -596,7 +579,8 @@ function postSubmit(sAstroShell, elsvg) {
     var sunAngle = angles['sunAngle'];
     var ascendant = angles['ascendant'];
     var meridian = angles['meridian'];
-    outSunSign = Math.floor( angles['sunSign'] );
+
+    //console.log("postSubmit", angles);
 
     // Position object into SVG using output
     //  compute angle to send to image
@@ -690,6 +674,14 @@ function inquireSurrogate(el, direction) {
             el.parentElement.querySelector(".svg-obj-planetary").classList.add("invisible");
             el.parentElement.querySelector(".svg-obj-planetary").classList.remove("visible");
         }
+    }
+}
+
+function toggleActive(el){
+    if (el.classList.contains("active")) {
+    } else {
+        el.parentElement.querySelector(".active").classList.remove("active");
+        el.classList.add("active");
     }
 }
 
