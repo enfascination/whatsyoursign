@@ -264,12 +264,12 @@ svg {
 
                     <!-- Output part -->
                     <div class="astrological-output">
-                    <template id="countermass-sun-label">
+                    <div id="template-countermass-sun-label" class="template">
                         At <strong id='counter-sun-angle'></strong>&deg; and <strong id='counter-sun-mass'>40</strong>m away, the weight of <br> the Golden Gate bridge (<strong id='counter-sun-mass'>420</strong> tons), counters the Sun's gravity.
-                    </template>
-                    <template id="mass-sun-label">
+                    </div>
+                    <div id="template-mass-sun-label" class="template">
                         Sol, our nearest star, weighs <strong id='sun-mass'>330,000</strong> Earths and is <strong id='sun-distance'>150 million</strong> km away
-                    </template>
+                    </div>
                         <!-- SETH: I copied everything below from the codepen of the clock at https://codepen.io/mohebifar/pen/KwdeMz .  We will use it as the basis of our illustration because it has the basic rudiments of our endgoal.  You will see that, just like the <head> section uses tag language to define the site's metadata, and the <body> section uses tag language to define its content, the <svg> section uses tag language to define exactly the type of "SVG" graphics that you use to build powerpoint slides. That makes it easy to plug programmable vector graphics into a webpage.  That will be the centerpiece of our site.-->
 
                         <svg width="600" height="600" class="illustration">
@@ -536,20 +536,20 @@ for(var i = 1; i <= 12; i++) {
 // a la https://codepen.io/anon/pen/BOowqg https://github.com/atomiks/tippyjs/issues/283 
 tippy('.tooltipped');
 
-var elFurniture = document.querySelector("#countermass-sun.tooltipped");
+var elCountermass = document.querySelector("#countermass-sun.tooltipped");
 var elPlanet = document.querySelector("#mass-sun.tooltipped");
-var tippyFurniture = tippy.one( elFurniture , {
-    //html: document.querySelector("template#countermass-sun-label"),
-    html: "template#countermass-sun-label",
+var elCountermassLabel = document.querySelector("#template-countermass-sun-label");
+var elMassLabel = document.querySelector("#template-mass-sun-label");
+var tippyCountermass = tippy.one( elCountermass , {
+    html: elCountermassLabel,
     delay: 0,
     duration: 0,
     placement: 'top',
     theme: 'hbwys',
-    dynamicTitle: true,
-                                                });
+});
 var tippyPlanet = tippy.one( elPlanet, { 
     trigger : 'manual',
-    html: "template#mass-sun-label",
+    html: elMassLabel,
     delay: 0,
     duration: 0,
     placement: 'top',
@@ -560,12 +560,12 @@ var tippyPlanet = tippy.one( elPlanet, {
 const showEvents = ['mouseenter', 'focus'];
 const hideEvents = ['mouseleave', 'blur'];
 showEvents.forEach(e => {
-        elFurniture.addEventListener(e, () => {
+        elCountermass.addEventListener(e, () => {
                 tippyPlanet.show();
             });
 });
 hideEvents.forEach(e => {
-        elFurniture.addEventListener(e, () => {
+        elCountermass.addEventListener(e, () => {
                 tippyPlanet.hide();
             });
 });
@@ -736,12 +736,8 @@ function postSubmit(sAstroShell, elsvg, mode="cancel") {
     positionObjectPairInSVG(elsvg[0], elsvg[1], radius, astroAngle, mode=mode); 
     function prepareLabels() {
         // (popoulate labels with caluclated content)
-        var elFurnitureLabel = document.querySelector("template#countermass-sun-label").content;
-        console.log("change templates");
-        console.log(elFurnitureLabel );
-        console.log(elFurnitureLabel.querySelector("#counter-sun-angle"));
-        elFurnitureLabel.querySelector("#counter-sun-angle").innerText = astroAngle;
-        console.log(elFurnitureLabel );
+        elCountermassLabel.querySelector("#counter-sun-angle").innerText = astroAngle;
+        //console.log(elCountermassLabel );
     };
     prepareLabels();
     activateIllustration(elsvg[0]);
