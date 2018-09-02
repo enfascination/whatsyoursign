@@ -273,7 +273,10 @@ svg {
                         The Sun, our nearest star, weighs <strong class='body-mass'>330,000</strong> Earths and is <strong id='body-distance'>150 million</strong> km away, at <strong class='body-angle'></strong>&deg;.
                     </div>
                     <div id="template-simulated-sun-label" class="template">
-                        At <strong class='body-distance'>40</strong>m away, and <strong class='body-angle'></strong>&deg; clockwise from North, the Golden Gate Bridge will recreate the Sun in <strong class='body-sign'></strong>. 
+                        At <strong class='body-distance'>40</strong>m away, and <strong class='body-angle'></strong>&deg; clockwise from North, the Golden Gate Bridge will act like the Sun in <strong class='body-sign'></strong>. 
+                    </div>
+                    <div id="template-no-change-label" class="template">
+                        You're already a <strong class='body-sign'></strong>, you don't need to change anything.
                     </div>
                         <!-- SETH: I copied everything below from the codepen of the clock at https://codepen.io/mohebifar/pen/KwdeMz .  We will use it as the basis of our illustration because it has the basic rudiments of our endgoal.  You will see that, just like the <head> section uses tag language to define the site's metadata, and the <body> section uses tag language to define its content, the <svg> section uses tag language to define exactly the type of "SVG" graphics that you use to build powerpoint slides. That makes it easy to plug programmable vector graphics into a webpage.  That will be the centerpiece of our site.-->
 
@@ -325,9 +328,9 @@ svg {
         <image x="50" y="50" width="150" height="150" xlink:href="787892.svg"  id="desired-sun" class="svg-obj-planetary invisible tooltipped" title="" data-tippy />
         <image x="0" y="0" width="150" height="150" xlink:href="188820.svg"  id="simulated-sun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
     </g>
-    <circle id="center" style="fill:#128A86; stroke: #C1EFED; stroke-width: 2px;" cx="300" cy="300" r="6">  </circle>
+    <circle style="fill:#128A86; stroke: #C1EFED; stroke-width: 2px;" cx="300" cy="300" r="6">  </circle>
 <!--SETH: I got the baby in the middle by plugging it in with an image tag below. I wasn't sure where to put it, so I tried putting it in lots of places in the SVG until I got it right.  But an educated guess said to put it near the main middle circle, so I mainly just had to find that.  Is there something about the circle above that gives us a hint its the right one?-->
-    <image x="230" y="230" width="150" height="150" xlink:href="birthmother.svg"  />
+    <image id="center" class="tooltipped" x="230" y="230" width="150" height="150" xlink:href="birthmother.svg"  />
 
     </svg>
 
@@ -562,6 +565,10 @@ var elCounterSunLabel = document.querySelector("#template-counter-sun-label");
 var elSunLabel = document.querySelector("#template-mass-sun-label");
 var elSimulatedSunLabel = document.querySelector("#template-simulated-sun-label");
 
+// supporting elements
+var elCenter = document.querySelector("svg.illustration #center");
+var elNoChangeLabel = document.querySelector("#template-no-change-label");
+
 var sunCurrentSVG = [];
 sunCurrentSVG.push(elCounterSun); //0
 sunCurrentSVG.push(elSun); //1
@@ -600,6 +607,15 @@ var tippySimulatedMass = tippy.one( elSimulatedSun , {
     placement: 'top',
     theme: 'hbwys',
 });
+var tippyNoChange = tippy.one( elCenter, {
+    trigger : 'manual',
+    html:  elNoChangeLabel,
+    delay: 0,
+    duration: 0,
+    hideOnClick: false,
+    placement: 'top',
+    theme: 'hbwys',
+});
 
 // default trigger === 'mouseenter focus'
 const showEvents = ['mouseenter', 'focus'];
@@ -614,6 +630,7 @@ hideEvents.forEach(e => {
                 tippyPlanet.hide();
             });
 });
+
 
 
 /** * * * * * * * * * * **\
@@ -684,9 +701,12 @@ function fetchSwissAstroSun( el ) {
         // if they do pick their current sign, nothing should happen
         activateIllustration( sunCurrentSVG[0], deactivate=true);
         activateIllustration( sunDesiredSVG[0], deactivate=true);
+        tippyNoChange.show();
 
     // still some cases to consider: did user click "no sign" (one object) or some sign besides their current sign (2 objects)
     } else if (inDesiredSunSign !== "null") {
+        //  clean up after one of the other conditions
+        tippyNoChange.hide();
 
         // cancel out current sign 
         console.log("call to", astroUrlUndoSun);
@@ -717,6 +737,10 @@ function fetchSwissAstroSun( el ) {
     } else {
         // if they do pick "no sign", be sure to disappear the other objects
 
+        //  clean up after one of the other conditions
+        tippyNoChange.hide();
+
+
         // first cancel out current sign 
         console.log("call to", astroUrlUndoSun);
         //ajax("https://cors-anywhere.herokuapp.com/"+astroUrlUndoSun
@@ -726,7 +750,6 @@ function fetchSwissAstroSun( el ) {
 
         // disappear the other objects
         activateIllustration( sunDesiredSVG[0], deactivate=true);
-
     }
 
     // DISABLE current sign as an option
@@ -858,16 +881,16 @@ function positionObjectPairInSVG(counterMass, mass, radius, astroAngle, mode="co
     counterMass.setAttribute('y',cy - 75 + radius*Math.sin(astroAngle + angleOffset));
 }
 
-function activateIllustration(counterMass, deactivate=false){
+function activateIllustration(el, deactivate=false){
     // activate illustration 
     // (make it visible)
-    //console.log( counterMass );
+    //console.log( el );
     if (!deactivate) {
-        counterMass.classList.remove("invisible");
-        counterMass.classList.add("visible");
+        el.classList.remove("invisible");
+        el.classList.add("visible");
     } else {
-        counterMass.classList.remove("visible");
-        counterMass.classList.add("invisible");
+        el.classList.remove("visible");
+        el.classList.add("invisible");
     }
 }
 
