@@ -264,11 +264,16 @@ svg {
 
                     <!-- Output part -->
                     <div class="astrological-output">
-                    <div id="template-countermass-sun-label" class="template">
-                        At <strong id='counter-sun-angle'></strong>&deg; and <strong id='counter-sun-mass'>40</strong>m away, the weight of <br> the Golden Gate bridge (<strong id='counter-sun-mass'>420</strong> tons), counters the Sun's gravity.
+                    <div id="template-counter-sun-label" class="template">
+                        At <strong class='body-distance'>40</strong>m away, the Golden Gate Bridge has the same gravitational pull as the Sun. 
+                        <br>
+                        When placed at <strong class='body-angle'></strong>&deg; clockwise from North, the bridge will cancel out the Sun sign <strong class='body-sign'></strong>.
                     </div>
                     <div id="template-mass-sun-label" class="template">
-                        Sol, our nearest star, weighs <strong id='sun-mass'>330,000</strong> Earths and is <strong id='sun-distance'>150 million</strong> km away
+                        The Sun, our nearest star, weighs <strong class='body-mass'>330,000</strong> Earths and is <strong id='body-distance'>150 million</strong> km away, at <strong class='body-angle'></strong>&deg;.
+                    </div>
+                    <div id="template-simulated-sun-label" class="template">
+                        At <strong class='body-distance'>40</strong>m away, and <strong class='body-angle'></strong>&deg; clockwise from North, the Golden Gate Bridge will recreate the Sun in <strong class='body-sign'></strong>. 
                     </div>
                         <!-- SETH: I copied everything below from the codepen of the clock at https://codepen.io/mohebifar/pen/KwdeMz .  We will use it as the basis of our illustration because it has the basic rudiments of our endgoal.  You will see that, just like the <head> section uses tag language to define the site's metadata, and the <body> section uses tag language to define its content, the <svg> section uses tag language to define exactly the type of "SVG" graphics that you use to build powerpoint slides. That makes it easy to plug programmable vector graphics into a webpage.  That will be the centerpiece of our site.-->
 
@@ -314,11 +319,11 @@ svg {
     </g>
     <g class="sun-pair">
         <image x="50" y="50" width="150" height="150" xlink:href="787892.svg"  id="mass-sun" class="svg-obj-planetary invisible tooltipped" title="" data-tippy />
-        <image x="0" y="0" width="150" height="150" xlink:href="188820.svg"  id="countermass-sun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
+        <image x="0" y="0" width="150" height="150" xlink:href="188820.svg"  id="counter-sun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
     </g>
     <g class="new-sun-pair">
-        <image x="50" y="50" width="150" height="150" xlink:href="787892.svg"  id="mass-newsun" class="svg-obj-planetary invisible tooltipped" title="" data-tippy />
-        <image x="0" y="0" width="150" height="150" xlink:href="188820.svg"  id="countermass-newsun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
+        <image x="50" y="50" width="150" height="150" xlink:href="787892.svg"  id="desired-sun" class="svg-obj-planetary invisible tooltipped" title="" data-tippy />
+        <image x="0" y="0" width="150" height="150" xlink:href="188820.svg"  id="simulated-sun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
     </g>
     <circle id="center" style="fill:#128A86; stroke: #C1EFED; stroke-width: 2px;" cx="300" cy="300" r="6">  </circle>
 <!--SETH: I got the baby in the middle by plugging it in with an image tag below. I wasn't sure where to put it, so I tried putting it in lots of places in the SVG until I got it right.  But an educated guess said to put it near the main middle circle, so I mainly just had to find that.  Is there something about the circle above that gives us a hint its the right one?-->
@@ -442,6 +447,20 @@ var zodiacSigns = {
     'scorpio':8,
     'sagittarius':9,
 }
+var zodiacSignsInv = {
+    10: 'Capricorn',
+    11: 'Aquarius',
+    12: 'Pisces',
+    1:  'Aries',
+    2:  'Taurus',
+    3:  'Gemini',
+    4:  'Cancer',
+    5:  'Leo',
+    6:  'Virgo',
+    7:  'Libra',
+    8:  'Scorpio',
+    9: 'Sagittarius',
+}
 
 function getZodiacSign(day, month) {
 
@@ -482,17 +501,15 @@ function getZodiacSign(day, month) {
  **
 \** * * * * * * * * * * **/
 
+
+/** * * * * * * * * * * **\
+ ** SETUP page: vestiges
+\** * * * * * * * * * * **/
+
 var hands = [];
 hands.push(document.querySelector('#secondhand > *')); //0
 hands.push(document.querySelector('#minutehand > *')); //1
 hands.push(document.querySelector('#hourhand > *')); //2
-
-var sunCurrentSVG = [];
-sunCurrentSVG.push(document.querySelector('#countermass-sun')); //3
-sunCurrentSVG.push(document.querySelector('#mass-sun')); //4
-var sunDesiredSVG = [];
-sunDesiredSVG.push(document.querySelector('#countermass-newsun')); //3
-sunDesiredSVG.push(document.querySelector('#mass-newsun')); //4
 
 var cx = 300;
 var cy = 300;
@@ -526,8 +543,9 @@ for(var i = 1; i <= 12; i++) {
 }
 
 
+
 /** * * * * * * * * * * **\
- ** SETUP page: tooltips
+ ** SETUP page: key elements
 \** * * * * * * * * * * **/
 
 ///interactive elements of SVG
@@ -536,36 +554,63 @@ for(var i = 1; i <= 12; i++) {
 // a la https://codepen.io/anon/pen/BOowqg https://github.com/atomiks/tippyjs/issues/283 
 tippy('.tooltipped');
 
-var elCountermass = document.querySelector("#countermass-sun.tooltipped");
-var elPlanet = document.querySelector("#mass-sun.tooltipped");
-var elCountermassLabel = document.querySelector("#template-countermass-sun-label");
-var elMassLabel = document.querySelector("#template-mass-sun-label");
-var tippyCountermass = tippy.one( elCountermass , {
-    html: elCountermassLabel,
+var elCounterSun = document.querySelector("#counter-sun");
+var elSun = document.querySelector("#mass-sun");
+var elSimulatedSun = document.querySelector("#simulated-sun");
+var elDesiredSun = document.querySelector("#desired-sun");
+var elCounterSunLabel = document.querySelector("#template-counter-sun-label");
+var elSunLabel = document.querySelector("#template-mass-sun-label");
+var elSimulatedSunLabel = document.querySelector("#template-simulated-sun-label");
+
+var sunCurrentSVG = [];
+sunCurrentSVG.push(elCounterSun); //0
+sunCurrentSVG.push(elSun); //1
+sunCurrentSVG.push(elCounterSunLabel); //2
+sunCurrentSVG.push(elSunLabel); //3
+var sunDesiredSVG = [];
+sunDesiredSVG.push(elSimulatedSun); //0
+sunDesiredSVG.push(elDesiredSun); //1
+sunDesiredSVG.push(elSimulatedSunLabel); //2
+
+
+
+/** * * * * * * * * * * **\
+ ** SETUP page: tooltips
+\** * * * * * * * * * * **/
+
+var tippyCountermass = tippy.one( elCounterSun , {
+    html: elCounterSunLabel,
     delay: 0,
     duration: 0,
     placement: 'top',
     theme: 'hbwys',
 });
-var tippyPlanet = tippy.one( elPlanet, { 
+var tippyPlanet = tippy.one( elSun, { 
     trigger : 'manual',
-    html: elMassLabel,
+    html: elSunLabel,
     delay: 0,
     duration: 0,
     placement: 'top',
     theme: 'hbwys',
 } );
+var tippySimulatedMass = tippy.one( elSimulatedSun , {
+    html: elSimulatedSunLabel,
+    delay: 0,
+    duration: 0,
+    placement: 'top',
+    theme: 'hbwys',
+});
 
 // default trigger === 'mouseenter focus'
 const showEvents = ['mouseenter', 'focus'];
 const hideEvents = ['mouseleave', 'blur'];
 showEvents.forEach(e => {
-        elCountermass.addEventListener(e, () => {
+        elCounterSun.addEventListener(e, () => {
                 tippyPlanet.show();
             });
 });
 hideEvents.forEach(e => {
-        elCountermass.addEventListener(e, () => {
+        elCounterSun.addEventListener(e, () => {
                 tippyPlanet.hide();
             });
 });
@@ -715,7 +760,7 @@ function fetchSwissAstroSun( el ) {
     pull the astro printout from the return value
 it comes out as a string, which we convert to a DOM object for easy searching
 */
-function postSubmit(sAstroShell, elsvg, mode="cancel") {
+function postSubmit(sAstroShell, elsvg, mode="counter") {
     // parse raw input 
     //    (custonmize edepending on control over backend) 
     //    DON't need for current backend
@@ -726,6 +771,7 @@ function postSubmit(sAstroShell, elsvg, mode="cancel") {
     var sunAngle = angles['sunAngle'];
     var ascendant = angles['ascendant'];
     var meridian = angles['meridian'];
+    var sunSign = angles['sunSign'];
 
     //console.log("postSubmit", angles);
 
@@ -734,12 +780,15 @@ function postSubmit(sAstroShell, elsvg, mode="cancel") {
     var astroAngle = imageAngleFromAstroAngle(ascendant, meridian, sunAngle);
     // edit HTML
     positionObjectPairInSVG(elsvg[0], elsvg[1], radius, astroAngle, mode=mode); 
-    function prepareLabels() {
-        // (popoulate labels with caluclated content)
-        elCountermassLabel.querySelector("#counter-sun-angle").innerText = astroAngle;
-        //console.log(elCountermassLabel );
-    };
-    prepareLabels();
+
+    // PREPARE labels (tooltips) for each obejct (dynamic content)
+    if (mode == "counter") {
+        prepareLabels(elsvg[2], (astroAngle - Math.PI), sunSign);
+        prepareLabels(elsvg[3], astroAngle);
+    } else if (mode == "simulate") {
+        prepareLabels(elsvg[2], astroAngle, sunSign);
+    }
+
     activateIllustration(elsvg[0]);
 
 };
@@ -761,7 +810,7 @@ function getAngles(sAstroShell) {
     sunAngle = sAstroShell.match(
         /\bSun\s+([0-9\.]+)\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/
     );
-    sunSign = +(sunAngle[1]);
+    sunSign = Math.floor(+(sunAngle[1]));
     sunAngle = sunAngle[2];
     ascendant = sAstroShell.match(/\bAscendant\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
     meridian = sAstroShell.match(/\bMC\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
@@ -801,8 +850,8 @@ function imageAngleFromAstroAngle(ascendant, meridian, sunAngle) {
     return(astroAngle);
 }
 
-function positionObjectPairInSVG(counterMass, mass, radius, astroAngle, mode="cancel") {
-    var angleOffset = (mode == "cancel") ? Math.PI : 0; // are we cancelling out or simulating a heavenly body?
+function positionObjectPairInSVG(counterMass, mass, radius, astroAngle, mode="counter") {
+    var angleOffset = (mode == "counter") ? Math.PI : 0; // are we cancelling out or simulating a heavenly body?
     mass.setAttribute('x',cx - 75 + radius*Math.cos(astroAngle));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
     mass.setAttribute('y',cy - 75 + radius*Math.sin(astroAngle));
     counterMass.setAttribute('x',cx - 75 + radius*Math.cos(astroAngle + angleOffset));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
@@ -822,6 +871,18 @@ function activateIllustration(counterMass, deactivate=false){
     }
 }
 
+function prepareLabels(labelTemplate, astroAngle, sSign ) {
+    // (popoulate labels with caluclated content)
+    var sAstroAngle = ((astroAngle + Math.PI/2) / (2*Math.PI) * 360).mod( 360 ).toFixed(0);
+    var templateAngle = labelTemplate.querySelector(".body-angle");
+    var templateSign = labelTemplate.querySelector(".body-sign");
+    if (templateAngle !== null) {
+        templateAngle.innerText = sAstroAngle;
+    }
+    if (templateSign !== null) {
+        templateSign.innerText = zodiacSignsInv[sSign];
+    }
+};
 
 function inquireSurrogate(el, direction) {
     if (true) {
