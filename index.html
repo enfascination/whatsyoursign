@@ -353,6 +353,12 @@ svg {
                         <!-- SETH: I copied the javascript below from the codepen.  you can embed javascript into HTML with <script> tags. This makes your html file into something that literally edits itself on the fly. That's how the clock keeps moving. The code above for the hands above says they should be roughly at the 4 o'clock position, the default that you'll see if you break the script below.  The script below rewrite the numbers specificy that default to be whatever the time is. -->
 <script>
 
+/** * * * * * * * * * * **\
+ **
+ ** CHANGE basic functionality
+ **
+\** * * * * * * * * * * **/
+
 // fix modulo: https://stackoverflow.com/questions/4467539/javascript-modulo-gives-a-negative-result-for-negative-numbers
 Number.prototype.mod = function(n) {
     return ((this%n)+n)%n;
@@ -364,6 +370,21 @@ Date.prototype.addDays = function(days) {
         return date;
 }
 
+
+
+
+
+/** * * * * * * * * * * **\
+ **
+ ** DEFINE helpers
+ **
+\** * * * * * * * * * * **/
+
+
+/** * * * * * * * * * * **\
+ ** DEFINE helpers: generic
+\** * * * * * * * * * * **/
+
 /**
 * from https://gist.github.com/Xeoncross/7663273
  * IE 5.5+, Firefox, Opera, Chrome, Safari XHR object
@@ -373,45 +394,32 @@ Date.prototype.addDays = function(days) {
  * @param mixed data
  * @param null x
  */
-    function ajax(url, callback, data, x) {
-        try {
-            x = new(this.XMLHttpRequest || ActiveXObject)('MSXML2.XMLHTTP.3.0');
-            x.open(data ? 'POST' : 'GET', url, 1);
-            x.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            x.onreadystatechange = function () {
-                x.readyState > 3 && callback && callback(x.responseText, x);
-            };
-            x.send(data)
-        } catch (e) {
-            window.console && console.log(e);
-        }
-    };
+function ajax(url, callback, data, x) {
+    try {
+        x = new(this.XMLHttpRequest || ActiveXObject)('MSXML2.XMLHTTP.3.0');
+        x.open(data ? 'POST' : 'GET', url, 1);
+        x.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        x.onreadystatechange = function () {
+            x.readyState > 3 && callback && callback(x.responseText, x);
+        };
+        x.send(data)
+    } catch (e) {
+        window.console && console.log(e);
+    }
+};
 
-var hands = [];
-hands.push(document.querySelector('#secondhand > *')); //0
-hands.push(document.querySelector('#minutehand > *')); //1
-hands.push(document.querySelector('#hourhand > *')); //2
-
-var sunCurrentSVG = [];
-sunCurrentSVG.push(document.querySelector('#countermass-sun')); //3
-sunCurrentSVG.push(document.querySelector('#mass-sun')); //4
-var sunDesiredSVG = [];
-sunDesiredSVG.push(document.querySelector('#countermass-newsun')); //3
-sunDesiredSVG.push(document.querySelector('#mass-newsun')); //4
-
-var cx = 300;
-var cy = 300;
-var radius = 200;
-
-function shifter(val) {
-    return [val, cx, cy].join(' ');
+// https://plainjs.com/javascript/manipulation/wrap-an-html-structure-around-an-element-28/
+function wrap(el, wrapper) {
+        el.parentNode.insertBefore(wrapper, el);
+            wrapper.appendChild(el);
 }
 
-var date = new Date();
-var hoursAngle = 360 * date.getHours() / 12 + date.getMinutes() / 2;
-var minuteAngle = 360 * date.getMinutes() / 60;
-var secAngle = 360 * date.getSeconds() / 60;
+
+
+/** * * * * * * * * * * **\
+ ** DEFINE helpers: astrological
+\** * * * * * * * * * * **/
 
 /**
  * Return zodiac sugn by month and day
@@ -464,6 +472,41 @@ function getZodiacSign(day, month) {
     }
 }
 
+
+
+
+
+/** * * * * * * * * * * **\
+ **
+ ** SETUP page
+ **
+\** * * * * * * * * * * **/
+
+var hands = [];
+hands.push(document.querySelector('#secondhand > *')); //0
+hands.push(document.querySelector('#minutehand > *')); //1
+hands.push(document.querySelector('#hourhand > *')); //2
+
+var sunCurrentSVG = [];
+sunCurrentSVG.push(document.querySelector('#countermass-sun')); //3
+sunCurrentSVG.push(document.querySelector('#mass-sun')); //4
+var sunDesiredSVG = [];
+sunDesiredSVG.push(document.querySelector('#countermass-newsun')); //3
+sunDesiredSVG.push(document.querySelector('#mass-newsun')); //4
+
+var cx = 300;
+var cy = 300;
+var radius = 200;
+
+function shifter(val) {
+    return [val, cx, cy].join(' ');
+}
+
+var date = new Date();
+var hoursAngle = 360 * date.getHours() / 12 + date.getMinutes() / 2;
+var minuteAngle = 360 * date.getMinutes() / 60;
+var secAngle = 360 * date.getSeconds() / 60;
+
 hands[0].setAttribute('from', shifter(secAngle));
 hands[0].setAttribute('to', shifter(secAngle + 360));
 hands[1].setAttribute('from', shifter(minuteAngle));
@@ -481,6 +524,85 @@ for(var i = 1; i <= 12; i++) {
     el.setAttribute('style', 'stroke: #ffffff;');
     document.querySelector('svg').appendChild(el);
 }
+
+
+/** * * * * * * * * * * **\
+ ** SETUP page: tooltips
+\** * * * * * * * * * * **/
+
+///interactive elements of SVG
+
+//Link counterbalanced entities
+// a la https://codepen.io/anon/pen/BOowqg https://github.com/atomiks/tippyjs/issues/283 
+tippy('.tooltipped');
+
+var elFurniture = document.querySelector("#countermass-sun.tooltipped");
+var elPlanet = document.querySelector("#mass-sun.tooltipped");
+var tippyFurniture = tippy.one( elFurniture , {
+    //html: document.querySelector("template#countermass-sun-label"),
+    html: "template#countermass-sun-label",
+    delay: 0,
+    duration: 0,
+    placement: 'top',
+    theme: 'hbwys',
+    dynamicTitle: true,
+                                                });
+var tippyPlanet = tippy.one( elPlanet, { 
+    trigger : 'manual',
+    html: "template#mass-sun-label",
+    delay: 0,
+    duration: 0,
+    placement: 'top',
+    theme: 'hbwys',
+} );
+
+// default trigger === 'mouseenter focus'
+const showEvents = ['mouseenter', 'focus'];
+const hideEvents = ['mouseleave', 'blur'];
+showEvents.forEach(e => {
+        elFurniture.addEventListener(e, () => {
+                tippyPlanet.show();
+            });
+});
+hideEvents.forEach(e => {
+        elFurniture.addEventListener(e, () => {
+                tippyPlanet.hide();
+            });
+});
+
+
+/** * * * * * * * * * * **\
+ ** SETUP page: helpers
+\** * * * * * * * * * * **/
+
+function populateFormWithDefaults(form) {
+    form.querySelector("#locationLat").defaultValue = "38.54";
+    form.querySelector("#locationLon").defaultValue = "-121.74";
+    /* // browser doesn't like this code: makes browser raise its security hackles.
+    // https://developer.mozilla.org/en-US/docs/Web/API/Coordinates/longitude
+    navigator.geolocation.getCurrentPosition(function(position) {
+        let lat = position.coords.latitude;
+        let long = position.coords.longitude;
+
+        form.querySelector("#locationLat").innerText = lat.toFixed(2);
+        form.querySelector("#locationLon").innerText = long.toFixed(2);
+    });
+    */
+    var date = new Date();
+    form.querySelector("#date").defaultValue = date.getDate().toString().padStart(2,0) + "." + (date.getMonth()+1).toString().padStart(2,0) + "." + date.getFullYear();
+    //form.querySelector("#time").defaultValue = date.getHours().toString().padStart(2,0) + ":" + date.getMinutes().toString().padStart(2,0);
+    form.querySelector("#time").defaultValue = date.getUTCHours().toString().padStart(2,0) + ":" + date.getUTCMinutes().toString().padStart(2,0);
+}
+
+
+
+
+
+/** * * * * * * * * * * **\
+ **
+ ** MAIN function
+ **
+\** * * * * * * * * * * **/
 
 var sAstroShell;
 function fetchSwissAstroSun( el ) {
@@ -562,13 +684,6 @@ function fetchSwissAstroSun( el ) {
 
     }
 
-    // https://plainjs.com/javascript/manipulation/wrap-an-html-structure-around-an-element-28/
-    function wrap(el, wrapper) {
-            el.parentNode.insertBefore(wrapper, el);
-                wrapper.appendChild(el);
-    }
-
-
     // DISABLE current sign as an option
     //   SUPE BUGGY (event handling and disabling are interfereing with tippy
     /*
@@ -585,6 +700,14 @@ function fetchSwissAstroSun( el ) {
     */
 
 }
+
+
+
+/** * * * * * * * * * * **\
+ **
+ ** MAIN function: helpers
+ **
+\** * * * * * * * * * * **/
 
 
 /**
@@ -611,6 +734,16 @@ function postSubmit(sAstroShell, elsvg, mode="cancel") {
     var astroAngle = imageAngleFromAstroAngle(ascendant, meridian, sunAngle);
     // edit HTML
     positionObjectPairInSVG(elsvg[0], elsvg[1], radius, astroAngle, mode=mode); 
+    function prepareLabels() {
+        // (popoulate labels with caluclated content)
+        var elFurnitureLabel = document.querySelector("template#countermass-sun-label").content;
+        console.log("change templates");
+        console.log(elFurnitureLabel );
+        console.log(elFurnitureLabel.querySelector("#counter-sun-angle"));
+        elFurnitureLabel.querySelector("#counter-sun-angle").innerText = astroAngle;
+        console.log(elFurnitureLabel );
+    };
+    prepareLabels();
     activateIllustration(elsvg[0]);
 
 };
@@ -682,10 +815,6 @@ function positionObjectPairInSVG(counterMass, mass, radius, astroAngle, mode="ca
 
 function activateIllustration(counterMass, deactivate=false){
     // activate illustration 
-    // (popoulate labels with caluclated content)
-    //var elFurnitureLabel = document.querySelector("template#countermass-sun-label").content;
-    //console.log(elFurnitureLabel );
-    //elFurnitureLabel.querySelector("#counter-sun-angle").value = astroAngle;
     // (make it visible)
     //console.log( counterMass );
     if (!deactivate) {
@@ -718,24 +847,15 @@ function toggleActive(el){
     }
 }
 
-function populateFormWithDefaults(form) {
-    form.querySelector("#locationLat").defaultValue = "38.54";
-    form.querySelector("#locationLon").defaultValue = "-121.74";
-    /* // browser doesn't like this code: makes browser raise its security hackles.
-    // https://developer.mozilla.org/en-US/docs/Web/API/Coordinates/longitude
-    navigator.geolocation.getCurrentPosition(function(position) {
-        let lat = position.coords.latitude;
-        let long = position.coords.longitude;
 
-        form.querySelector("#locationLat").innerText = lat.toFixed(2);
-        form.querySelector("#locationLon").innerText = long.toFixed(2);
-    });
-    */
-    var date = new Date();
-    form.querySelector("#date").defaultValue = date.getDate().toString().padStart(2,0) + "." + (date.getMonth()+1).toString().padStart(2,0) + "." + date.getFullYear();
-    //form.querySelector("#time").defaultValue = date.getHours().toString().padStart(2,0) + ":" + date.getMinutes().toString().padStart(2,0);
-    form.querySelector("#time").defaultValue = date.getUTCHours().toString().padStart(2,0) + ":" + date.getUTCMinutes().toString().padStart(2,0);
-}
+
+
+/** * * * * * * * * * * **\
+ **
+ ** FINAL setup
+ **
+\** * * * * * * * * * * **/
+
 
 var mainForm = document.getElementById('astro-main-form');
 populateFormWithDefaults(mainForm);
@@ -745,47 +865,6 @@ fetchSwissAstroSun( mainForm );
 
 
 
-</script>
-<script>
-    ///interactive elements of SVG
-
-    //Link counterbalanced entities
-    // a la https://codepen.io/anon/pen/BOowqg https://github.com/atomiks/tippyjs/issues/283 
-    tippy('.tooltipped');
-
-    var elFurniture = document.querySelector("#countermass-sun.tooltipped");
-    var elPlanet = document.querySelector("#mass-sun.tooltipped");
-    var tippyFurniture = tippy.one( elFurniture , {
-        //html: document.querySelector("template#countermass-sun-label"),
-        html: "template#countermass-sun-label",
-        delay: 0,
-        duration: 0,
-        placement: 'top',
-        theme: 'hbwys',
-        //dynamicTitle: true,
-                                                  });
-    var tippyPlanet = tippy.one( elPlanet, { 
-        trigger : 'manual',
-        html: "template#mass-sun-label",
-        delay: 0,
-        duration: 0,
-        placement: 'top',
-        theme: 'hbwys',
-    } );
-
-    // default trigger === 'mouseenter focus'
-    const showEvents = ['mouseenter', 'focus'];
-    const hideEvents = ['mouseleave', 'blur'];
-    showEvents.forEach(e => {
-            elFurniture.addEventListener(e, () => {
-                    tippyPlanet.show();
-                });
-    });
-    hideEvents.forEach(e => {
-            elFurniture.addEventListener(e, () => {
-                    tippyPlanet.hide();
-                });
-    });
 </script>
 
 </html>
