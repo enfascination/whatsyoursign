@@ -536,6 +536,10 @@ function fetchSwissAstroSun( el ) {
         ajax(astroUrlNewSun, function(dat) {
                 postSubmit(dat , sunDesiredSVG)
                 }, null, null);
+    } else {
+        // if they do pick "no sign", be sure to disappear the other objects
+        activateIllustration( sunDesiredSVG[0], deactivate=true);
+
     }
 
     // https://plainjs.com/javascript/manipulation/wrap-an-html-structure-around-an-element-28/
@@ -653,15 +657,21 @@ function positionObjectPairInSVG(counterMass, mass, radius, astroAngle) {
     mass.setAttribute('y',cy - 75 + radius*Math.sin(astroAngle + Math.PI));
 }
 
-function activateIllustration(counterMass){
+function activateIllustration(counterMass, deactivate=false){
     // activate illustration 
     // (popoulate labels with caluclated content)
     //var elFurnitureLabel = document.querySelector("template#countermass-sun-label").content;
     //console.log(elFurnitureLabel );
     //elFurnitureLabel.querySelector("#counter-sun-angle").value = astroAngle;
     // (make it visible)
-    counterMass.classList.remove("invisible");
-    counterMass.classList.add("visible");
+    //console.log( counterMass );
+    if (!deactivate) {
+        counterMass.classList.remove("invisible");
+        counterMass.classList.add("visible");
+    } else {
+        counterMass.classList.remove("visible");
+        counterMass.classList.add("invisible");
+    }
 }
 
 
