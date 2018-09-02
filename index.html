@@ -214,11 +214,13 @@ svg {
                         <form id="astro-main-form" class="astrological-input-form" onsubmit="
                     event.preventDefault();
                     fetchSwissAstroSun(this);
+                    this.querySelector('.form-part2').classList.remove('invisible');
+                    this.querySelector('.form-part2').classList.add('visible');
                     //return false prevents form submission
                     return false;
                                 ">
             <div class="row">
-                <div class="col">
+                <div class="col form-part1">
                         <h2>
                             Tell us about your baby!
                         </h2>
@@ -231,7 +233,7 @@ svg {
                             </p>
                             <p class=form-part><input name="btnSubmit" type="submit" class="btnSubmit btn tooltipped" value="Submit" title="hodwy"/></p>
                 </div>
-                <div class="col">
+                <div class="col form-part2 invisible">
                         <h2>
                             What sign do want?
                         </h2>
