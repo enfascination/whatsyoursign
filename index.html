@@ -71,9 +71,9 @@ svg {
 .title-bar {
     font-size: 32pt;
 }
-.appear-stuck {  
+.appear-stuck {
     animation: 5s fadeIn;
-    animation-fill-mode: forwards;  
+    animation-fill-mode: forwards;
     visibility: hidden;
     opacity: 0;
 }
@@ -158,7 +158,7 @@ svg {
                     -->
                     <div class="modal-body explainer">
                         <h3>What is this?</h3>
-                        <p>A common interpretation of astrology is that is depends on the gravity of the planets at the moment of birth.  Isaac Newton taught us when the gravity of a large planet far away equals a smaller object up close.  For example, Jupiter's pull on you right now equals a truck a few meters away. 
+                        <p>A common interpretation of astrology is that is depends on the gravity of the planets at the moment of birth.  Isaac Newton taught us when the gravity of a large planet far away equals a smaller object up close.  For example, Jupiter's pull on you right now equals a truck a few meters away.
                         </p>
                         <p>When you're giving birth, if you line stuff up around you to cancel out one planet and simulate another, you can give your baby any sign you'd like. 	We did all the math for you, so have fun.
                         </p>
@@ -222,7 +222,7 @@ svg {
             <div class="row">
                 <div class="col form-part1">
                         <h2>
-                            Tell us about your baby!
+                            Tell us about your little one!
                         </h2>
                             <p class=form-part><label for="date">Date:</label><input id="date" name="date" placeholder="DD.MM.YYYY"></p>
                             <p class=form-part><label for="time">Time (UTC):</label><input id="time" name="time" ><i class="fas fa-info-circle tooltipped" title="military time"></i></p>
@@ -267,7 +267,7 @@ svg {
                     <!-- Output part -->
                     <div class="astrological-output">
                     <div id="template-counter-sun-label" class="template">
-                        At <strong class='body-distance'>40</strong>m away, the Golden Gate Bridge has the same gravitational pull as the Sun. 
+                        At <strong class='body-distance'>40</strong>m away, the Golden Gate Bridge has the same gravitational pull as the Sun.
                         <br>
                         When placed at <strong class='body-angle'></strong>&deg; clockwise from North, the bridge will cancel out the Sun sign <strong class='body-sign'></strong>.
                     </div>
@@ -275,7 +275,7 @@ svg {
                         The Sun, our nearest star, weighs <strong class='body-mass'>330,000</strong> Earths and is <strong id='body-distance'>150 million</strong> km away, at <strong class='body-angle'></strong>&deg;.
                     </div>
                     <div id="template-simulated-sun-label" class="template">
-                        At <strong class='body-distance'>40</strong>m away, and <strong class='body-angle'></strong>&deg; clockwise from North, the Golden Gate Bridge will act like the Sun in <strong class='body-sign'></strong>. 
+                        At <strong class='body-distance'>40</strong>m away, and <strong class='body-angle'></strong>&deg; clockwise from North, the Golden Gate Bridge will act like the Sun in <strong class='body-sign'></strong>.
                     </div>
                     <div id="template-no-change-label" class="template">
                         You're already a <strong class='body-sign'></strong>, you don't need to change anything.
@@ -354,7 +354,7 @@ svg {
     <!--other helpers-->
         <script src="https://unpkg.com/tippy.js@2.5.4/dist/tippy.all.min.js"></script>
     <!--zoidan sign helper function getZodiacSign(day, month) from https://gist.github.com/kladov/5080233 -->
-        
+
 
 
 
@@ -398,7 +398,7 @@ Date.prototype.addDays = function(days) {
 /**
 * from https://gist.github.com/Xeoncross/7663273
  * IE 5.5+, Firefox, Opera, Chrome, Safari XHR object
- * 
+ *
  * @param string url
  * @param object callback
  * @param mixed data
@@ -556,7 +556,7 @@ for(var i = 1; i <= 12; i++) {
 ///interactive elements of SVG
 
 //Link counterbalanced entities
-// a la https://codepen.io/anon/pen/BOowqg https://github.com/atomiks/tippyjs/issues/283 
+// a la https://codepen.io/anon/pen/BOowqg https://github.com/atomiks/tippyjs/issues/283
 tippy('.tooltipped');
 
 var elCounterSun = document.querySelector("#counter-sun");
@@ -594,7 +594,7 @@ var tippyCountermass = tippy.one( elCounterSun , {
     placement: 'top',
     theme: 'hbwys',
 });
-var tippyPlanet = tippy.one( elSun, { 
+var tippyPlanet = tippy.one( elSun, {
     trigger : 'manual',
     html: elSunLabel,
     delay: 0,
@@ -692,11 +692,11 @@ function fetchSwissAstroSun( el ) {
     var signDiff = (inDesiredSunSign - +currentSunSign ).mod( 12 );
 
     // assemble and submit request to cancel current sign, and define code that handles response text.
-    var astroUrlUndoSun = "https://enfascination.com/swissephemeris/swetest.php?" + 
+    var astroUrlUndoSun = "https://enfascination.com/swissephemeris/swetest.php?" +
         "b="+ encodeURIComponent(inDate) +
-        "&p=0" + "&emos" + "&f=PjLBRsGg" + 
-        "&house=" + encodeURIComponent(inLon) + "%2C" + 
-        encodeURIComponent(inLat) + "%2CN" + 
+        "&p=0" + "&emos" + "&f=PjLBRsGg" +
+        "&house=" + encodeURIComponent(inLon) + "%2C" +
+        encodeURIComponent(inLat) + "%2CN" +
         "&ut=" + encodeURIComponent(inTime) + "%3A00";
 
     if (signDiff == 0) {
@@ -713,7 +713,7 @@ function fetchSwissAstroSun( el ) {
         //  clean up after one of the other conditions
         tippyNoChange.hide();
 
-        // cancel out current sign 
+        // cancel out current sign
         console.log("call to", astroUrlUndoSun);
         //ajax("https://cors-anywhere.herokuapp.com/"+astroUrlUndoSun
         ajax(astroUrlUndoSun, function(dat) {
@@ -729,11 +729,11 @@ function fetchSwissAstroSun( el ) {
         //console.log(inDesiredSunSign, inDate, "ASDF",desiredDate, "ASDF", sDesiredDate, signDiff);
 
         // assemble and submit request to simulate other sign, and define code that handles response text.
-        var astroUrlNewSun = "https://enfascination.com/swissephemeris/swetest.php?" + 
+        var astroUrlNewSun = "https://enfascination.com/swissephemeris/swetest.php?" +
             "b="+ encodeURIComponent(sDesiredDate) +
-            "&p=0" + "&emos" + "&f=PjLBRsGg" + 
-            "&house=" + encodeURIComponent(inLon) + "%2C" + 
-            encodeURIComponent(inLat) + "%2CN" + 
+            "&p=0" + "&emos" + "&f=PjLBRsGg" +
+            "&house=" + encodeURIComponent(inLon) + "%2C" +
+            encodeURIComponent(inLat) + "%2CN" +
             "&ut=" + encodeURIComponent(inTime) + "%3A00";
         console.log("call to", astroUrlNewSun);
         ajax(astroUrlNewSun, function(dat) {
@@ -746,7 +746,7 @@ function fetchSwissAstroSun( el ) {
         tippyNoChange.hide();
 
 
-        // first cancel out current sign 
+        // first cancel out current sign
         console.log("call to", astroUrlUndoSun);
         //ajax("https://cors-anywhere.herokuapp.com/"+astroUrlUndoSun
             ajax(astroUrlUndoSun, function(dat) {
@@ -766,9 +766,9 @@ function fetchSwissAstroSun( el ) {
     // TELL tippy about disabling (keeping in mind tha tdisabled elements don't fire events)
     formSignOptionLabel.setAttribute('title', 'This is your current sign, so if you want it, you don\'t have to do anything.');
     formSignOptionLabel.classList.add("tooltipped");
-    // TELL boostrap about disabling disabled 
+    // TELL boostrap about disabling disabled
     //   parent is the label tag which has most of the styling
-    formSignOptionLabel.classList.add('disabled'); 
+    formSignOptionLabel.classList.add('disabled');
     //formSignOptionLabel.removeAttribute("onclick"); //trying to get tooltip back
     */
 
@@ -789,10 +789,10 @@ function fetchSwissAstroSun( el ) {
 it comes out as a string, which we convert to a DOM object for easy searching
 */
 function postSubmit(sAstroShell, elsvg, mode="counter") {
-    // parse raw input 
-    //    (custonmize edepending on control over backend) 
+    // parse raw input
+    //    (custonmize edepending on control over backend)
     //    DON't need for current backend
-    // sAstroShell = parseAstroResponse( sAstroShell ); 
+    // sAstroShell = parseAstroResponse( sAstroShell );
 
     // extract angles from parsed response
     var angles = getAngles(sAstroShell);
@@ -807,7 +807,7 @@ function postSubmit(sAstroShell, elsvg, mode="counter") {
     //  compute angle to send to image
     var astroAngle = imageAngleFromAstroAngle(ascendant, meridian, sunAngle);
     // edit HTML
-    positionObjectPairInSVG(elsvg[0], elsvg[1], radius, astroAngle, mode=mode); 
+    positionObjectPairInSVG(elsvg[0], elsvg[1], radius, astroAngle, mode=mode);
 
     // PREPARE labels (tooltips) for each obejct (dynamic content)
     if (mode == "counter") {
@@ -833,7 +833,7 @@ function parseAstroResponse( sAstroShell ) {
 
 function getAngles(sAstroShell) {
     var sunAngle, sunSign, meridian, ascendant;
-    // now use regexes to search the printout for the right digits. 
+    // now use regexes to search the printout for the right digits.
     //  according to the math team, we need angles for the sun, AC and MC.
     sunAngle = sAstroShell.match(
         /\bSun\s+([0-9\.]+)\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/
@@ -858,7 +858,7 @@ function getAngles(sAstroShell) {
 function imageAngleFromAstroAngle(ascendant, meridian, sunAngle) {
     // use sun angle, AC and MC to calculate position of object relative to baby
     //minuteAngle = sunAngle;
-    minuteAngle = 360 * sunAngle / 60;	
+    minuteAngle = 360 * sunAngle / 60;
     var secAngle = 360 * date.getSeconds() / 60; //really just here for testing
     var astroAngle = -( //negate because mirror image from looking down instead of up
         //Math.PI //to counterbalance mass
@@ -887,7 +887,7 @@ function positionObjectPairInSVG(counterMass, mass, radius, astroAngle, mode="co
 }
 
 function activateIllustration(el, deactivate=false){
-    // activate illustration 
+    // activate illustration
     // (make it visible)
     //console.log( el );
     if (!deactivate) {
