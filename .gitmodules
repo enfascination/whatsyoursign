@@ -1,0 +1,12 @@
+[submodule "vendor/moment-timezone"]
+	path = vendor/moment-timezone
+	url = git@github.com:moment/moment-timezone.git
+[submodule "vendor/moment"]
+	path = vendor/moment
+	url = git@github.com:moment/moment.git
+[submodule "vendor/vendor/moment"]
+	path = vendor/moment
+	url = git@github.com:moment/moment.git
+[submodule "vendor/tz-lookup"]
+	path = vendor/tz-lookup
+	url = git@github.com:darkskyapp/tz-lookup.git

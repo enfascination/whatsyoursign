@@ -140,6 +140,16 @@ svg {
         cursor: not-allowed; /*change curser*/
         pointer-events: none; /*makes it so other radio options don't get deselected when this one is clicked*/
     }
+
+    /*map*/
+    .gllpMap.gllpMap {
+        min-width: 200px;
+        width: 100%;
+        min-height: 200px;
+        height: 100%;
+        -webkit-filter: grayscale(85%); /* Safari 6.0 - 9.0 */
+        filter: grayscale(85%);
+    }
 </style>
 
 
@@ -224,13 +234,19 @@ svg {
                         <h2>
                             Tell us about your little one!
                         </h2>
-                            <p class=form-part><label for="date">Date:</label><input id="date" name="date" type="date"></p>
-                            <p class=form-part><label for="time">Time (UTC):</label><input id="time" name="time" type="time"><i class="fas fa-info-circle tooltipped" title="military time"></i></p>
+                            <p class=form-part><label for="date">Birth date:</label><input id="date" name="date" type="date"></p>
+                            <p class=form-part><label for="time">Birth time:</label><input id="time" name="time" type="time"><i class="fas fa-info-circle tooltipped" title="military time"></i></p>
                             <p class=form-part>
-                                <div id="locationpicker-map"></div>
-                                <label for="locationLat">Lat:</label> <input id="locationLat" name="locationLat" >
-                                <label for="locationLon">Lon:</label> <input id="locationLon" name="locationLon" >
-                            <i class="fas fa-info-circle tooltipped" title="75W is -75, same for S"></i>
+                            <fieldset class="gllpLatlonPicker" id="custom_id">
+                                <label for="locationCoordinates">Birth location (lat, lon)
+                                    <div id="map" class="gllpMap"></div>
+                                    <input id="locationCoordinates" class="gllpCoordinates" name="locationCoordinates", value="38.54, -121.54">
+                                    <input type="hidden" id="locationLat" class="gllpLatitude" name="locationLat", value="38.54">
+                                    <input type="hidden" id="locationLon" class="gllpLongitude" name="locationLon" value="-121.74">
+                                </label> 
+
+                                <input type="hidden" class="gllpZoom" value="1"/>
+                            </fieldset>
                             </p>
                             <p class=form-part><input name="btnSubmit" type="submit" class="btnSubmit btn tooltipped" value="Submit" title="hodwy"/></p>
                 </div>
@@ -340,10 +356,96 @@ svg {
     <!--Tippy-->
     <script src="https://unpkg.com/tippy.js@2.5.4/dist/tippy.all.min.js"></script>
     <!--zodiac sign helper function getZodiacSign(day, month) from https://gist.github.com/kladov/5080233 -->
-    <!--locaiton picker, using google maps-->
-    <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
-    <script src="vendor/locationpicker/locationpicker.jquery.js"></script>
 
+    <!--locaiton picker, using google maps-->
+    <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlMsmI2dmRYtPujcwocMoF2yQxo7Qkmpk" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="vendor/latlonpicker/css/jquery-gmaps-latlon-picker.css"/>
+    <script>
+        $.gMapsLatLonPickerNoAutoInit = 1;
+    </script>
+    <script src="vendor/latlonpicker/js/jquery-gmaps-latlon-picker.js"></script>
+    <script src="vendor/tz-lookup/tz.js"></script>
+    <script src="vendor/moment/min/moment.min.js"></script>
+    <script src="vendor/moment/min/moment-timezone-with-data.min.js"></script>
+        <script>
+
+//&callback=initMap
+function initMap() {
+};
+    /*
+    map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 23, lng: -46},
+    zoom: 18,
+    mapTypeId: 'satellite',
+    heading: 90,
+    tilt: 45
+  });
+    */
+    $(".gllpLatlonPicker").each(function() {
+      $obj = $(document).gMapsLatLonPicker();
+
+      //$obj.params.strings.markerText = "Double-click on location or drag marker";
+      $obj.params.mapOptions.fullscreenControl = false;
+      $obj.params.mapOptions.zoomControl = false;
+  //    $obj.params.mapOptions.mapTypeId = 'satellite';
+      $obj.params.mapOptions.zoom = 5;
+
+
+      $obj.params.displayError = function(message) {
+        console.log("MAPS ERROR: " + message); // instead of alert()
+      };
+
+      $obj.init( $(this) );
+        console.log($obj);
+        $obj.vars.map.center = new google.maps.LatLng(23 , -46);
+      
+      /**
+         * The CenterControl adds a control to the map that recenters the map on
+         * Chicago.
+             * This constructor takes the control DIV as an argument.
+             * @constructor
+         */
+            function CenterControl(controlDiv, map) {
+
+                  // Set CSS for the control border.
+                  var controlUI = document.createElement('div');
+                  controlUI.style.backgroundColor = '#fff';
+                  controlUI.style.border = '2px solid #fff';
+                  controlUI.style.borderRadius = '3px';
+                  controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+                  controlUI.style.cursor = 'pointer';
+                  controlUI.style.marginBottom = '22px';
+                  controlUI.style.textAlign = 'center';
+                  controlUI.title = 'Click to recenter the map';
+                  //controlDiv.appendChild(controlUI);
+
+                  // Set CSS for the control interior.
+                  var controlText = document.createElement('div');
+                  controlText.style.color = 'rgb(25,25,25)';
+                  controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+                  controlText.style.fontSize = '11px';
+                  controlText.style.lineHeight = '38px';
+                  controlText.style.paddingLeft = '5px';
+                  controlText.style.paddingRight = '5px';
+                  controlText.style.paddingTop = '0px';
+                  controlText.innerHTML = 'Double-click on your location or drag marker';
+                  //controlUI.appendChild(controlText);
+
+                  controlDiv.appendChild(controlText);
+
+            }
+
+
+        
+  // Create the DIV to hold the control and call the CenterControl()
+  // constructor passing in this DIV.
+  var centerControlDiv = document.createElement('div');
+  var centerControl = new CenterControl(centerControlDiv, map);
+
+  centerControlDiv.index = 1;
+  $obj.vars.map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+});
+        </script>
 
 
 
@@ -362,12 +464,6 @@ svg {
 Number.prototype.mod = function(n) {
     return ((this%n)+n)%n;
 };
-// copute addition over dates https://stackoverflow.com/questions/563406/add-days-to-javascript-date
-Date.prototype.addDays = function(days) {
-        var date = new Date(this.valueOf());
-        date.setDate(date.getDate() + days);
-        return date;
-}
 
 
 
@@ -614,7 +710,6 @@ hideEvents.forEach(e => {
             });
 });
 
-$('#locationpicker-map').locationpicker();
 
 
 
@@ -623,11 +718,12 @@ $('#locationpicker-map').locationpicker();
 \** * * * * * * * * * * **/
 
 function populateFormWithDefaults(form) {
-    form.querySelector("#locationLat").defaultValue = "38.54";
-    form.querySelector("#locationLon").defaultValue = "-121.74";
-    /* // browser doesn't like this code: makes browser raise its security hackles.
-    // https://developer.mozilla.org/en-US/docs/Web/API/Coordinates/longitude
-    navigator.geolocation.getCurrentPosition(function(position) {
+    /* 
+        form.querySelector("#locationLat").defaultValue = "38.54";
+        form.querySelector("#locationLon").defaultValue = "-121.74";
+        // browser doesn't like this code: makes browser raise its security hackles.
+        // https://developer.mozilla.org/en-US/docs/Web/API/Coordinates/longitude
+        navigator.geolocation.getCurrentPosition(function(position) {
         let lat = position.coords.latitude;
         let long = position.coords.longitude;
 
@@ -636,9 +732,9 @@ function populateFormWithDefaults(form) {
     });
     */
     var date = new Date();
-    form.querySelector("#date").defaultValue = date.getDate().toString().padStart(2,0) + "." + (date.getMonth()+1).toString().padStart(2,0) + "." + date.getFullYear();
-    //form.querySelector("#time").defaultValue = date.getHours().toString().padStart(2,0) + ":" + date.getMinutes().toString().padStart(2,0);
-    form.querySelector("#time").defaultValue = date.getUTCHours().toString().padStart(2,0) + ":" + date.getUTCMinutes().toString().padStart(2,0);
+    form.querySelector("#date").defaultValue = $.datepicker.formatDate("yy-mm-dd", date);
+    form.querySelector("#time").defaultValue = date.getHours().toString().padStart(2,0) + ":" + date.getMinutes().toString().padStart(2,0);
+
 }
 
 
@@ -653,34 +749,36 @@ function populateFormWithDefaults(form) {
 
 var sAstroShell;
 function fetchSwissAstroSun( el ) {
-    var inLat, inLon, inDate, inTime, currentSunSign, inDesiredSunSign;
+    var slat, slon, sdate, stime, omoment, stimeutc, currentSunSign, inDesiredSunSign;
     //console.log( el );
     // extract form's input variables
-    inLat = el.querySelector("#locationLat").value;
-    inLon = el.querySelector("#locationLon").value;
-    inDate = el.querySelector("#date").value;
-    inTime = el.querySelector("#time").value;
+    var inCoord = el.querySelector("#locationCoordinates").value.split(', ');
+    slat = inCoord[0];
+    slon = inCoord[1];
+    sdate = el.querySelector("#date").value;
+    stime = el.querySelector("#time").value;
+    omoment = moment(sdate+stime, moment.HTML5_FMT.DATE+moment.HTML5_FMT.TIME).format()
+    omoment = moment.tz(omoment, tzlookup(slat, slon));
+    stimeutc = omoment.utc().format('HH:mm:00');
     inDesiredSunSign = el.querySelector("#desiredsign > .active > input").value;
+    sdate = omoment.format('D.M.YYYY');
 
-    //date = new Date;
-    //{// adjust time from user's local time to UTC
-        //inTime = inTime.split(":");
-        //inTime = (+inTime[0] + date.getTimezoneOffset()/60).toString().padStart(2,0) + ":" + inTime[1];
-    //}
+        //https://devhints.io/moment
+    console.log(omoment.format(), omoment.utc().format(), omoment.format('D.M.YYYY'), omoment.utc().format('HH:mm:00'));
 
-    var iday = inDate.split(".")[0];
-    var imonth = inDate.split(".")[1];
-    var iyear = inDate.split(".")[2];
+    var iday = +omoment.format('D');
+    var imonth = +omoment.format('M');
+    var iyear = +omoment.format('YYYY');
     var currentSunSign = getZodiacSign(iday, imonth);
     var signDiff = (inDesiredSunSign - +currentSunSign ).mod( 12 );
 
     // assemble and submit request to cancel current sign, and define code that handles response text.
     var astroUrlUndoSun = "https://enfascination.com/swissephemeris/swetest.php?" +
-        "b="+ encodeURIComponent(inDate) +
+        "b="+ encodeURIComponent(sdate) +
         "&p=0" + "&emos" + "&f=PjLBRsGg" +
-        "&house=" + encodeURIComponent(inLon) + "%2C" +
-        encodeURIComponent(inLat) + "%2CN" +
-        "&ut=" + encodeURIComponent(inTime) + "%3A00";
+        "&house=" + encodeURIComponent(slon) + "%2C" +
+        encodeURIComponent(slat) + "%2CN" +
+        "&ut=" + encodeURIComponent(stimeutc) + "%3A00";
 
     if (signDiff == 0) {
         // if they do pick their current sign, nothing should happen
@@ -705,19 +803,18 @@ function fetchSwissAstroSun( el ) {
 
         // prep to simulate other sign
         //console.log("got in here", inDesiredSunSign );
-        var desiredDate = new Date(year = iyear, monthIndex = imonth-1, day = iday); //month is 0 indexed
-        desiredDate = desiredDate.addDays( (30*signDiff) )
-        var sDesiredDate = $.datepicker.formatDate("d.m.yy", desiredDate);
-        //console.log(inLat, inLon, inDate, inTime, inDesiredSunSign);
-        //console.log(inDesiredSunSign, inDate, "ASDF",desiredDate, "ASDF", sDesiredDate, signDiff);
+        var desiredMoment = omoment.add((30*signDiff), 'days');
+        var sDesiredMoment = desiredMoment.format('D.M.YYYY');
+        //console.log(slat, slon, omoment, stime, inDesiredSunSign);
+        //console.log(inDesiredSunSign, omoment, "ASDF",desiredMoment, "ASDF", sDesiredMoment, signDiff);
 
         // assemble and submit request to simulate other sign, and define code that handles response text.
         var astroUrlNewSun = "https://enfascination.com/swissephemeris/swetest.php?" +
-            "b="+ encodeURIComponent(sDesiredDate) +
+            "b="+ encodeURIComponent(sDesiredMoment) +
             "&p=0" + "&emos" + "&f=PjLBRsGg" +
-            "&house=" + encodeURIComponent(inLon) + "%2C" +
-            encodeURIComponent(inLat) + "%2CN" +
-            "&ut=" + encodeURIComponent(inTime) + "%3A00";
+            "&house=" + encodeURIComponent(slon) + "%2C" +
+            encodeURIComponent(slat) + "%2CN" +
+            "&ut=" + encodeURIComponent(stimeutc) + "%3A00";
         console.log("call to", astroUrlNewSun);
         ajax(astroUrlNewSun, function(dat) {
                 postSubmit(dat , sunDesiredSVG, mode="simulate")
