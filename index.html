@@ -294,30 +294,14 @@ svg {
                             <circle id="circle" style="stroke: #FFF; stroke-width: 12px; fill:#20B7AF" cx="300" cy="300" r="160"></circle>
                             </g>
                             <g>
-                            <line x1="300" y1="300" x2="300" y2="220" transform="rotate(320 300 300)" style="stroke-width: 3px; stroke: #fffbf9;" id="hourhand">
-                            <animatetransform attributeName="transform"
-                                              attributeType="XML"
-                                              type="rotate"
-                                              dur="43200s"
-                                              repeatCount="indefinite"/>
-                            </line>
-                            <line x1="300" y1="300" x2="300" y2="160" style="stroke-width: 4px; stroke: #fdfdfd;" id="minutehand">
+                            
 
 
-                            <animatetransform attributeName="transform"
-                                              attributeType="XML"
-                                              type="rotate"
-                                              dur="3600s"
-                                              repeatCount="indefinite"/>
+                        
                             </line>
                             <!--SETH: To get the moon in place of the second hand, I commented out the <line> below and replaced it with the <image> command, which lets you embed an SVG (or other type of image) within an SVG image.  I pulled the image from flaticon.com By keeping the id="secondhand", I ensured that the javascript at the bottom of the page, in the <script> tags, would speak to this image rather than to the line that used to function as the second hand.  -->
                             <!-- <line x1="300" y1="300" x2="300" y2="120" style="stroke-width: 2px; stroke: #C1EFED;" id="secondhand"> -->
-                            <image x="300" y="120" width="60" height="60" xlink:href="25665.svg"  id="secondhand" >
-    <animatetransform attributeName="transform"
-                      attributeType="XML"
-                      type="rotate"
-                      dur="60s"
-                      repeatCount="indefinite"/>
+                           
     </image>
     </g>
     <g class="astro-supporting-elements">
@@ -516,10 +500,7 @@ function getZodiacSign(day, month) {
  ** SETUP page: vestiges
 \** * * * * * * * * * * **/
 
-var hands = [];
-hands.push(document.querySelector('#secondhand > *')); //0
-hands.push(document.querySelector('#minutehand > *')); //1
-hands.push(document.querySelector('#hourhand > *')); //2
+
 
 var cx = 300;
 var cy = 300;
@@ -534,12 +515,7 @@ var hoursAngle = 360 * date.getHours() / 12 + date.getMinutes() / 2;
 var minuteAngle = 360 * date.getMinutes() / 60;
 var secAngle = 360 * date.getSeconds() / 60;
 
-hands[0].setAttribute('from', shifter(secAngle));
-hands[0].setAttribute('to', shifter(secAngle + 360));
-hands[1].setAttribute('from', shifter(minuteAngle));
-hands[1].setAttribute('to', shifter(minuteAngle + 360));
-hands[2].setAttribute('from', shifter(hoursAngle));
-hands[2].setAttribute('to', shifter(hoursAngle + 360));
+
 
 for(var i = 1; i <= 12; i++) {
     var el = document.createElementNS('http://www.w3.org/2000/svg', 'line');
