@@ -224,9 +224,10 @@ svg {
                         <h2>
                             Tell us about your little one!
                         </h2>
-                            <p class=form-part><label for="date">Date:</label><input id="date" name="date" placeholder="DD.MM.YYYY"></p>
-                            <p class=form-part><label for="time">Time (UTC):</label><input id="time" name="time" ><i class="fas fa-info-circle tooltipped" title="military time"></i></p>
+                            <p class=form-part><label for="date">Date:</label><input id="date" name="date" type="date"></p>
+                            <p class=form-part><label for="time">Time (UTC):</label><input id="time" name="time" type="time"><i class="fas fa-info-circle tooltipped" title="military time"></i></p>
                             <p class=form-part>
+                                <div id="locationpicker-map"></div>
                                 <label for="locationLat">Lat:</label> <input id="locationLat" name="locationLat" >
                                 <label for="locationLon">Lon:</label> <input id="locationLon" name="locationLon" >
                             <i class="fas fa-info-circle tooltipped" title="75W is -75, same for S"></i>
@@ -352,8 +353,12 @@ svg {
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!--other helpers-->
-        <script src="https://unpkg.com/tippy.js@2.5.4/dist/tippy.all.min.js"></script>
-    <!--zoidan sign helper function getZodiacSign(day, month) from https://gist.github.com/kladov/5080233 -->
+    <!--Tippy-->
+    <script src="https://unpkg.com/tippy.js@2.5.4/dist/tippy.all.min.js"></script>
+    <!--zodiac sign helper function getZodiacSign(day, month) from https://gist.github.com/kladov/5080233 -->
+    <!--locaiton picker, using google maps-->
+    <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
+    <script src="vendor/locationpicker/locationpicker.jquery.js"></script>
 
 
 
@@ -584,7 +589,7 @@ sunDesiredSVG.push(elSimulatedSunLabel); //2
 
 
 /** * * * * * * * * * * **\
- ** SETUP page: tooltips
+ ** SETUP page: tooltips and interface
 \** * * * * * * * * * * **/
 
 var tippyCountermass = tippy.one( elCounterSun , {
@@ -632,6 +637,8 @@ hideEvents.forEach(e => {
                 tippyPlanet.hide();
             });
 });
+
+$('#locationpicker-map').locationpicker();
 
 
 
