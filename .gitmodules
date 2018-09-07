@@ -10,3 +10,6 @@
 [submodule "vendor/tz-lookup"]
 	path = vendor/tz-lookup
 	url = git@github.com:darkskyapp/tz-lookup.git
+[submodule "vendor/swisseph"]
+	path = vendor/swisseph
+	url = git@github.com:enfascination/swissephweb.git
