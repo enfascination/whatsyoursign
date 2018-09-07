@@ -1,0 +1,128 @@
+body {
+    /*SETH: I didn't want the background to show, so I commented it out.*/
+    /*background: url("./back.png") no-repeat center center fixed;*/
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+
+body {
+    background: #eee;
+}
+
+svg {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.filler {
+    background: #20B7AF;
+    position: absolute;
+    bottom: 50%;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+
+.page-content {
+    height: 100%;
+    padding-top: 150px;
+}
+ footer {
+     background-color: #343a40;
+ }
+
+
+/* Logo w animation*/
+
+
+.title-bar {
+    font-size: 32pt;
+}
+.appear-stuck {
+    animation: 5s fadeIn;
+    animation-fill-mode: forwards;
+    visibility: hidden;
+    opacity: 0;
+}
+
+  @keyframes fadeIn {
+      0% {
+          visibility: hidden;
+          opacity: 0;
+      }
+      100% {
+          visibility: visible;
+          opacity: 1;
+      }
+  }
+
+
+
+  .astrological-input {
+      font-size: 20pt;
+          text-align: center;
+      margin-left: 50px;
+  }
+  .astrological-input-form {
+  }
+
+  .astrological-output > .illustration {
+      padding-top: 10px;
+  }
+
+  .svg-obj-planetary {
+  }
+
+  .svg-obj-surrogate {
+  }
+
+  .tippy-tooltip.hbwys-theme {
+      width: 70%;
+  }
+    .form-part,
+    .form-part > input {
+        text-align: center;
+    }
+    .form-part > label {
+        /*display: inline;*/
+        display: block;
+    }
+    .form-part > input ,
+    .form-part > select {
+        width:250px;
+        border-radius: 10px;
+        border: 0;
+    }
+    .form-part > select {
+        border:0;
+        background-color: white;
+        padding: 5px;
+    }
+    .form-part > input.btnSubmit {
+        background-color: #4558de;
+        color: white;
+        box-shadow: 0 6px 15px 0 rgba(0,0,0,10);
+    }
+    .form-list-signs > label.disabled {
+        cursor: not-allowed; /*change curser*/
+        pointer-events: none; /*makes it so other radio options don't get deselected when this one is clicked*/
+    }
+
+    /*map*/
+    .gllpMap.gllpMap {
+        min-width: 200px;
+        width: 100%;
+        min-height: 200px;
+        height: 100%;
+        -webkit-filter: grayscale(85%); /* Safari 6.0 - 9.0 */
+        filter: grayscale(85%);
+    }
+
+
