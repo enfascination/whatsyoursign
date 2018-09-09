@@ -219,8 +219,11 @@ var elSunLabel = document.querySelector("#template-mass-sun-label");
 var elSimulatedSunLabel = document.querySelector("#template-simulated-sun-label");
 
 // supporting elements
-var elCenter = document.querySelector("svg.illustration #center");
-var elNoChangeLabel = document.querySelector("#template-no-change-label");
+var elCenter = document.querySelector(".astrological-output #placard");
+var elNoChangeLabel = document.querySelector("#template-no-change-sign-label");
+var elEraseLabel = document.querySelector("#template-erase-sign-label");
+var elDefaultLabel = document.querySelector("#template-default-sign-label");
+var elReplaceLabel = document.querySelector("#template-replace-sign-label");
 
 var sunCurrentSVG = [];
 sunCurrentSVG.push(elCounterSun); //0
@@ -257,15 +260,6 @@ var tippySimulatedMass = tippy.one( elSimulatedSun , {
     html: elSimulatedSunLabel,
     delay: 0,
     duration: 0,
-    placement: 'top',
-    theme: 'hbwys',
-});
-var tippyNoChange = tippy.one( elCenter, {
-    trigger : 'manual',
-    html:  elNoChangeLabel,
-    delay: 0,
-    duration: 0,
-    hideOnClick: false,
     placement: 'top',
     theme: 'hbwys',
 });
@@ -361,12 +355,13 @@ function fetchSwissAstroSun( el ) {
         activateIllustration( sunDesiredSVG[0], deactivate=true);
         // label prep: interpolate sign and manually show
         prepareLabels(  elNoChangeLabel, null, currentSunSign);
-        tippyNoChange.show();
+        replaceTemplate(elCenter, elNoChangeLabel);
 
     // still some cases to consider: did user click "no sign" (one object) or some sign besides their current sign (2 objects)
     } else if (inDesiredSunSign !== "null") {
         //  clean up after one of the other conditions
-        tippyNoChange.hide();
+        prepareLabels(  elReplaceLabel, null, currentSunSign, inDesiredSunSign);
+        replaceTemplate(elCenter, elReplaceLabel);
 
         // cancel out current sign
         console.log("call to", astroUrlUndoSun);
@@ -397,7 +392,8 @@ function fetchSwissAstroSun( el ) {
         // if they do pick "no sign", be sure to disappear the other objects
 
         //  clean up after one of the other conditions
-        tippyNoChange.hide();
+        prepareLabels(  elEraseLabel, null, currentSunSign, null);
+        replaceTemplate(elCenter, elEraseLabel);
 
 
         // first cancel out current sign
@@ -460,16 +456,23 @@ function postSubmit(sAstroShell, elsvg, mode="counter") {
     // Position object into SVG using output
     //  compute angle to send to image
     var astroAngle = imageAngleFromAstroAngle(ascendant, meridian, sunAngle);
-    // edit HTML
-    positionObjectPairInSVG(elsvg[0], elsvg[1], radius, astroAngle, mode=mode);
 
     // PREPARE labels (tooltips) for each obejct (dynamic content)
     if (mode == "counter") {
+        elsvg[2].classList.remove("invisible");
+        elsvg[2].classList.add("visible");
+        elsvg[3].classList.remove("invisible");
+        elsvg[3].classList.add("visible");
         prepareLabels(elsvg[2], (astroAngle - Math.PI), sunSign);
         prepareLabels(elsvg[3], astroAngle);
     } else if (mode == "simulate") {
         prepareLabels(elsvg[2], astroAngle, sunSign);
+        elsvg[2].classList.remove("invisible");
+        elsvg[2].classList.add("visible");
     }
+    // edit HTML
+    positionObjectInSVG(elsvg[0], radius, astroAngle, mode=mode);
+    positionObjectInSVG(elsvg[1], radius, astroAngle, mode="simulate");
 
     activateIllustration(elsvg[0]);
 
@@ -532,12 +535,13 @@ function imageAngleFromAstroAngle(ascendant, meridian, sunAngle) {
     return(astroAngle);
 }
 
-function positionObjectPairInSVG(counterMass, mass, radius, astroAngle, mode="counter") {
+function positionObjectInSVG(mass, radius, astroAngle, mode="counter") {
+
+    var cx = 300;
+    var cy = 300;
     var angleOffset = (mode == "counter") ? Math.PI : 0; // are we cancelling out or simulating a heavenly body?
-    mass.setAttribute('x',cx - 75 + radius*Math.cos(astroAngle));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
-    mass.setAttribute('y',cy - 75 + radius*Math.sin(astroAngle));
-    counterMass.setAttribute('x',cx - 75 + radius*Math.cos(astroAngle + angleOffset));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
-    counterMass.setAttribute('y',cy - 75 + radius*Math.sin(astroAngle + angleOffset));
+    mass.setAttribute('x',cx - 75 + radius*Math.cos(astroAngle + angleOffset));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
+    mass.setAttribute('y',cy - 75 + radius*Math.sin(astroAngle + angleOffset));
 }
 
 function activateIllustration(el, deactivate=false){
@@ -553,9 +557,9 @@ function activateIllustration(el, deactivate=false){
     }
 }
 
-function prepareLabels(labelTemplate, astroAngle, sSign ) {
+function prepareLabels(labelTemplate, astroAngle, sSign , sdesiredsign) {
     // (popoulate labels with caluclated content)
-    var sAstroAngle = ((astroAngle + Math.PI/2) / (2*Math.PI) * 360).mod( 360 ).toFixed(0);
+    var sAstroAngle = '' + ((astroAngle + Math.PI/2) / (2*Math.PI) * 360).mod( 360 ).toFixed(0) + 'º';
     var templateAngle = labelTemplate.querySelector(".body-angle");
     var templateSign = labelTemplate.querySelector(".body-sign");
     if (templateAngle !== null) {
@@ -564,7 +568,11 @@ function prepareLabels(labelTemplate, astroAngle, sSign ) {
     if (templateSign !== null) {
         templateSign.innerText = zodiacSignsInv[sSign];
     }
-    console.log(templateAngle);
+    var templateDesiredSign = labelTemplate.querySelector(".body-sign-to");
+    if (templateDesiredSign !== null) {
+        templateDesiredSign.innerText = zodiacSignsInv[sdesiredsign];
+    }
+    //console.log(templateAngle);
 };
 
 function inquireSurrogate(el, direction) {
@@ -587,6 +595,22 @@ function toggleActive(el){
     }
 }
 
+/*
+ * I have a box that I'm constantly switching different nodes in and out of, and sometimes emptying completely. 
+ * when there is no second input, element is compeltely emptied
+ */
+function replaceTemplate(eparent, echild=null) {
+    if (eparent.hasChildNodes()) {
+        eparent.removeChild(eparent.childNodes[0]);
+        echild.classList.remove("visible");
+        echild.classList.add("invisible");
+    }
+    if (echild !== null) {
+        eparent.appendChild(echild);
+        echild.classList.remove("invisible");
+        echild.classList.add("visible");
+    }
+}
 
 
 
@@ -602,6 +626,7 @@ populateFormWithDefaults(mainForm);
 
 // run this with default values on page load.  Then again on form submit
 fetchSwissAstroSun( mainForm );
+replaceTemplate(elCenter, elDefaultLabel);
 
 
 

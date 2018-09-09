@@ -60,7 +60,10 @@
         <!-- Navigation -->
         <div class="container">
             <div class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" onHover="makeAppear()">
-                <a class="navbar-brand title-bar" href="#">Hey <big>👶</big>, what's your sign? <span class="appear-stuck"> What do you want it to be?</span></a>
+            <div><a class="navbar-brand title-bar" href="#">Hey <big>👶</big>, what's your sign? </a></div>
+            <br>
+            <br>
+                <div>  You can fiddle with gravity and change your baby's astrological sign.</div>
                     <ul class="nav navbar-nav nav-tabs ml-auto" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link"  id="huh-tab" data-toggle="modal" data-target="#basicModal" aria-controls="huh" aria-selected="false">Huh?</a>
@@ -155,22 +158,32 @@
 
                         <!-- Output part -->
                         <div class="astrological-output">
-                        <div id="template-counter-sun-label" class="template">
+                        <div id="template-counter-sun-label" class="template invisible">
                             At <strong class='body-distance'>40</strong>m away, the Golden Gate Bridge has the same gravitational pull as the Sun.
                             <br>
-                            When placed at <strong class='body-angle'></strong>&deg; clockwise from North, the bridge will cancel out the Sun sign <strong class='body-sign'></strong>.
+                            When placed at <strong class='body-angle'></strong> clockwise from North, the bridge will cancel out the Sun sign <strong class='body-sign'></strong>.
                         </div>
-                        <div id="template-mass-sun-label" class="template">
-                            The Sun, our nearest star, weighs <strong class='body-mass'>330,000</strong> Earths and is <strong id='body-distance'>150 million</strong> km away, at <strong class='body-angle'></strong>&deg;.
+                        <div id="template-mass-sun-label" class="template invisible">
+                            The Sun, our nearest star, weighs <strong class='body-mass'>330,000</strong> Earths and is <strong id='body-distance'>150 million</strong> km away, at <strong class='body-angle'></strong>.
                         </div>
-                        <div id="template-simulated-sun-label" class="template">
-                            At <strong class='body-distance'>40</strong>m away, and <strong class='body-angle'></strong>&deg; clockwise from North, the Golden Gate Bridge will act like the Sun in <strong class='body-sign'></strong>.
+                        <div id="template-simulated-sun-label" class="template invisible">
+                            At <strong class='body-distance'>40</strong>m away, and <strong class='body-angle'></strong> clockwise from North, the Golden Gate Bridge will act like the Sun in <strong class='body-sign'></strong>.
                         </div>
-                        <div id="template-no-change-label" class="template">
+                        <div id="template-default-sign-label" class="template invisible">
+                            If your child was born right now, you could erase their astrological sign by arranging physical objects around their birth place.
+                        </div>
+                        <div id="template-erase-sign-label" class="template invisible">
+                            To eliminate the influence of <strong class='body-sign'></strong>, and give your baby no sign at all, position the objects just right.
+                        </div>
+                        <div id="template-no-change-sign-label" class="template invisible">
                             You're already a <strong class='body-sign'></strong>, you don't need to change anything.
+                        </div>
+                        <div id="template-replace-sign-label" class="template invisible">
+                            To change your child's sign from <strong class='body-sign'></strong> to <strong class='body-sign-to'></strong>, position the objects just right.
                         </div>
                             <!-- SETH: I copied everything below from the codepen of the clock at https://codepen.io/mohebifar/pen/KwdeMz .  We will use it as the basis of our illustration because it has the basic rudiments of our endgoal.  You will see that, just like the <head> section uses tag language to define the site's metadata, and the <body> section uses tag language to define its content, the <svg> section uses tag language to define exactly the type of "SVG" graphics that you use to build powerpoint slides. That makes it easy to plug programmable vector graphics into a webpage.  That will be the centerpiece of our site.-->
 
+                            <div id="placard" class="alert alert-info placard" role="alert"></div>
                             <svg width="600" height="600" class="illustration">
 
                                 <filter id="innerShadow" x="-20%" y="-20%" width="140%" height="140%">
