@@ -1,3 +1,11 @@
+/*
+ * pallete from 
+              * http://paletton.com/palette.php?uid=53X0p0kllllaFw0g0qFqFg0w0aF
+              * darkest blue for header: 080C3B
+              * medium/bright purple for highlights: 482E74
+              * light green for background:  708EA4
+              * darkest blue: 080C3B
+ * */
 body {
     /*SETH: I didn't want the background to show, so I commented it out.*/
     /*background: url("./back.png") no-repeat center center fixed;*/
@@ -32,12 +40,15 @@ svg {
 
 .page-content {
     height: 100%;
-    padding-top: 150px;
 }
  footer {
      background-color: #343a40;
  }
 
+.container-fluid {
+    padding-right: 0;
+    padding-left: 0;
+}
 
 /* Logo w animation*/
 
@@ -52,77 +63,102 @@ svg {
     opacity: 0;
 }
 
-  @keyframes fadeIn {
-      0% {
-          visibility: hidden;
-          opacity: 0;
-      }
-      100% {
-          visibility: visible;
-          opacity: 1;
-      }
-  }
-
-
-
-  .astrological-input {
-      font-size: 20pt;
-          text-align: center;
-      margin-left: 50px;
-  }
-  .astrological-input-form {
-  }
-
-  .astrological-output > .illustration {
-      padding-top: 10px;
-  }
-
-  .svg-obj-planetary {
-  }
-
-  .svg-obj-surrogate {
-  }
-
-  .tippy-tooltip.hbwys-theme {
-      width: 70%;
-  }
-    .form-part,
-    .form-part > input {
-        text-align: center;
+@keyframes fadeIn {
+    0% {
+        visibility: hidden;
+        opacity: 0;
     }
-    .form-part > label {
-        /*display: inline;*/
-        display: block;
+    100% {
+        visibility: visible;
+        opacity: 1;
     }
-    .form-part > input ,
-    .form-part > select {
-        width:250px;
-        border-radius: 10px;
-        border: 0;
-    }
-    .form-part > select {
-        border:0;
-        background-color: white;
-        padding: 5px;
-    }
-    .form-part > input.btnSubmit {
-        background-color: #4558de;
-        color: white;
-        box-shadow: 0 6px 15px 0 rgba(0,0,0,10);
-    }
-    .form-list-signs > label.disabled {
-        cursor: not-allowed; /*change curser*/
-        pointer-events: none; /*makes it so other radio options don't get deselected when this one is clicked*/
-    }
-
-    /*map*/
-    .gllpMap.gllpMap {
-        min-width: 200px;
-        width: 100%;
-        min-height: 200px;
-        height: 100%;
-        -webkit-filter: grayscale(85%); /* Safari 6.0 - 9.0 */
-        filter: grayscale(85%);
-    }
+}
 
 
+
+.astrological-input {
+    font-size: 20pt;
+    text-align: center;
+    margin-left: 50px;
+    padding-top: 50px;
+}
+.astrological-output {
+    padding-top: 50px;
+}
+.astrological-input-form {
+}
+
+.astrological-output > .illustration {
+    margin-top: 60px;
+}
+
+.svg-obj-planetary {
+}
+
+.svg-obj-surrogate {
+}
+
+.tippy-tooltip.hbwys-theme {
+    width: 70%;
+}
+.form-part,
+.form-part > input {
+    text-align: center;
+}
+.form-part > label {
+    /*display: inline;*/
+    display: block;
+}
+.form-part > input ,
+.form-part > select {
+    width:250px;
+    border-radius: 10px;
+    border: 0;
+}
+.form-part > select {
+    border:0;
+    background-color: white;
+    padding: 5px;
+}
+.form-part > input.btnSubmit {
+    background-color: #4558de;
+    color: white;
+    box-shadow: 0 6px 15px 0 rgba(0,0,0,10);
+}
+.form-list-signs > label.disabled {
+    cursor: not-allowed; /*change curser*/
+    pointer-events: none; /*makes it so other radio options don't get deselected when this one is clicked*/
+}
+
+/*map*/
+.gllpMap.gllpMap {
+    min-width: 200px;
+    width: 100%;
+    min-height: 200px;
+    height: 100%;
+    -webkit-filter: grayscale(85%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(85%);
+}
+
+
+.mass_table {
+    background-color: white;
+    float: left;
+}
+
+.template {
+}
+
+
+@media only screen and (max-device-width : 480px) {
+    /* Styles */
+    .astrological-input {
+        /*padding-top: 400px;*/
+    }
+    .astrological-output {
+        padding-top: 300px;
+    }
+    footer {
+        display: none;
+    }
+}
