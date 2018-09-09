@@ -22,10 +22,6 @@ body {
 
 svg {
     display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .filler {
@@ -48,6 +44,12 @@ svg {
 .container-fluid {
     padding-right: 0;
     padding-left: 0;
+}
+.col {
+    /*
+    padding-left:0;
+    padding-right:0;
+    */
 }
 
 /* Logo w animation*/
@@ -83,13 +85,12 @@ svg {
     padding-top: 50px;
 }
 .astrological-output {
-    padding-top: 50px;
+    padding-top: 10px;
 }
 .astrological-input-form {
 }
 
 .astrological-output > .illustration {
-    margin-top: 60px;
 }
 
 .svg-obj-planetary {
@@ -154,11 +155,17 @@ svg {
     /* Styles */
     .astrological-input {
         /*padding-top: 400px;*/
+        margin-left:0;
     }
     .astrological-output {
-        padding-top: 300px;
+        padding-top: 40px;
+    }
+    svg.illustration {
+        margin-top: 40px;
     }
     footer {
         display: none;
+    }
+    .title-bar {
     }
 }

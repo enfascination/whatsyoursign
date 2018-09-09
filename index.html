@@ -60,9 +60,7 @@
         <!-- Navigation -->
         <div class="container-fluid">
             <div class="navbar navbar-expand-lg navbar-dark bg-dark " onHover="makeAppear()">
-            <div><a class="navbar-brand title-bar" href="#">Hey <big>👶</big>, what's your sign? </a></div>
-            <br>
-            <br>
+            <h1 class="title-bar">Hey <big>👶</big>, what's your sign? </h1>
                 <div>  You can fiddle with gravity and change your baby's astrological sign.</div>
                     <ul class="nav navbar-nav nav-tabs ml-auto" role="tablist">
                         <li class="nav-item">
@@ -100,6 +98,7 @@
                         fetchSwissAstroSun(this);
                         this.querySelector('.form-part2').classList.remove('invisible');
                         this.querySelector('.form-part2').classList.add('visible');
+                        this.querySelector('.form-part2').style.height = 'auto';
                         //return false prevents form submission
                         return false;
                                     ">
@@ -124,7 +123,7 @@
                                 </p>
                                 <p class=form-part><input name="btnSubmit" type="submit" class="btnSubmit btn tooltipped" value="Submit" title="hodwy"/></p>
                     </div>
-                    <div class="col form-part2 invisible">
+                    <div class="col form-part2 invisible" style="height:0">
                             <h2>
                                 What sign do want?
                             </h2>
@@ -159,7 +158,7 @@
                         <div class="astrological-output">
 
                             <div id="placard" class="alert alert-info placard" role="alert"></div>
-                            <svg width="600" height="600" class="illustration">
+                            <svg width="100%" height="100%" viewBox="0 0 600 600" class="illustration">
 
                                 <filter id="innerShadow" x="-20%" y="-20%" width="140%" height="140%">
                                 <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
