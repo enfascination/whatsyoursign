@@ -96,16 +96,12 @@ footer{
  footer {
  }
 
-.container-fluid {
-    padding-right: 0;
-    padding-left: 0;
-}
-.col {
-    /*
-    padding-left:0;
-    padding-right:0;
-    */
-}
+
+ /*safely remove padding from bootstrap grid. modified from https://stackoverflow.com/questions/26204283/bootstrap-container-fluid-remove-margins-the-right-way-overflow*/
+ .alt-grid .col, .alt-grid [class*="col-"] {padding-left:0;padding-right:0}
+ .alt-grid .row {margin-left:0;margin-right:0}
+ /* container adjusted */
+ .alt-grid.container-fluid {padding:0;}
 
 
 .alert-info {
@@ -208,6 +204,20 @@ footer{
 
 .template.invisible {
     display:none;
+}
+
+/*======================================
+ * =            NO GUTTER CODE            =
+ * ======================================*/
+.no-gutter > .col,
+.no-gutter > [class*='col-'] {
+        padding-right:0;
+            padding-left:0;
+        }
+
+.navbar-expand-lg .navbar-nav .nav-link {
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
 }
 
 
