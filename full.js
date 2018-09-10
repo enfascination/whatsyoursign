@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 /*
 Hey baby, what's your sign?
 Copyright (C) 2018 Seth Frey
@@ -65,18 +66,18 @@ Number.prototype.mod = function(n) {
  */
 function ajax(url, callback, data, x) {
     try {
-        x = new(this.XMLHttpRequest || ActiveXObject)('MSXML2.XMLHTTP.3.0');
+        x = new(this.XMLHttpRequest || ActiveXObject)('MSXML2.XMLHTTP.3.0'); // jshint ignore:line
         x.open(data ? 'POST' : 'GET', url, 1);
         x.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         x.onreadystatechange = function () {
-            x.readyState > 3 && callback && callback(x.responseText, x);
+            return x.readyState > 3 && callback && callback(x.responseText, x);
         };
-        x.send(data)
+        x.send(data);
     } catch (e) {
-        window.console && console.log(e);
+        window.console && console.log(e); // jshint ignore:line
     }
-};
+}
 
 // https://plainjs.com/javascript/manipulation/wrap-an-html-structure-around-an-element-28/
 function wrap(el, wrapper) {
@@ -110,7 +111,7 @@ var zodiacSigns = {
     'libra':7,
     'scorpio':8,
     'sagittarius':9,
-}
+};
 var zodiacSignsInv = {
     10: 'Capricorn',
     11: 'Aquarius',
@@ -124,7 +125,7 @@ var zodiacSignsInv = {
     7:  'Libra',
     8:  'Scorpio',
     9: 'Sagittarius',
-}
+};
 
 function getZodiacSign(day, month) {
 
@@ -199,6 +200,239 @@ for(var i = 1; i <= 12; i++) {
 }
 
 
+
+/** * * * * * * * * * * **\
+ ** SETUP page: semantic elements
+\** * * * * * * * * * * **/
+
+// dictionary of characteristics
+//  sources: https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html
+const d = {
+    baby : {
+        name : 'baby',
+        mass : 3.5, //kg
+        dist : 0,
+        type : 'earthbound',
+    }, 
+    sun : {
+        name : 'Sun',
+        mass : 1.989e30, //kg
+        smass : '300,000 Earths',
+        dist : 146e9, //meters
+        sdist : '93 million miles',
+        force : 0.0217,
+        sforce : 'the weight of a playing card',
+        type : 'cosmic',
+    },
+    moon : {
+        name : 'moon',
+        mass : 0.07346e24, //kg
+        smass : '1/100 Earth',
+        dist : 378000000, //meters
+        sdist : '378,000km',
+        type : 'cosmic',
+    },
+    mercury : {
+        name : 'Mercury',
+        mass : 0.33e24, //kg
+        smass : '1/20 Earth',
+        dist : 150e9, //meters
+        sdist : '150 million km',
+        type : 'cosmic',
+    },
+    venus : {
+        name : 'Venus',
+        mass : 4.87e24, //kg
+        smass : '80% of Earth',
+        dist : 100e9, //meters
+        sdist : '100 million km',
+        type : 'cosmic',
+    },
+    earth : {
+        name : 'Earth',
+        dist : 0+6300000, //meters
+        mass : 5.97e24, //kg
+        smass : '1 Earth',
+        sdist : '6300km from the center',
+        type : 'cosmic',
+    },
+    mars : {
+        name : 'Mars',
+        mass : 0.642e24, //kg
+        smass : '1/10 Earth',
+        dist : 200e9, //meters
+        sdist : '200 million km',
+        type : 'cosmic',
+    },
+    jupiter : {
+        name : 'Jupiter',
+        mass : 1898e24, //kg
+        smass : '318 Earths',
+        dist : 750e9, //meters
+        sdist : '750 million km',
+        type : 'cosmic',
+    },
+    saturn : {
+        name : 'Saturn',
+        mass : 568e24, //kg
+        smass : '95.1 Earths',
+        dist : 1500e9, //meters
+        sdist : '1.5 billion km',
+        type : 'cosmic',
+    },
+    uranus : {
+        name : 'Uranus',
+        mass : 86.8e24, //kg
+        smass : '14.5 Earths',
+        dist : 2750e9, //meters
+        sdist : '2.75 billion km',
+        type : 'cosmic',
+    },
+    neptune : {
+        name : 'Neptune',
+        mass : 102e24, //kg
+        smass : '17.1 Earths',
+        dist : 4500e9, //meters
+        sdist : '4.3 billion km',
+        type : 'cosmic',
+    },
+    pluto : {
+        name : 'Pluto',
+        mass : 0.0146e24, //kg
+        smass : '1/500 Earth',
+        dist : 5000e9, //meters
+        sdist : '',
+        type : 'cosmic',
+    },
+    //a medium ship is 1 million kg
+    //50 story skycraper is 220 million kg
+    //golden gate bridge is 800 million kg
+    //hoover dam is 6 billion kg (2.5 million m^3)
+    //its water (35 million m^3) is 35 billion kg
+    skyscraper : {
+        name : '50-story skyscraper',
+        mass : 226796185, //kg
+        smass : '250,000 tons',
+        dist : 1.55, //meters
+        sdist : '1.5m',
+        force : 0.0217,
+        sforce : 'the weight of a playing card',
+        type : 'earthbound',
+        counter: 'sun',
+    },
+    deer : {
+        name : 'deer',
+        mass : 60, //kg
+        smass : '60kg',
+        dist : 2.022, //meters
+        sdist : '2m',
+        type: 'earthbound',
+        counter: 'mercury',
+    },
+    rhinoceros : {
+        name : 'rhinoceros',
+        mass : 2000, //kg
+        smass : '2000kg',
+        dist : 2.026, //meters
+        sdist : '2m',
+        type: 'earthbound',
+        counter: 'venus',
+    },
+    watertower: {
+        name : 'water tower',
+        mass : 2000000, //kg
+        smass : '2 million kg',
+        dist : 2, //meters
+        sdist : '2m',
+        type: 'earthbound',
+        counter: 'moon',
+    },
+    mom : {
+        name : 'a mom',
+        mass : 77, //kg
+        smass : '',
+        dist : 2.19, //meters
+        sdist : '2m',
+        type: 'earthbound',
+        counter: 'mars',
+    },
+    motorhome: {
+        name : 'motorhome',
+        mass : 13500, //kg
+        smass : '13500kg',
+        dist : 2, //meters
+        sdist : '2m',
+        type: 'earthbound',
+        counter: 'jupiter',
+    },
+    walrus: {
+        name : 'walrus',
+        mass : 1000, //kg
+        smass : '1000kg',
+        dist : 2, //meters
+        sdist : '2kg',
+        type: 'earthbound',
+        counter: 'saturn',
+    },
+    toilet : {
+        name : 'toilet',
+        mass : 40, //kg
+        smass : '40kg',
+        dist : 1.87, //meters
+        sdist : '2m',
+        type: 'earthbound',
+        counter: 'uranus',
+    },
+    luggage: {
+        name : 'packed luggage',
+        mass : 22, //kg
+        smass : '22kg',
+        dist : 2.09, //meters
+        sdist : '2m',
+        type: 'earthbound',
+        counter: 'neptune',
+    },
+    penny: {
+        name : 'penny',
+        mass : 0.0025, //kg
+        smass : '2.5 grams',
+        dist : 2.07, //meters
+        sdist : '2m',
+        type: 'earthbound',
+        counter: 'pluto',
+    },
+};
+const G = 6.67408e-11; // 6.67408 × 10-11 m3 kg-1 s-2
+/*
+ * given large object m and d, and baby's m, what d should an object of  small m have to have the same pull.  First solves for F given large mass and baby, then solves for d2, given small mass, baby, and F.
+ * Units are kg and m
+ *
+ * F = G*m_1*m_2/(r^2)
+ * (therefore
+ *   r = ((G * m_1 * m_2) / F)^0.5
+ *   m_2 = (F * r^2) / (G * m_1)
+ * )
+ *
+ *
+ */
+function gravitySolveForce( obj1, obj2) {
+    //units: F =
+    //         m^3 kg^-1 s^-2 kg kg m^-2
+    //         kg m s^-2 = Newton
+    var F = (G * obj1.mass * obj2.mass) / (obj2.dist**2);
+    return F;
+}
+function gravitySolveD2( baby, objbig, masssmall) {
+    var F = gravitySolveForce(baby, objbig);
+    var d2 = ((G * baby.mass * masssmall) / F) ** 0.5;
+    return d2;
+}
+function gravitySolveM2( baby, objbig, distsmall) {
+    var F = gravitySolveForce(baby, objbig);
+    var m2 = (F * distsmall**2) / (G * baby.mass);
+    return m2;
+}
+console.log(d, d.sun, d.sun.dist + 2, gravitySolveD2(d.baby, d.sun));
 
 /** * * * * * * * * * * **\
  ** SETUP page: key elements
@@ -325,7 +559,7 @@ function fetchSwissAstroSun( el ) {
     slon = inCoord[1];
     sdate = el.querySelector("#date").value;
     stime = el.querySelector("#time").value;
-    omoment = moment(sdate+stime, moment.HTML5_FMT.DATE+moment.HTML5_FMT.TIME).format()
+    omoment = moment(sdate+stime, moment.HTML5_FMT.DATE+moment.HTML5_FMT.TIME).format();
     omoment = moment.tz(omoment, tzlookup(slat, slon));
     stimeutc = omoment.utc().format('HH:mm:00');
     inDesiredSunSign = el.querySelector("#desiredsign > .active > input").value;
@@ -337,7 +571,7 @@ function fetchSwissAstroSun( el ) {
     var iday = +omoment.format('D');
     var imonth = +omoment.format('M');
     var iyear = +omoment.format('YYYY');
-    var currentSunSign = getZodiacSign(iday, imonth);
+    currentSunSign = getZodiacSign(iday, imonth);
     var signDiff = (inDesiredSunSign - +currentSunSign ).mod( 12 );
 
     // assemble and submit request to cancel current sign, and define code that handles response text.
@@ -348,7 +582,7 @@ function fetchSwissAstroSun( el ) {
         encodeURIComponent(slat) + "%2CN" +
         "&ut=" + encodeURIComponent(stimeutc) + "%3A00";
 
-    if (signDiff == 0) {
+    if (signDiff === 0) {
         // if they do pick their current sign, nothing should happen
         // visible illustrations shold be decativated
         activateIllustration( sunCurrentSVG[0], deactivate=true);
@@ -367,7 +601,7 @@ function fetchSwissAstroSun( el ) {
         console.log("call to", astroUrlUndoSun);
         //ajax("https://cors-anywhere.herokuapp.com/"+astroUrlUndoSun
         ajax(astroUrlUndoSun, function(dat) {
-            postSubmit(dat , sunCurrentSVG)
+            postSubmit(dat , sunCurrentSVG);
         }, null, null);
 
         // prep to simulate other sign
@@ -386,7 +620,7 @@ function fetchSwissAstroSun( el ) {
             "&ut=" + encodeURIComponent(stimeutc) + "%3A00";
         console.log("call to", astroUrlNewSun);
         ajax(astroUrlNewSun, function(dat) {
-                postSubmit(dat , sunDesiredSVG, mode="simulate")
+                postSubmit(dat , sunDesiredSVG, mode="simulate");
                 }, null, null);
     } else {
         // if they do pick "no sign", be sure to disappear the other objects
@@ -400,7 +634,7 @@ function fetchSwissAstroSun( el ) {
         console.log("call to", astroUrlUndoSun);
         //ajax("https://cors-anywhere.herokuapp.com/"+astroUrlUndoSun
             ajax(astroUrlUndoSun, function(dat) {
-                postSubmit(dat , sunCurrentSVG)
+                postSubmit(dat , sunCurrentSVG);
             }, null, null);
 
         // disappear the other objects
@@ -446,10 +680,10 @@ function postSubmit(sAstroShell, elsvg, mode="counter") {
 
     // extract angles from parsed response
     var angles = getAngles(sAstroShell);
-    var sunAngle = angles['sunAngle'];
-    var ascendant = angles['ascendant'];
-    var meridian = angles['meridian'];
-    var sunSign = angles['sunSign'];
+    var sunAngle = angles.sunAngle;
+    var ascendant = angles.ascendant;
+    var meridian = angles.meridian;
+    var sunSign = angles.sunSign;
 
     //console.log("postSubmit", angles);
 
@@ -476,16 +710,16 @@ function postSubmit(sAstroShell, elsvg, mode="counter") {
 
     activateIllustration(elsvg[0]);
 
-};
+}
 function parseAstroResponse( sAstroShell ) {
     // vestigates fromwhen I was scraping from http://www.astro.com/swisseph/swetest.htm
     // useful for making html in strings easily manipulable
-    var parser = new DOMParser()
+    var parser = new DOMParser();
     var htmlAstro = parser.parseFromString(sAstroData, "text/html");
     console.log(htmlAstro);
     sAstroShell = htmlAstro.querySelector("pre > font").innerText;
     console.log( sAstroShell);
-    return sAstroShell
+    return sAstroShell;
 }
 
 function getAngles(sAstroShell) {
@@ -508,9 +742,9 @@ function getAngles(sAstroShell) {
         "ascendant" : ascendant,
         "meridian" : meridian,
         "sunSign" : sunSign,
-    }
+    };
     return(angles);
-};
+}
 
 function imageAngleFromAstroAngle(ascendant, meridian, sunAngle) {
     // use sun angle, AC and MC to calculate position of object relative to baby
@@ -519,15 +753,15 @@ function imageAngleFromAstroAngle(ascendant, meridian, sunAngle) {
     var secAngle = 360 * date.getSeconds() / 60; //really just here for testing
     var astroAngle = -( //negate because mirror image from looking down instead of up
         //Math.PI //to counterbalance mass
-        0 // to show the planetary body, not its opposite
-        - (2*Math.PI - ascendant) //to get the ascendant zeroed to the east (substracting distance from spring equinox)
-        - meridian // to add the effect of being at noon
-        + (meridian - sunAngle) //to get actual hour of day
+        0 - // to show the planetary body, not its opposite
+        (2*Math.PI - ascendant) - //to get the ascendant zeroed to the east (substracting distance from spring equinox)
+        meridian + // to add the effect of being at noon
+        (meridian - sunAngle) //to get actual hour of day
     ) % (2*Math.PI);
     var astroAngle2 = -( //negate because mirror image from looking down instead of up
         //Math.PI //to counterbalance mass
-        0 // to show the planetary body, not its opposite
-        + (ascendant - sunAngle) //to get angle from east facing
+        0 + // to show the planetary body, not its opposite
+        (ascendant - sunAngle) //to get angle from east facing
     ) % (2*Math.PI);
     astroAngle = astroAngle.mod( 2*Math.PI );
     astroAngle2 = astroAngle2.mod( 2*Math.PI );
@@ -573,7 +807,7 @@ function prepareLabels(labelTemplate, astroAngle, sSign , sdesiredsign) {
         templateDesiredSign.innerText = zodiacSignsInv[sdesiredsign];
     }
     //console.log(templateAngle);
-};
+}
 
 function inquireSurrogate(el, direction) {
     if (true) {
