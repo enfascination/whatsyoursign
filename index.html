@@ -8,7 +8,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Hey baby, what's your sign going to be?</title>
+        <title>Hey baby, what's your sign?</title>
 
 
 
@@ -31,7 +31,7 @@
 
     </head>
 
-    <body>
+    <body class="background">
 
         <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true"  data-dismiss="modal">
             <div class="modal-dialog" data-dismiss="modal">
@@ -59,12 +59,21 @@
 
         <!-- Navigation -->
         <div class="container-fluid">
-            <div class="navbar navbar-expand-lg navbar-dark bg-dark " onHover="makeAppear()">
-            <h1 class="title-bar">Hey <big>👶</big>, what's your sign? </h1>
-                <div>  You can fiddle with gravity and change your baby's astrological sign.</div>
-                    <ul class="nav navbar-nav nav-tabs ml-auto" role="tablist">
+            <div class="navbar navbar-expand-lg" onHover="makeAppear()">
+<svg class="svgtitle"  width="55%" viewBox="0 0 320 35">
+<text x=0 y=25 font-size=20pt fill-opacity=0 stroke=white stroke-width=0.25>
+Hey
+</text>
+<image x="55" y="2" width="30" height="30" xlink:href="assets/baby_swaddle.svg"></image>
+<text x=85 y=25 font-family="Futura" font-size=20pt fill-opacity=0 stroke=white stroke-width=0.25>
+, what's your sign? 
+</text>
+</svg>
+<!--<h1 class="title-bar">Hey <big>👶</big>, what's your sign? </h1>-->
+<div class="subtitle">  Fiddle with gravity and change <br>your baby's astrological sign.</div>
+                    <ul class="nav navbar-nav nav-pill ml-auto" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link"  id="huh-tab" data-toggle="modal" data-target="#basicModal" aria-controls="huh" aria-selected="false">Huh?</a>
+                            <a class="nav-link"  id="huh-tab" data-toggle="modal" data-target="#basicModal" aria-controls="huh" aria-selected="false">What is this?</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home
@@ -98,7 +107,6 @@
                         fetchSwissAstroSun(this);
                         this.querySelector('.form-part2').classList.remove('invisible');
                         this.querySelector('.form-part2').classList.add('visible');
-                        this.querySelector('.form-part2').style.height = 'auto';
                         //return false prevents form submission
                         return false;
                                     ">
@@ -107,11 +115,12 @@
                             <h2>
                                 Tell us about your little one!
                             </h2>
-                                <p class=form-part><label for="date">Birth date:</label><input id="date" name="date" type="date"></p>
-                                <p class=form-part><label for="time">Birth time:</label><input id="time" name="time" type="time"><i class="fas fa-info-circle tooltipped" title="military time"></i></p>
+                            <hr>
+                            <p class=form-part><label for="date">Birth date&nbsp;<i class="fas fa-info-circle tooltipped" title="Enter your baby's date of birth"></i></label><input id="date" name="date" type="date"></p>
+                            <p class=form-part><label for="time">Birth time&nbsp;<i class="fas fa-info-circle tooltipped" title="Enter your baby's time of birth"></i></label><input id="time" name="time" type="time"></p>
                                 <p class=form-part>
                                 <fieldset class="gllpLatlonPicker" id="custom_id">
-                                    <label for="locationCoordinates">Birth location (lat, lon)
+                                    <label for="locationCoordinates">Birth location&nbsp;<i class="fas fa-info-circle tooltipped" title="Double-click the birthplace on the map, or drag the marker there."></i>
                                         <div id="map" class="gllpMap"></div>
                                         <input id="locationCoordinates" class="gllpCoordinates" name="locationCoordinates", value="38.54, -121.54">
                                         <input type="hidden" id="locationLat" class="gllpLatitude" name="locationLat", value="38.54">
@@ -123,10 +132,11 @@
                                 </p>
                                 <p class=form-part><input name="btnSubmit" type="submit" class="btnSubmit btn tooltipped" value="Submit" title="hodwy"/></p>
                     </div>
-                    <div class="col form-part2 invisible" style="height:0">
+                    <div class="col form-part2 invisible">
                             <h2>
                                 What sign do want?
                             </h2>
+                            <hr>
                             <p class=form-part>
                             <div id="desiredsign" class="form-list-signs btn-group-toggle btn-group-vertical mr-2" data-toggle="buttons" role="group" aria-label="Signs group" onclick="
                                     this.closest('#astro-main-form').btnSubmit.click();
@@ -216,7 +226,7 @@
     The astronomical positions  are calculated using the <a href="http://www.astro.com/swisseph/swephinfo_e.htm">Swiss Emphemeris</a>
     </li>
     <li>
-    Many graphics were adapted from flaticon.com
+    Many graphics were adapted from flaticon.com icons by Freepik, Nikita Golubev, Smashicons, srip and Twitter.
     </li>
     <li>
     The site skeleton was pinched from templates available at <a href="https://startbootstrap.com/template-overviews/full/">startbootstrap.com</a>

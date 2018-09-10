@@ -442,7 +442,12 @@ console.log(d, d.sun, d.sun.dist + 2, gravitySolveD2(d.baby, d.sun));
 
 //Link counterbalanced entities
 // a la https://codepen.io/anon/pen/BOowqg https://github.com/atomiks/tippyjs/issues/283
-tippy('.tooltipped');
+tippy('.tooltipped', {
+    delay: 0,
+    duration: 0,
+    placement: 'top',
+    theme: 'hbwys',
+});
 
 var elCounterSun = document.querySelector("#counter-sun");
 var elSun = document.querySelector("#mass-sun");

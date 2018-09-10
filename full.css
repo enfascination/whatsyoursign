@@ -3,25 +3,63 @@
               * http://paletton.com/palette.php?uid=53X0p0kllllaFw0g0qFqFg0w0aF
               * darkest blue for header: 080C3B
               * medium/bright purple for highlights: 482E74
-              * light green for background:  708EA4
+              * light green for background:  708EA4 (or 728DA5) DAE0E3
               * darkest blue: 080C3B
  * */
 body {
-    /*SETH: I didn't want the background to show, so I commented it out.*/
     /*background: url("./back.png") no-repeat center center fixed;*/
+    font-family: "Futura";
+    position: relative;
+    background-color: #ced5da; /*#DAE0E3;*/
+    /*
+    background-image: url('assets/stars_back2.svg');
+    height: 100%;
+  width: 100%;
+  */
+}
+/*body:after {
+    position:absolute;
+    top:0;
+    bottom:0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.5;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
+    background-color: #DAE0E3;
+        background-color: rgba(75, 86, 160, 0.7);
+
+}*/
+body::after {
+      content: "";
+    background-image: url('assets/stars_back2.svg');
+          opacity: 0.2;
+            top: 0;
+              left: 0;
+                bottom: 0;
+                  right: 0;
+                    position: absolute;
+                      z-index: -1;   
+                  }
+h1, h2, h3, h4 {
+    font-family: "Rockwell";
+	color: black;
 }
 
-
-body {
-    background: #eee;
+hr {
+	border-top: 3px solid #866FA4;
 }
 
 svg {
     display: block;
+}
+.svgtitle {
+}
+.subtitle {
+    color: #DAE0E3;
+    font-style: bold;
 }
 
 .filler {
@@ -33,12 +71,29 @@ svg {
     right: 0;
 }
 
+.navbar, 
+footer{
+    position:relative;
+    background-image: url('assets/stars_back2.svg');
+    background-color: #080C3B;
+      background-position: top-left; /* Center the image */
+        background-repeat: repeat-x; /* Do not repeat the image */
+          background-size: 30%; /* Resize the background image to cover the entire container */
+
+}
+
+.nav-item ,
+.nav-item a {
+    color: #DAE0E3;
+    background-color: rgba(8, 12, 59, 0.5);
+    text-transform: uppercase;
+    border:  1px;
+} 
 
 .page-content {
     height: 100%;
 }
  footer {
-     background-color: #343a40;
  }
 
 .container-fluid {
@@ -52,6 +107,10 @@ svg {
     */
 }
 
+
+.alert-info {
+    /*background-color: #482E74;*/
+}
 /* Logo w animation*/
 
 
@@ -147,7 +206,8 @@ svg {
     float: left;
 }
 
-.template {
+.template.invisible {
+    display:none;
 }
 
 
