@@ -188,19 +188,28 @@ var secAngle = 360 * date.getSeconds() / 60;
 
 
 
-function drawTick(el, angle, color='#000') {
+function drawTick(el, angle, color='#000', thickness='1') {
     el.setAttribute('x1', '300');
     el.setAttribute('y1', '160');
     el.setAttribute('x2', '300');
     el.setAttribute('y2', '150');
-    el.setAttribute('transform', 'rotate(' + angle + ' 300 300)');
-    el.setAttribute('style', 'stroke: '+ color +';');
+    el.setAttribute('transform', 'rotate(' + (angle/2/Math.PI*360 - 90) + ' 300 300)');
+    el.setAttribute('stroke', color);
+    el.setAttribute('stroke-width', thickness);
     return( el );
 }
-for(var i = 1; i <= 32; i++) {
+for(var i = 0; i < 32; i++) {
     var el = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    el = drawTick(el, (i*360/32));
+    el = drawTick(el, (i*2*Math.PI/32));
     document.querySelector('svg.illustration').appendChild(el);
+}
+const cardinalDirs = ['E', 'W', 'S', 'N'];
+for(var i = 0; i < 4; i++) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    el.textContent = cardinalDirs[i];
+    el.setAttribute('fill', 'white');
+    document.querySelector('svg.illustration').appendChild(el);
+    placeRadially(el, 300-7, 300+6, 160, i*Math.PI/2);
 }
 
 
@@ -484,7 +493,6 @@ function populateMassTable(tab, objs) {
     <td> at 2m.  </td>
     </tr>
     */
-    console.log("building table");
     //console.log(tab.querySelector(".template-row"));
     var row = tab.querySelector(".template-row");
     row.remove();
@@ -809,8 +817,13 @@ function postSubmit(sAstroShell, elsvg, mode="counter") {
         elsvg[2].classList.add("visible");
     }
     // edit HTML
-    positionObjectInSVG(elsvg[0], radius, astroAngle, mode=mode);
-    positionObjectInSVG(elsvg[1], radius, astroAngle, mode="simulate");
+    var angleOffset = (mode == "counter") ? Math.PI : 0; // are we cancelling out or simulating a heavenly body?
+    positionObjectInSVG(elsvg[0], radius, astroAngle + angleOffset);
+    positionObjectInSVG(elsvg[1], radius, astroAngle);
+    // PREPARE ticks on radius for guides
+    var el = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    el = drawTick(el, Math.PI + astroAngle + angleOffset, 'red', thickness=3);
+    document.querySelector('svg.illustration').appendChild(el);
 
     activateIllustration(elsvg[0]);
 
@@ -869,17 +882,18 @@ function imageAngleFromAstroAngle(ascendant, meridian, sunAngle) {
     ) % (2*Math.PI);
     astroAngle = astroAngle.mod( 2*Math.PI );
     astroAngle2 = astroAngle2.mod( 2*Math.PI );
-    console.log((astroAngle/(Math.PI*2)*360), (astroAngle2/(Math.PI*2)*360) );
+    //console.log((astroAngle/(Math.PI*2)*360), (astroAngle2/(Math.PI*2)*360) );
     return(astroAngle);
 }
 
-function positionObjectInSVG(mass, radius, astroAngle, mode="counter") {
-
+function positionObjectInSVG(mass, radius, astroAngle) {
     var cx = 300;
     var cy = 300;
-    var angleOffset = (mode == "counter") ? Math.PI : 0; // are we cancelling out or simulating a heavenly body?
-    mass.setAttribute('x',cx - 75 + radius*Math.cos(astroAngle + angleOffset));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
-    mass.setAttribute('y',cy - 75 + radius*Math.sin(astroAngle + angleOffset));
+    placeRadially(mass, cx-50, cy-50, radius, astroAngle);
+}
+function placeRadially(svgel, xcenter, ycenter, radius, angle) {
+    svgel.setAttribute('x',xcenter + radius*Math.cos(angle));  // the 75 is half the width/height of the bridge image, because its 0 point is in its upper left corner, not in its center.
+    svgel.setAttribute('y',ycenter + radius*Math.sin(angle));
 }
 
 function activateIllustration(el, deactivate=false){

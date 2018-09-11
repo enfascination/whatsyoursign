@@ -193,14 +193,14 @@ footer{
     width: 200px;
 }
 .form-part,
-.form-part > input {
+.form-part input {
     text-align: center;
 }
 .form-part > label {
     /*display: inline;*/
     display: block;
 }
-.form-part > input ,
+.form-part input ,
 .form-part > select {
     width:250px;
     border-radius: 10px;

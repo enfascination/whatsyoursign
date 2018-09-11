@@ -118,18 +118,15 @@ Hey
                             <hr>
                             <p class=form-part><label for="date">Birth date&nbsp;<i class="fas fa-info-circle tooltipped" title="Enter your baby's date of birth"></i></label><input id="date" name="date" type="date"></p>
                             <p class=form-part><label for="time">Birth time&nbsp;<i class="fas fa-info-circle tooltipped" title="Enter your baby's time of birth"></i></label><input id="time" name="time" type="time"></p>
-                                <p class=form-part>
-                                <fieldset class="gllpLatlonPicker" id="custom_id">
+                                <fieldset class="gllpLatlonPicker form-part" id="custom_id">
                                     <label for="locationCoordinates">Birth location&nbsp;<i class="fas fa-info-circle tooltipped" title="Double-click the birthplace on the map, or drag the marker there."></i>
                                         <div id="map" class="gllpMap"></div>
                                         <input id="locationCoordinates" class="gllpCoordinates" name="locationCoordinates", value="38.54, -121.54">
                                         <input type="hidden" id="locationLat" class="gllpLatitude" name="locationLat", value="38.54">
                                         <input type="hidden" id="locationLon" class="gllpLongitude" name="locationLon" value="-121.74">
+                                        <input type="hidden" class="gllpZoom" value="1">
                                     </label> 
-
-                                    <input type="hidden" class="gllpZoom" value="1"/>
                                 </fieldset>
-                                </p>
                                 <p class=form-part><input name="btnSubmit" type="submit" class="btnSubmit btn tooltipped" value="Submit" title="hodwy"/></p>
                     </div>
                     <div class="col form-part2 invisible">
@@ -190,15 +187,14 @@ Hey
         </image>
         </g>
         <g class="astro-supporting-elements">
-                                <image x="500" y="100" width="120" height="120" xlink:href="assets/96640_simple.svg"  id="secondhand" >
         </g>
         <g class="sun-pair">
-            <image x="50" y="50" width="150" height="150" xlink:href="assets/sun.svg"  id="mass-sun" class="svg-obj-planetary invisible tooltipped" title="" data-tippy />
-            <image x="0" y="0" width="150" height="150" xlink:href="assets/188820.svg"  id="counter-sun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
+            <image x="50" y="50" width="100" height="100" xlink:href="assets/sun.svg"  id="mass-sun" class="svg-obj-planetary invisible tooltipped" title="" data-tippy />
+            <image x="0" y="0" width="100" height="100" xlink:href="assets/skyscraper.svg"  id="counter-sun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
         </g>
         <g class="new-sun-pair">
-            <image x="50" y="50" width="150" height="150" xlink:href="assets/sun.svg"  id="desired-sun" class="svg-obj-planetary invisible tooltipped" title="" data-tippy />
-            <image x="0" y="0" width="150" height="150" xlink:href="assets/188820.svg"  id="simulated-sun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
+            <image x="50" y="50" width="100" height="100" xlink:href="assets/sun.svg"  id="desired-sun" class="svg-obj-planetary invisible tooltipped" title="" data-tippy />
+            <image x="0" y="0" width="100" height="100" xlink:href="assets/skyscraper.svg"  id="simulated-sun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
         </g>
         <circle style="fill:#128A86; stroke: #C1EFED; stroke-width: 2px;" cx="300" cy="300" r="6">  </circle>
     <!--SETH: I got the baby in the middle by plugging it in with an image tag below. I wasn't sure where to put it, so I tried putting it in lots of places in the SVG until I got it right.  But an educated guess said to put it near the main middle circle, so I mainly just had to find that.  Is there something about the circle above that gives us a hint its the right one?-->
