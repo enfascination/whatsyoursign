@@ -1,0 +1,119 @@
+
+
+@font-face {
+    font-family: "Matterhorn";
+    font-style: normal;
+    font-weight: 400;
+    src: url("assets/fonts/Matterhorn-Regular.otf") format("opentype");
+}
+@font-face {
+    font-family: "Matterhorn";
+    font-style: normal;
+    font-weight: 700;
+    src: url("assets/fonts/Matterhorn-Bold.otf") format("opentype");
+}
+@font-face {
+    font-family: "Matterhorn";
+    font-weight: 600;
+    font-style: normal;
+    src: url("assets/fonts/Matterhorn-SemiBold.otf") format("opentype");
+}
+@font-face {
+    font-family: "Matterhorn";
+    font-style: italic;
+    font-weight: 400;
+    src: url("assets/fonts/Matterhorn-Italic.otf") format("opentype");
+}
+@font-face {
+    font-family: "Matterhorn";
+    font-style: oblique;
+    font-weight: 400;
+    src: url("assets/fonts/Matterhorn-Italic.otf") format("opentype");
+}
+@font-face {
+    font-family: "Matterhorn";
+    font-weight: 700;
+    font-style: italic;
+    src: url("assets/fonts/Matterhorn-BoldItalic.otf") format("opentype");
+}
+@font-face {
+    font-family: "Matterhorn";
+    font-weight: 700;
+    font-style: oblique;
+    src: url("assets/fonts/Matterhorn-BoldItalic.otf") format("opentype");
+}
+@font-face {
+    font-family: "Matterhorn";
+    font-weight: 600;
+    font-style: italic;
+    src: url("assets/fonts/Matterhorn-SemiBoldItalic.otf") format("opentype");
+}
+@font-face {
+    font-family: "Matterhorn";
+    font-weight: 600;
+    font-style: oblique;
+    src: url("assets/fonts/Matterhorn-SemiBoldItalic.otf") format("opentype");
+}
+@font-face {
+    font-family: "Matterhorn Serif";
+    font-weight: 400;
+    font-style: normal;
+    src: url("assets/fonts/MatterhornSerif-Regular.otf") format("opentype");
+}
+@font-face {
+    font-family: "Matterhorn Serif";
+    font-weight: 600;
+    font-style: normal;
+    src: url("assets/fonts/MatterhornSerif-SemiBold.otf") format("opentype");
+}
+@font-face {
+    font-family: "Matterhorn Serif";
+    font-weight: 700;
+    font-style: normal;
+    src: url("assets/fonts/MatterhornSerif-Bold.otf") format("opentype");
+}
+@font-face {
+    font-family: "Inconsolata";
+    font-style: normal;
+    font-weight: 400;
+    src: url("assets/fonts/Inconsolata.otf") format("opentype");
+}
+
+.semi-condensed {
+    transform-origin: left;
+    transform: scaleX(0.9);
+}
+.condensed {
+    transform-origin: left;
+    transform: scaleX(0.8);
+}
+.extra-condensed {
+    transform-origin: left;
+    transform: scaleX(0.7);
+}
+.ultra-condensed {
+    transform-origin: left;
+    transform: scaleX(0.5);
+}
+.semi-expanded {
+    transform-origin: left;
+    transform: scaleX(1.1);
+}
+.expanded {
+    transform-origin: left;
+    transform: scaleX(1.3);
+}
+.extra-expanded {
+    transform-origin: left;
+    transform: scaleX(1.5);
+}
+.ultra-expanded {
+    transform-origin: left;
+    transform: scaleX(2.0);
+}
+.small-caps {
+    font-variant: small-caps;
+}
+.semi-bold {
+    font-weight : 500;
+}

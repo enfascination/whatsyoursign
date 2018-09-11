@@ -188,15 +188,19 @@ var secAngle = 360 * date.getSeconds() / 60;
 
 
 
-for(var i = 1; i <= 12; i++) {
-    var el = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+function drawTick(el, angle, color='#000') {
     el.setAttribute('x1', '300');
     el.setAttribute('y1', '160');
     el.setAttribute('x2', '300');
     el.setAttribute('y2', '150');
-    el.setAttribute('transform', 'rotate(' + (i*360/12) + ' 300 300)');
-    el.setAttribute('style', 'stroke: #ffffff;');
-    document.querySelector('svg').appendChild(el);
+    el.setAttribute('transform', 'rotate(' + angle + ' 300 300)');
+    el.setAttribute('style', 'stroke: '+ color +';');
+    return( el );
+}
+for(var i = 1; i <= 32; i++) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    el = drawTick(el, (i*360/32));
+    document.querySelector('svg.illustration').appendChild(el);
 }
 
 
@@ -210,12 +214,14 @@ for(var i = 1; i <= 12; i++) {
 const d = {
     baby : {
         name : 'baby',
+        sname : 'a baby',
         mass : 3.5, //kg
         dist : 0,
         type : 'earthbound',
     }, 
     sun : {
-        name : 'Sun',
+        name : 'sun',
+        sname : 'the Sun',
         mass : 1.989e30, //kg
         smass : '300,000 Earths',
         dist : 146e9, //meters
@@ -223,86 +229,106 @@ const d = {
         force : 0.0217,
         sforce : 'the weight of a playing card',
         type : 'cosmic',
+        counter : 'skyscraper',
     },
     moon : {
         name : 'moon',
+        sname : 'the moon',
         mass : 0.07346e24, //kg
         smass : '1/100 Earth',
         dist : 378000000, //meters
         sdist : '378,000km',
         type : 'cosmic',
+        counter : 'watertower',
     },
     mercury : {
-        name : 'Mercury',
+        name : 'mercury',
+        sname : 'Mercury',
         mass : 0.33e24, //kg
         smass : '1/20 Earth',
         dist : 150e9, //meters
         sdist : '150 million km',
         type : 'cosmic',
+        counter : 'deer',
     },
     venus : {
-        name : 'Venus',
+        name : 'venus',
+        sname : 'Venus',
         mass : 4.87e24, //kg
         smass : '80% of Earth',
         dist : 100e9, //meters
         sdist : '100 million km',
         type : 'cosmic',
+        counter : 'rhinoceros',
     },
-    earth : {
-        name : 'Earth',
+    /*earth : {
+        name : 'earth',
+        sname : 'Earth',
         dist : 0+6300000, //meters
         mass : 5.97e24, //kg
         smass : '1 Earth',
         sdist : '6300km from the center',
         type : 'cosmic',
-    },
+    },*/
     mars : {
-        name : 'Mars',
+        name : 'mars',
+        sname : 'Mars',
         mass : 0.642e24, //kg
         smass : '1/10 Earth',
         dist : 200e9, //meters
         sdist : '200 million km',
         type : 'cosmic',
+        counter : 'mom',
     },
     jupiter : {
-        name : 'Jupiter',
+        name : 'jupiter',
+        sname : 'Jupiter',
         mass : 1898e24, //kg
         smass : '318 Earths',
         dist : 750e9, //meters
         sdist : '750 million km',
         type : 'cosmic',
+        counter : 'motorhome',
     },
     saturn : {
-        name : 'Saturn',
+        name : 'saturn',
+        sname : 'Saturn',
         mass : 568e24, //kg
         smass : '95.1 Earths',
         dist : 1500e9, //meters
         sdist : '1.5 billion km',
         type : 'cosmic',
+        counter : 'walrus',
     },
     uranus : {
-        name : 'Uranus',
+        name : 'uranus',
+        sname : 'Uranus',
         mass : 86.8e24, //kg
         smass : '14.5 Earths',
         dist : 2750e9, //meters
         sdist : '2.75 billion km',
         type : 'cosmic',
+        counter : 'toilet',
     },
     neptune : {
-        name : 'Neptune',
+        name : 'neptune',
+        sname : 'Neptune',
         mass : 102e24, //kg
         smass : '17.1 Earths',
         dist : 4500e9, //meters
         sdist : '4.3 billion km',
         type : 'cosmic',
+        counter : 'luggage',
     },
     pluto : {
-        name : 'Pluto',
+        name : 'pluto',
+        sname : 'Pluto',
         mass : 0.0146e24, //kg
         smass : '1/500 Earth',
         dist : 5000e9, //meters
         sdist : '',
         type : 'cosmic',
+        counter : 'penny',
     },
     //a medium ship is 1 million kg
     //50 story skycraper is 220 million kg
@@ -310,7 +336,8 @@ const d = {
     //hoover dam is 6 billion kg (2.5 million m^3)
     //its water (35 million m^3) is 35 billion kg
     skyscraper : {
-        name : '50-story skyscraper',
+        name : 'skyscraper',
+        sname : 'a 50-story skyscraper',
         mass : 226796185, //kg
         smass : '250,000 tons',
         dist : 1.55, //meters
@@ -322,6 +349,7 @@ const d = {
     },
     deer : {
         name : 'deer',
+        sname : 'a deer',
         mass : 60, //kg
         smass : '60kg',
         dist : 2.022, //meters
@@ -331,6 +359,7 @@ const d = {
     },
     rhinoceros : {
         name : 'rhinoceros',
+        sname : 'a rhinoceros',
         mass : 2000, //kg
         smass : '2000kg',
         dist : 2.026, //meters
@@ -339,7 +368,8 @@ const d = {
         counter: 'venus',
     },
     watertower: {
-        name : 'water tower',
+        name : 'watertower',
+        sname : 'a water tower',
         mass : 2000000, //kg
         smass : '2 million kg',
         dist : 2, //meters
@@ -348,7 +378,8 @@ const d = {
         counter: 'moon',
     },
     mom : {
-        name : 'a mom',
+        name : 'mom',
+        sname : 'a mom',
         mass : 77, //kg
         smass : '',
         dist : 2.19, //meters
@@ -358,6 +389,7 @@ const d = {
     },
     motorhome: {
         name : 'motorhome',
+        sname : 'a motorhome',
         mass : 13500, //kg
         smass : '13500kg',
         dist : 2, //meters
@@ -367,6 +399,7 @@ const d = {
     },
     walrus: {
         name : 'walrus',
+        sname : 'a walrus',
         mass : 1000, //kg
         smass : '1000kg',
         dist : 2, //meters
@@ -376,6 +409,7 @@ const d = {
     },
     toilet : {
         name : 'toilet',
+        sname : 'a toilet',
         mass : 40, //kg
         smass : '40kg',
         dist : 1.87, //meters
@@ -384,7 +418,8 @@ const d = {
         counter: 'uranus',
     },
     luggage: {
-        name : 'packed luggage',
+        name : 'luggage',
+        sname : 'packed luggage',
         mass : 22, //kg
         smass : '22kg',
         dist : 2.09, //meters
@@ -394,6 +429,7 @@ const d = {
     },
     penny: {
         name : 'penny',
+        sname : 'a penny',
         mass : 0.0025, //kg
         smass : '2.5 grams',
         dist : 2.07, //meters
@@ -432,23 +468,71 @@ function gravitySolveM2( baby, objbig, distsmall) {
     var m2 = (F * distsmall**2) / (G * baby.mass);
     return m2;
 }
-console.log(d, d.sun, d.sun.dist + 2, gravitySolveD2(d.baby, d.sun));
+//console.log(d, d.sun, d.sun.dist + 2, gravitySolveD2(d.baby, d.sun));
+
+/*
+ * science tab has a table with comparisons
+ * */
+function populateMassTable(tab, objs) {
+    // table has a single template row.
+    // take that, copy it, popultate it, append it, repeat
+    /*
+    <tr> <td> The pull of </td>
+    <td> <img class="cosmic-image tooltipped" height="40" src="assets/sun.svg" title="<span class='cosmic-name'>the sun</span><br><span class='cosmic-mass'>(at XXX(0.3?) Earths</span><br><span class='cosmic-dist'>and XXX km)</span>"> </td>
+    <td> equals the pull of </td>
+    <td> <img class="earthbound-image  tooltipped" height="40" src="assets/bowling_ball.svg" title="<span class='earthbound-name'>the sun</span><br><span class='earthbound-mass'>(at XXX(0.3?) Earths</span><br><span class='earthbound-dist'>and XXX km)</span>"> </td>
+    <td> at 2m.  </td>
+    </tr>
+    */
+    console.log("building table");
+    //console.log(tab.querySelector(".template-row"));
+    var row = tab.querySelector(".template-row");
+    row.remove();
+    //tab.querySelector("tbody").appendChild( arow );
+    //console.log(arow);
+    //console.log(tab.querySelector("tbody"));
+    var arow, cosmic, counter, imgCounter, imgCosmic, infoCosmic, infoCounter;
+    var parser = new DOMParser();
+    for (var name in objs) {
+        cosmic = objs[name];
+        if (cosmic.type == 'cosmic') {
+            counter = objs[cosmic.counter];
+            arow = row.cloneNode(true);
+            arow.classList.remove("template-row");
+            arow.querySelector(".cosmic-name").textContent = cosmic.sname;
+            arow.querySelector(".earthbound-name").textContent = counter.sname;
+            imgCosmic = arow.querySelector(".cosmic-image");
+            imgCounter = arow.querySelector(".earthbound-image");
+            imgCosmic.setAttribute("src", "assets/"+cosmic.name+".svg");
+            imgCounter.setAttribute("src", "assets/"+counter.name+".svg");
+            infoCosmic = imgCosmic.getAttribute("title");
+            infoCosmic = infoCosmic.replace('___cosmic-name___', cosmic.sname);
+            infoCosmic = infoCosmic.replace('___cosmic-mass___', cosmic.smass);
+            infoCosmic = infoCosmic.replace('___cosmic-dist___', cosmic.sdist);
+            imgCosmic.setAttribute("title", infoCosmic);
+            infoCounter = imgCounter.getAttribute("title");
+            infoCounter = infoCounter.replace('___earthbound-name___', counter.sname);
+            infoCounter = infoCounter.replace('___earthbound-mass___', counter.smass);
+            infoCounter = infoCounter.replace('___earthbound-dist___', counter.sdist);
+            imgCounter.setAttribute("title", infoCounter);
+            //console.log(infoCosmic);
+
+            //console.log(arow);
+            tab.querySelector("tbody").appendChild( arow );
+        }
+    }
+}
+populateMassTable(document.querySelector('#mass-table'), d);
 
 /** * * * * * * * * * * **\
  ** SETUP page: key elements
 \** * * * * * * * * * * **/
 
+
 ///interactive elements of SVG
 
 //Link counterbalanced entities
 // a la https://codepen.io/anon/pen/BOowqg https://github.com/atomiks/tippyjs/issues/283
-tippy('.tooltipped', {
-    delay: 0,
-    duration: 0,
-    placement: 'top',
-    theme: 'hbwys',
-});
-
 var elCounterSun = document.querySelector("#counter-sun");
 var elSun = document.querySelector("#mass-sun");
 var elSimulatedSun = document.querySelector("#simulated-sun");
@@ -517,6 +601,21 @@ hideEvents.forEach(e => {
             });
 });
 
+
+// and the more generic tooltips
+tippy('.tooltipped', {
+    delay: 0,
+    duration: 0,
+    placement: 'top',
+    theme: 'hbwys',
+});
+tippy('#mass-table .tooltipped', {
+    delay: 0,
+    duration: 0,
+    placement: 'top',
+    size: 'large',
+    theme: 'hbwystable',
+});
 
 
 
@@ -866,6 +965,3 @@ populateFormWithDefaults(mainForm);
 // run this with default values on page load.  Then again on form submit
 fetchSwissAstroSun( mainForm );
 replaceTemplate(elCenter, elDefaultLabel);
-
-
-

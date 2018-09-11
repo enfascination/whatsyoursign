@@ -43,9 +43,9 @@
                     -->
                     <div class="modal-body explainer">
                         <h3>What is this?</h3>
-                        <p>A common interpretation of astrology is that is depends on the gravity of the planets at the moment of birth.  Isaac Newton taught us when the gravity of a large planet far away equals a smaller object up close.  For example, Jupiter's pull on you right now equals a truck a few meters away.
+                        <p>Astrology depends on the gravity of the planets at the moment of birth. But things around us can have the same gravity as the planets.
                         </p>
-                        <p>When you're giving birth, if you line stuff up around you to cancel out one planet and simulate another, you can give your baby any sign you'd like. 	We did all the math for you, so have fun.
+                        <p>So if, during birth, you line stuff up around you to cancel out one planet and simulate another, you can give your baby any sign at all.
                         </p>
                     </div>
                     <!--
@@ -75,8 +75,8 @@ Hey
                         <li class="nav-item">
                             <a class="nav-link"  id="huh-tab" data-toggle="modal" data-target="#basicModal" aria-controls="huh" aria-selected="false">What is this?</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home
+                        <li class="nav-item active">
+                            <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
@@ -168,7 +168,7 @@ Hey
                         <div class="astrological-output">
 
                             <div id="placard" class="alert alert-info placard" role="alert"></div>
-                            <svg width="100%" height="100%" viewBox="0 0 600 600" class="illustration">
+                            <svg width="100%" height="100%" viewBox="50 50 550 550" class="illustration">
 
                                 <filter id="innerShadow" x="-20%" y="-20%" width="140%" height="140%">
                                 <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
@@ -176,7 +176,7 @@ Hey
                                 </filter>
 
                                 <g>
-                                <circle id="circle" style="stroke: #FFF; stroke-width: 12px; fill:#20B7AF" cx="300" cy="300" r="160"></circle>
+                                <circle id="circle" style="stroke: #FFF; stroke-width: 12px; fill:#20B7AF" cx="300" cy="300" r="145" fill-opacity="0"></circle>
                                 </g>
                                 <g>
                                 
@@ -193,11 +193,11 @@ Hey
                                 <image x="500" y="100" width="120" height="120" xlink:href="assets/96640_simple.svg"  id="secondhand" >
         </g>
         <g class="sun-pair">
-            <image x="50" y="50" width="150" height="150" xlink:href="assets/787892.svg"  id="mass-sun" class="svg-obj-planetary invisible tooltipped" title="" data-tippy />
+            <image x="50" y="50" width="150" height="150" xlink:href="assets/sun.svg"  id="mass-sun" class="svg-obj-planetary invisible tooltipped" title="" data-tippy />
             <image x="0" y="0" width="150" height="150" xlink:href="assets/188820.svg"  id="counter-sun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
         </g>
         <g class="new-sun-pair">
-            <image x="50" y="50" width="150" height="150" xlink:href="assets/787892.svg"  id="desired-sun" class="svg-obj-planetary invisible tooltipped" title="" data-tippy />
+            <image x="50" y="50" width="150" height="150" xlink:href="assets/sun.svg"  id="desired-sun" class="svg-obj-planetary invisible tooltipped" title="" data-tippy />
             <image x="0" y="0" width="150" height="150" xlink:href="assets/188820.svg"  id="simulated-sun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
         </g>
         <circle style="fill:#128A86; stroke: #C1EFED; stroke-width: 2px;" cx="300" cy="300" r="6">  </circle>
@@ -210,16 +210,24 @@ Hey
         </div>
         </div>
     </div>
-  <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
-    This site makes it possible for you to give your upcoming child any astronomical sign you want, or none at all. Just place the objects at the right angles and distances to counter or simulate the right heavenly bodies, and you can recreate their gravitational effects.
+  <div class="tab-pane fade narrative" id="about" role="tabpanel" aria-labelledby="about-tab">
+                                    <hr>
+                                    <p>
+    This site makes it possible for you to give a new born (or auspicious event) any astronomical sign you want, or none at all. Just place the objects at the right angles and distances to counter or simulate the right heavenly bodies, and you can recreate their gravitational effects.
+                                    </p>
     <h2>FAQ</h2>
+                                    <p>
     <div class="q">Is this a joke?</div>
     <div class="a">lol</div>
     <div class="q">You only did the sun sign?  What about the effects of the other planets?  Can you add those?</div>
     <div class="a">Well, you can! The code for this entire site is freely available, on <a href="github.com/enfascination/whatsyoursign">github.com</a></div>
+                                    </p>
     <h2>Team</h2>
+                                    <p>
     Seth Frey is a cognitive and social scientist and professor at the University of California, Davis.  He cares about science, and blogs about it at <a href="http://enfascination.com"> enfascination.com</a>.
+                                    </p>
     <h2>References and Credit</h2>
+                                    <p>
     We relied on several open resources to build this site. 
     <ul>
     <li>
@@ -235,78 +243,40 @@ Hey
     The interactive SVG graphic was based on code for an <a href="https://codepen.io/mohebifar/pen/KwdeMz">SVG clock</a>.
     </li>
     </ul>
+                                    </p>
     <h3>Licensing and code</h3>
+                                    <p>
     The code for this site is available at <a href="github.com/enfascination/whatsyoursign">github.com</a>.  It is licensed under the GPL, as a condition of our use of the <a href="http://www.astro.com/swisseph/swephinfo_e.htm">Swiss Emphemeris</a>, which is itself GPL'd.
+                                    </p>
     <h3>Contact</h3>
+                                    <p>
     If you'd like to contact our team, send a note to moctodliamg at the same thing backwards.
+                                    </p>
+                                    <hr>
     </div>
-  <div class="tab-pane fade" id="science" role="tabpanel" aria-labelledby="science-tab">
+  <div class="tab-pane fade narrative" id="science" role="tabpanel" aria-labelledby="science-tab">
+                                    <hr>
     <p>
      Prior to the 17th century, Europeans used similarity as the basis of finding order in the world.  Walnuts looked like brains, therefore they must be good for headaches.  A small number of points of light wander among the otherwise fixed background of the stars, the way that human walk amongst plants and trees; the course of those planets must tell us something about the course of our lives.  
     </p>
     <p>
     It was our close relationship to the heavenly bodies that slowly changed the role of similarity, from an objective signature of hidden structure in the world, to a mere signature of structure in the mind. This process was attended by another, that brought the heavenly bodies down to earth. 
     </p>
-    <table id="mass_table" class="figure mass_table">
+    <table id="mass-table" class="figure mass-table">
     <thead>
     </thead>
-    <tr>
-    <td>
-    The pull of
-    </td>
-    <td>
-    
-    <img class="tooltipped" height="40" src="assets/moon.svg" title="the moon (at XXX(0.3?) Earths and XXX km)">
-    
-    </td>
-    <td>
-    equals the pull of 
-    </td>
-    <td>
-    <img class="tooltipped" height="40" src="assets/bowling_ball.svg" title="a bowling ball(?) (2 kg)">
-    </td>
-    <td>
-    at 2m.
-    </td>
-    </tr>
     <tbody>
-    <tr>
-    <td>
-    The pull of
-    </td>
-    <td>
-    
-    <img class="tooltipped" height="40" src="assets/jupiter.svg" title="Jupiter (XXX Earths, XXX km)">
-    
-    </td>
-    <td>
-    equals the pull of 
-    </td>
-    <td>
-    <img class="tooltipped" height="40" src="assets/truck.svg" title="a truck (2 tons)">
-    </td>
-    <td>
-    at 2m.
-    </td>
-    </tr>
-    <tr>
-    <td>
-<img height="20" src="assets/jupiter.svg">
-    </td>
-    <td>
-    hi
-    </td>
-    <td>
-    hi
-    </td>
-    <td>
-    hi
-    </td>
+    <tr class="template-row">     
+                                    <td> <img class="cosmic-image tooltipped" height="40" src="assets/sun.svg" title="<span class='intip cosmic-name'>___cosmic-name___</span> (mass: <span class='intip cosmic-mass'>___cosmic-mass___</span>, distance: <span class='intip cosmic-dist'>___cosmic-dist___</span>)"> </td>
+<td> The pull of <span class='cosmic-name'></span>
+    equals the pull of <span class='earthbound-name'></span>
+    at 2m.  </td>
+    <td> <img class="earthbound-image  tooltipped" height="40" src="assets/bowling_ball.svg" title="<span class='intip earthbound-name'>___earthbound-name___</span> (mass: <span class='intip earthbound-mass'>___earthbound-mass___</span>, distance: <span class='intip earthbound-dist'>___earthbound-dist___</span>)"> </td>
     </tr>
     </tbody>
                                     <caption class="figure-caption">
                                     <hr>
-                                    <strong>Planets and the earthbound objects that exert the same gravitational pull at about two meters.</strong>  If you don't believe that objects across the cosmos are bound by a common fate, keep in mind that the object most gravitationally similar to Uranus is the toilet.</caption>
+                                    <strong>Planets and the earthbound objects that exert the same gravitational pull at about two meters away.</strong>  If you don't believe that objects across the cosmos are bound to fate by a shared spiritual essence, keep in mind that the object most gravitationally similar to Uranus is the toilet.</caption>
     </table>
     <p>
     Isaac Newton was thinking about cannons, and asked what would happen if a cannonball were shot with such strength that, before it could fall to the ground, the Earth's curvature had moved the ground away. Though this and other thought experiments, Newton showed that we don't need separate sciences for events on Earth and events below it.  He unified science, by explaining apples falling on earth and moons orbiting planets with the same mysterious force, gravity.
@@ -331,6 +301,7 @@ gravity has also had a role in astrology, as it has adapted to a world in which 
     </p>
 
     
+                                    <hr>
     </div>
 </div>
     </div>

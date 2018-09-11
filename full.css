@@ -96,6 +96,36 @@ footer{
  footer {
  }
 
+ .narrative {
+     padding: 40px 20px;
+    font-family: "Matterhorn";
+    width: 60%;
+    margin: auto;/*center*/
+ }
+ .narrative p:first-of-type::first-line {
+     font-variant: all-small-caps;
+     font-size: 150%;
+     line-height: 90%;
+ }
+ .narrative p:first-of-type::first-letter {
+    text-transform: uppercase;
+     font-size: 150%;
+     line-height: 90%;
+ }
+
+ .q, .a {
+     padding: 5px;
+     font-style: italic;
+ }
+ .q {
+     padding-top: 15px;
+     padding-bottom: 0px;
+     font-weight: bold;
+ }
+.narrative ul {
+    list-style: none;
+    list-style-image: url('star_single.svg');
+ }
 
  /*safely remove padding from bootstrap grid. modified from https://stackoverflow.com/questions/26204283/bootstrap-container-fluid-remove-margins-the-right-way-overflow*/
  .alt-grid .col, .alt-grid [class*="col-"] {padding-left:0;padding-right:0}
@@ -157,6 +187,9 @@ footer{
 .tippy-tooltip.hbwys-theme {
     width: 70%;
 }
+.tippy-tooltip.hbwystable-theme .tippy-content {
+    width: 200px;
+}
 .form-part,
 .form-part > input {
     text-align: center;
@@ -197,27 +230,32 @@ footer{
 }
 
 
-.mass_table {
+.mass-table {
     background-color: white;
     float: left;
+    margin: 10px 30px 10px 0;
+    padding: 5px;
+}
+.mass-table td {
+    padding: 5px;
+}
+.cosmic-name ,
+.earthbound-name {
+    font-weight: bold;
+}
+.intip.cosmic-name ,
+.intip.earthbound-name {
+    text-align: center;
 }
 
 .template.invisible {
     display:none;
 }
 
-/*======================================
- * =            NO GUTTER CODE            =
- * ======================================*/
-.no-gutter > .col,
-.no-gutter > [class*='col-'] {
-        padding-right:0;
-            padding-left:0;
-        }
-
 .navbar-expand-lg .navbar-nav .nav-link {
     padding-left: 0.4rem;
     padding-right: 0.4rem;
+    padding-top:0;;
 }
 
 
