@@ -124,7 +124,9 @@ footer{
  }
 .narrative ul {
     list-style: none;
-    list-style-image: url('star_single.svg');
+    list-style-image: url('assets/star_single.svg');
+    list-style-position: inside;
+
  }
 
  /*safely remove padding from bootstrap grid. modified from https://stackoverflow.com/questions/26204283/bootstrap-container-fluid-remove-margins-the-right-way-overflow*/
@@ -238,6 +240,7 @@ footer{
 }
 .mass-table td {
     padding: 5px;
+    text-align: center;
 }
 .cosmic-name ,
 .earthbound-name {

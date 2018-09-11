@@ -326,7 +326,7 @@ const d = {
         mass : 0.0146e24, //kg
         smass : '1/500 Earth',
         dist : 5000e9, //meters
-        sdist : '',
+        sdist : '7.5 billion km',
         type : 'cosmic',
         counter : 'penny',
     },
@@ -381,7 +381,7 @@ const d = {
         name : 'mom',
         sname : 'a mom',
         mass : 77, //kg
-        smass : '',
+        smass : '77kg',
         dist : 2.19, //meters
         sdist : '2m',
         type: 'earthbound',
