@@ -53,7 +53,7 @@ Number.prototype.mod = function(n) {
 /** * * * * * * * * * * **\
  ** DEFINE globals
 \** * * * * * * * * * * **/
-const ephemerisURL = 'vendor/swisseph/swetest.php';
+const ephemerisURL = '/vendor/swisseph/swetest.php';
 
 /** * * * * * * * * * * **\
  ** DEFINE helpers: generic
@@ -860,13 +860,20 @@ function getAngles(sAstroShell) {
     // now use regexes to search the printout for the right digits.
     //  according to the math team, we need angles for the sun, AC and MC.
     //console.log(sAstroShell);
+    //the regexes below works as follows:
+    //   capture three lines, the sun, acendant,a nd meridian
+    //   first group of hthe sun line gives the sun sign. 
+    //   second group gives angle off acendsant, in degrees.  thidr and fourth and fifth give minutes and seconds  and remaining fractions of that angle.
+    //   the ascendant line also has to parse the sun sign group, but doesn't capture it.
+    //       same with meridian, which I don't actually use anymore.
+    //   one problem is that different complilations/downloads fo the emphemeris binary either do or don't put he sun sign ont he ascendent line, meaning this regex has to not match those first digists in the ascenddant's regex line for this to work in those other versions.  the binary packages with the standalone branch shouldn't have this problem, but i don't understand the rpboelm or how I fixed it, so this is a note to self.
     sunAngle = sAstroShell.match(
         /\bSun\s+([0-9\.]+)\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/
     );
     sunSign = Math.floor(+(sunAngle[1]));
     sunAngle = sunAngle[2];
-    ascendant = sAstroShell.match(/\bAscendant\s+[[0-9\.]+\s+]?(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
-    meridian = sAstroShell.match(/\bMC\s+[[0-9\.]+\s+]?(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
+    ascendant = sAstroShell.match(/\bAscendant\s+[0-9\.]+\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
+    meridian = sAstroShell.match(/\bMC\s+[0-9\.]+\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
     // convert to radians
     sunAngle = (sunAngle / 360) * 2 * Math.PI;
     ascendant = (ascendant / 360) * 2 * Math.PI;
