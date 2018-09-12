@@ -7,7 +7,7 @@
               * darkest blue: 080C3B
  * */
 body {
-    font-family: "Futura";
+    font-family: "Futura", "Trebuchet MS", "Century Gothic", "Corbel", "Arial", sans‑serif;
     position: relative;
     background-color: #ced5da; /*#DAE0E3;*/
 }
