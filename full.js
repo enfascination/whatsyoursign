@@ -50,6 +50,10 @@ Number.prototype.mod = function(n) {
  **
 \** * * * * * * * * * * **/
 
+/** * * * * * * * * * * **\
+ ** DEFINE globals
+\** * * * * * * * * * * **/
+const ephemerisURL = 'vendor/swisseph/swetest.php';
 
 /** * * * * * * * * * * **\
  ** DEFINE helpers: generic
@@ -693,7 +697,7 @@ function fetchSwissAstroSun( el ) {
     sdate = omoment.format('D.M.YYYY');
 
         //https://devhints.io/moment
-    console.log(omoment.format(), omoment.utc().format(), omoment.format('D.M.YYYY'), omoment.utc().format('HH:mm:00'));
+    //console.log(omoment.format(), omoment.utc().format(), omoment.format('D.M.YYYY'), omoment.utc().format('HH:mm:00'));
 
     var iday = +omoment.format('D');
     var imonth = +omoment.format('M');
@@ -702,7 +706,7 @@ function fetchSwissAstroSun( el ) {
     var signDiff = (inDesiredSunSign - +currentSunSign ).mod( 12 );
 
     // assemble and submit request to cancel current sign, and define code that handles response text.
-    var astroUrlUndoSun = "https://enfascination.com/swissephemeris/swetest.php?" +
+    var astroUrlUndoSun = ephemerisURL + "?" +
         "b="+ encodeURIComponent(sdate) +
         "&p=0" + "&emos" + "&f=PjLBRsGg" +
         "&house=" + encodeURIComponent(slon) + "%2C" +
@@ -744,7 +748,7 @@ function fetchSwissAstroSun( el ) {
         //console.log(inDesiredSunSign, omoment, "ASDF",desiredMoment, "ASDF", sDesiredMoment, signDiff);
 
         // assemble and submit request to simulate other sign, and define code that handles response text.
-        var astroUrlNewSun = "https://enfascination.com/swissephemeris/swetest.php?" +
+        var astroUrlNewSun = ephemerisURL + "?" +
             "b="+ encodeURIComponent(sDesiredMoment) +
             "&p=0" + "&emos" + "&f=PjLBRsGg" +
             "&house=" + encodeURIComponent(slon) + "%2C" +
@@ -872,13 +876,14 @@ function getAngles(sAstroShell) {
     var sunAngle, sunSign, meridian, ascendant;
     // now use regexes to search the printout for the right digits.
     //  according to the math team, we need angles for the sun, AC and MC.
+    //console.log(sAstroShell);
     sunAngle = sAstroShell.match(
         /\bSun\s+([0-9\.]+)\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/
     );
     sunSign = Math.floor(+(sunAngle[1]));
     sunAngle = sunAngle[2];
-    ascendant = sAstroShell.match(/\bAscendant\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
-    meridian = sAstroShell.match(/\bMC\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
+    ascendant = sAstroShell.match(/\bAscendant\s+[[0-9\.]+\s+]?(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
+    meridian = sAstroShell.match(/\bMC\s+[[0-9\.]+\s+]?(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
     // convert to radians
     sunAngle = (sunAngle / 360) * 2 * Math.PI;
     ascendant = (ascendant / 360) * 2 * Math.PI;
