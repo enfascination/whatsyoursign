@@ -207,7 +207,8 @@ const cardinalDirs = ['E', 'W', 'S', 'N'];
 for(var i = 0; i < 4; i++) {
     var el = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     el.textContent = cardinalDirs[i];
-    el.setAttribute('fill', 'white');
+    //el.setAttribute('fill', 'white');
+    el.setAttribute('fill', '#866fa4');
     document.querySelector('svg.illustration').appendChild(el);
     placeRadially(el, 300-7, 300+6, 160, i*Math.PI/2);
 }
