@@ -1,4 +1,9 @@
-
+@font-face {
+    font-family: "Symbola";
+    font-style: normal;
+    font-weight: 400;
+    src: url("assets/fonts/Symbola.ttf") format("truetype");
+}
 
 @font-face {
     font-family: "Matterhorn";

@@ -35,11 +35,19 @@ hr {
 svg {
     display: block;
 }
+
+/* astrological symbols non-ugly, and accessible 
+ * from http://jkorpela.fi/html/characters.html */
+.special { font-family: Quivira, "Arial Unicode MS", Symbola, "Everson Mono"; }
+
 .svgtitle {
 }
+
 .subtitle {
     color: #DAE0E3;
     font-style: bold;
+    margin-top: 3px;
+    line-height: 1.4;
 }
 
 .filler {
@@ -320,4 +328,5 @@ footer {
         background-size: 80%; /* Resize the background image to cover the entire container */
     }
 }
+
 
