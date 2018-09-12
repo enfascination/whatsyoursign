@@ -695,6 +695,9 @@ function fetchSwissAstroSun( el ) {
         encodeURIComponent(slat) + "%2CN" +
         "&ut=" + encodeURIComponent(stimeutc) + "%3A00";
 
+    //reset image
+    removeElementsByClass( 'compass-tick' );
+
     if (signDiff === 0) {
         // if they do pick their current sign, nothing should happen
         // visible illustrations shold be decativated
@@ -823,11 +826,19 @@ function postSubmit(sAstroShell, elsvg, mode="counter") {
     positionObjectInSVG(elsvg[1], radius, astroAngle);
     // PREPARE ticks on radius for guides
     var el = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    el = drawTick(el, Math.PI + astroAngle + angleOffset, 'red', thickness=3);
+    el = drawTick(el, Math.PI + astroAngle + angleOffset, '#558B95', thickness=3);
+    el.classList.add('compass-tick');
     document.querySelector('svg.illustration').appendChild(el);
 
     activateIllustration(elsvg[0]);
 
+}
+// from https://stackoverflow.com/questions/4777077/removing-elements-by-class-name
+function removeElementsByClass(className){
+        var elements = document.getElementsByClassName(className);
+        while(elements.length > 0){
+                    elements[0].parentNode.removeChild(elements[0]);
+                }
 }
 function parseAstroResponse( sAstroShell ) {
     // vestigates fromwhen I was scraping from http://www.astro.com/swisseph/swetest.htm

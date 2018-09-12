@@ -128,10 +128,10 @@ Hey
                                 Pinpoint baby's moment of birth
                             </h2>
                             <hr>
-                            <p class=form-part><label for="date">Birth date&nbsp;<i class="fas fa-info-circle tooltipped" title="Enter your baby's date of birth"></i></label><input id="date" name="date" type="date"></p>
-                            <p class=form-part><label for="time">Birth time&nbsp;<i class="fas fa-info-circle tooltipped" title="Enter your baby's time of birth"></i></label><input id="time" name="time" type="time"></p>
+                            <p class=form-part><label for="date">Birth date&nbsp;<i class="fas fa-info-circle tooltipped color-flare" title="Enter your baby's date of birth"></i></label><input id="date" name="date" type="date"></p>
+                            <p class=form-part><label for="time">Birth time&nbsp;<i class="fas fa-info-circle tooltipped color-flare" title="Enter your baby's time of birth"></i></label><input id="time" name="time" type="time"></p>
                                 <fieldset class="gllpLatlonPicker form-part" id="custom_id">
-                                    <label for="locationCoordinates">Birth location&nbsp;<i class="fas fa-info-circle tooltipped" title="Double-click the birthplace on the map, or drag the marker there."></i>
+                                    <label for="locationCoordinates">Birth location&nbsp;<i class="fas fa-info-circle tooltipped color-flare" title="Double-click the birthplace on the map, or drag the marker there."></i>
                                         <div id="map" class="gllpMap"></div>
                                         <input id="locationCoordinates" class="gllpCoordinates" name="locationCoordinates", value="38.54, -121.54">
                                         <input type="hidden" id="locationLat" class="gllpLatitude" name="locationLat", value="38.54">
@@ -147,7 +147,7 @@ Hey
                             </h2>
                             <hr>
                             <p class=form-part>
-                            <label for="date">Desired sign&nbsp;<i class="fas fa-info-circle tooltipped" title="Enter the astrological sign you'd like your baby to have"></i></label>
+                            <label for="date">Desired sign&nbsp;<i class="fas fa-info-circle tooltipped color-flare" title="Enter the astrological sign you'd like your baby to have"></i></label>
                             <span id="desiredsign" class="form-list-signs btn-group-toggle btn-group-vertical mr-2" data-toggle="buttons" role="group" aria-label="Signs group" onclick="
                                     this.closest('#astro-main-form').btnSubmit.click();
                                     ">
@@ -226,30 +226,36 @@ Hey
                                     </p>
     <h2>FAQ</h2>
                                     <p>
-    <div class="q">You only did the sun sign?  What about the effects of the other planets?  Can you add those?</div>
-    <div class="a">Well, you can! The code for this entire site is freely available, on <a href="github.com/enfascination/whatsyoursign">github.com</a></div>
-    <div class="q">How do you figure out where the sun is going to be at the input day and time?</div>
-    <div class="a">Today's word of the day is <emph>emphemeris</emph>. That's a catalog of star locations by time.</div>
-    <div class="q">How do you calculate the positions for the desired signs?</div>
-    <div class="a">We advance the input birthday by however many months into the future, so that baby is born at the same time in the month, in the new month.</div>
     <div class="q">[Insert really specific question about your last horoscope, or your theory of everything]</div>
-    <div class="a">hrm, yes, very interesting</div>
+    <div class="a">hrm, yes, very interesting.</div>
+    <div class="q">Where am I going to find two skyscrapers less than 3 meters apart?</div>
+    <div class="a">Nobody said this would be easy.</div>
+    <div class="q">Help, I'm not so familiar with grams and meters.</div>
+    <div class="a">A kilogram is a bit more than two pounds: think bag of sugar or liter of water. Two meters is the height of a tall person.  </div>
+    <div class="q">You only did the sun sign?  What about the effects of the other planets?  Can you add those?</div>
+    <div class="a">No, but you can! The code for this entire site is freely available, on <a href="github.com/enfascination/whatsyoursign">github.com</a></div>
+    <div class="q">How did you calculate where the sun is going to be at the input day and time?</div>
+    <div class="a">Today's word of the day is <strong>emphemeris</strong>. That's a catalog of star locations by time. It's what we used to perform all of our calculations.</div>
+    <div class="q">How do you calculate the positions of the sun under the desired sign?</div>
+    <div class="a">We advance the input birthday by however many months into the future, so that baby is born at the same time in the month, in the new month.</div>
+    <div class="q">Will only skyscrapers do?</div>
+    <div class="a">Bridges are one of the few things heavier than towers. And dams are much heavier: the heaviest man-made things on Earth.  You might also look into cliff faces. Aircraft carriers and Statues of Liberty won't cut it; they aren't heavy enough.</div>
     <div class="q">Is this a joke?</div>
     <div class="a">lol</div>
                                     </p>
     <h2>Team</h2>
                                     <p>
-    Seth Frey is a cognitive and social scientist and professor at the University of California, Davis.  He cares about science, and blogs about it at <a href="http://enfascination.com"> enfascination.com</a>.
+                                This site was a summer project, with a pedagogical aim of teaching students to code the Internet. The lead is Seth Frey, a cognitive and social scientist. He is a professor at the University of California, Davis<~--, and a Fellow at the Neukom Institute for Computational Science at Dartmouth College-->.  He cares about science, and blogs about it at <a href="http://enfascination.com"> enfascination.com</a>. You can follow him <a href="https://twitter.com/enfascination">@enfascination</a>.
                                     </p>
-    <h2>References and Credit</h2>
+    <h2>Resources, references and credit</h2>
                                     <p>
-    We relied on several open resources to build this site. 
+    This site was an exercise in HTML, CSS, SVG, and Javascript. We relied on several open resources to build it:
     <ul>
     <li>
     The astronomical positions  are calculated using the <a href="http://www.astro.com/swisseph/swephinfo_e.htm">Swiss Emphemeris</a>
     </li>
     <li>
-    Many graphics were adapted from flaticon.com icons by Freepik, Nikita Golubev, Smashicons, srip and Twitter.
+                                Many graphics were adapted from <a href="flaticon.com">flaticon.com</a> icons by Freepik, Nikita Golubev, Smashicons, srip and Twitter.
     </li>
     <li>
     The site skeleton was pinched from templates available at <a href="https://startbootstrap.com/template-overviews/full/">startbootstrap.com</a>
@@ -259,9 +265,8 @@ Hey
     </li>
     </ul>
                                     </p>
-    <h3>Licensing and code</h3>
                                     <p>
-    The code for this site is available at <a href="github.com/enfascination/whatsyoursign">github.com</a>.  It is licensed under the GPL, as a condition of our use of the <a href="http://www.astro.com/swisseph/swephinfo_e.htm">Swiss Emphemeris</a>, which is itself GPL'd.
+    The code for this site is available at <a href="github.com/enfascination/whatsyoursign">github.com</a>.  Everything authored by us is licensed under the GPL, as a condition of our use of the <a href="http://www.astro.com/swisseph/swephinfo_e.htm">Swiss Emphemeris</a>, which is itself GPL'd.
                                     </p>
     <h3>Contact</h3>
                                     <p>
@@ -272,7 +277,7 @@ Hey
   <div class="tab-pane fade narrative" id="science" role="tabpanel" aria-labelledby="science-tab">
                                     <hr>
     <p>
-     Before the 17th century, Westerners used similarity as the basis for order in the world. Walnuts look like brains? They must be good for headaches. The planets seem to wander among the stars, the way that humans walk among the plants and trees? The course of those planets must tell us something about the course of our lives.  The old way of thinking about the stars persists today, in the form of astrology, an ancestor of the science of astronomy that continues to give primacy to similarity as a signature of cosmic order.
+     Before the 17th century, Westerners used similarity as the basis for order in the world. Walnuts look like brains? They must be good for headaches. The planets seem to wander among the stars, the way that humans walk among the plants and trees? The course of those planets must tell us something about the course of human lives.  This old way of thinking about the stars persists today, in the form of astrology, an ancestor of the science of astronomy that understands analogy as a basis of cosmic order.
     </p>
     <table id="mass-table" class="figure mass-table">
     <thead>
@@ -293,19 +298,19 @@ Hey
                                     </caption>
     </table>
     <p>
-    It should be no surprise that astrology is an ancestor of science. It was our close relationship to the heavenly bodies that slowly changed the role of similarity in explanation, from an objective signature of hidden structure in the world, to a mere signature of structure in the mind, as similarity was replaced by cause and mechanism as the ordering principle of nature. This change was attended by another that brought the heavenly bodies down to earth. 
+    It was our close relationship to the heavenly bodies that slowly changed the role of similarity in explanation, across the sciences, from something in the world to something in our heads.  Thanks to the stargazers, similarity has been almost entirely replaced by cause and mechanism as the ordering principle of nature. This change was attended by another that brought the heavenly bodies down to earth, literally. 
     </p>
     <p>
-    Isaac Newton's breakthrough was due less to apples than to cannons. He asked what would happen if a cannonball were shot with such strength that, before it could fall some distance towards the ground, the Earth's curvature had moved the ground away by the same amount. That cannonball would be a moon. Newton realized that being in orbit is nothing more than constantly falling.  Through this and other thought experiments, he showed that we don't need separate sciences for events on Earth and events beyond it (which is funny, because of his own deep interest in the occult).  Newton unified nature, by explaining apples falling on earth and moons orbiting planets with the same mysterious force, gravity.
+    Physics was barely a science before Isaac Newton's insights into gravity. But Newton's breakthrough was due less to apples than to cannons. He asked what would happen if a cannonball were shot with such strength that, before it could fall some distance towards the ground, the Earth's curvature had moved the ground away by the same amount. That cannonball would be a moon; being in orbit is nothing more than constantly falling.  Through this and other thought experiments, he showed that we don't need separate sciences for events on Earth and events beyond it (except, well, he was also an occultist).  Newton unified nature, by explaining apples falling on earth and moons orbiting planets with the same force.
     </p>
     <p>
-    Gravity&mdash;poorly understood to this day&mdash;causes masses to be attracted to each other.  It is very weak: the first explorers of Mount Everest, the tallest mountain on Earth, had trouble estimating its height because its extra gravity was enough to throw their instruments off by miniscule amounts.  Consequently, if you stand in front of an office building, its pull on you is a fraction of the strength of a butterfly's wings. 
+    Gravity&mdash;poorly understood to this day&mdash;causes masses to be attracted to each other. It is very weak.  If you stand in front of a large office building, its pull on you is a fraction of the strength of a butterfly's wing beats. Mount Everest, the tallest mountain on Earth, only has enough extra gravity to throw off sensitive instruments.  Still it can matter: Everests's extra gravity was enough to vex the mountain's first explorers, who couldn't get a fix on its height because they could couldn't get their plumb lines plumb. 
     </p>
     <p>
-                                Is that enough to change fate?  Following the three-century impact of science on thought, astrologists have occasionally ventured to modernize with explanations of how it could be that the theory works; to bring astrology into nature.  Most explanations have focuses on gravity, that mysterious force, reasoning that the patterns of gravitational effects of such massive bodies must be large, unique, or peculiar enough to leave some imprint at the moment of birth.  
+                                So is that force strong enough to change your fate?  And if so, how? Following the three-century impact of science on thought, mordern astrologists have occasionally ventured to build out from the mere fact of atrology into explanations of how it must actually work; to bring astrology into nature.  Most explanations have focused on gravity, that mysterious force, reasoning that the patterns of gravitational effects of such massive bodies must be large, unique, or peculiar enough to leave some imprint at the moment of birth.  
     </p>
     <p>
-                                    But by making astrology physical, we leave open the possibilty that it is subject to physics. Thus the premise of this site, that with a knowledge of the laws of gravity we can reproduce the gravitational fingerprint of the planets and bring our cosmic fate into our own hands.
+                                    But by making astrology physical, we leave open the possibilty that it is subject to physics. If we accept astrology and know the laws of gravity, we should be able reproduce the gravitational fingerprint of the planets and bring our cosmic destiny into our own hands.
     </p>
                                     <hr>
     </div>
@@ -391,7 +396,7 @@ function initMap() {
       };
 
       $obj.init( $(this) );
-        $obj.vars.map.center = new google.maps.LatLng(23 , -46);
+        $obj.vars.map.center = new google.maps.LatLng(0 , -46);
       
       /**
          * The CenterControl adds a control to the map that recenters the map on
@@ -419,7 +424,7 @@ function initMap() {
   var centerControl = new CenterControl(centerControlDiv, map);
 
   centerControlDiv.index = 1;
-  $obj.vars.map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+  //$obj.vars.map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
 });
         </script>
 

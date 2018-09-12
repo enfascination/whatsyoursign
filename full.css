@@ -95,6 +95,7 @@ footer {
  .q, .a {
      padding: 5px;
      font-style: italic;
+     font-family: "Matterhorn Serif";
  }
  .q {
      padding-top: 15px;
@@ -203,6 +204,7 @@ footer {
     background-repeat: repeat-x; /* Do not repeat the image */
     background-size: 200%; /* Resize the background image to cover the entire container */
     color: white;
+    text-transform: uppercase;
 }
 .form-list-signs > label.disabled {
     cursor: not-allowed; /*change curser*/
@@ -274,6 +276,10 @@ footer {
     padding-top:0;;
 }
 
+.color-flare {
+    /*color: #558B95;*/
+    color: #444;
+}
 
 .placard {
     width: 90%;
