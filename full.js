@@ -54,7 +54,6 @@ Number.prototype.mod = function(n) {
  ** DEFINE globals
 \** * * * * * * * * * * **/
 const ephemerisURL = 'vendor/swisseph/swetest.php';
-//const ephemerisURL = 'https://enfascination.com/swissephemeris/swetest.php';
 
 /** * * * * * * * * * * **\
  ** DEFINE helpers: generic
