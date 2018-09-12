@@ -700,13 +700,13 @@ function fetchSwissAstroSun( el ) {
         activateIllustration( sunCurrentSVG[0], deactivate=true);
         activateIllustration( sunDesiredSVG[0], deactivate=true);
         // label prep: interpolate sign and manually show
-        prepareLabels(  elNoChangeLabel, null, currentSunSign);
+        prepareLabels(  elNoChangeLabel, null, currentSunSign, sdesiredsign=null, sentityname='placard');
         replaceTemplate(elCenter, elNoChangeLabel);
 
     // still some cases to consider: did user click "no sign" (one object) or some sign besides their current sign (2 objects)
     } else if (inDesiredSunSign !== "null") {
         //  clean up after one of the other conditions
-        prepareLabels(  elReplaceLabel, null, currentSunSign, inDesiredSunSign);
+        prepareLabels(  elReplaceLabel, null, currentSunSign, inDesiredSunSign, sentityname='placard');
         replaceTemplate(elCenter, elReplaceLabel);
 
         // cancel out current sign
@@ -738,7 +738,7 @@ function fetchSwissAstroSun( el ) {
         // if they do pick "no sign", be sure to disappear the other objects
 
         //  clean up after one of the other conditions
-        prepareLabels(  elEraseLabel, null, currentSunSign, null);
+        prepareLabels(  elEraseLabel, null, currentSunSign, null, sentityname='placard');
         replaceTemplate(elCenter, elEraseLabel);
 
 
@@ -809,10 +809,10 @@ function postSubmit(sAstroShell, elsvg, mode="counter") {
         elsvg[2].classList.add("visible");
         elsvg[3].classList.remove("invisible");
         elsvg[3].classList.add("visible");
-        prepareLabels(elsvg[2], (astroAngle - Math.PI), sunSign);
-        prepareLabels(elsvg[3], astroAngle);
+        prepareLabels(elsvg[2], (astroAngle - Math.PI), sunSign, sdesiredsign=null, sentityname='skyscraper');
+        prepareLabels(elsvg[3], astroAngle, null,  sdesiredsign=null, sentityname='sun');
     } else if (mode == "simulate") {
-        prepareLabels(elsvg[2], astroAngle, sunSign);
+        prepareLabels(elsvg[2], astroAngle, sunSign, sdesiredsign=null, sentityname='skyscraper');
         elsvg[2].classList.remove("invisible");
         elsvg[2].classList.add("visible");
     }
@@ -909,20 +909,33 @@ function activateIllustration(el, deactivate=false){
     }
 }
 
-function prepareLabels(labelTemplate, astroAngle, sSign , sdesiredsign) {
+function prepareLabels(labelTemplate, astroAngle, sSign , sdesiredsign, sentityname) {
     // (popoulate labels with caluclated content)
+    // INJECT entity name info
+    var thename = labelTemplate.querySelector(".body-name");
+    if ((thename !== null) && (sentityname in d)) {
+        thename.innerText = d[sentityname].sname;
+    }
+    // INJECT angle info
     var sAstroAngle = '' + ((astroAngle + Math.PI/2) / (2*Math.PI) * 360).mod( 360 ).toFixed(0) + 'º';
     var templateAngle = labelTemplate.querySelector(".body-angle");
-    var templateSign = labelTemplate.querySelector(".body-sign");
     if (templateAngle !== null) {
         templateAngle.innerText = sAstroAngle;
     }
+    // INJECT sign info
+    var templateSign = labelTemplate.querySelector(".body-sign");
     if (templateSign !== null) {
         templateSign.innerText = zodiacSignsInv[sSign];
     }
+    // INJECT desired sign info
     var templateDesiredSign = labelTemplate.querySelector(".body-sign-to");
     if (templateDesiredSign !== null) {
         templateDesiredSign.innerText = zodiacSignsInv[sdesiredsign];
+    }
+    // INJECT distance info
+    var distance = labelTemplate.querySelector(".body-distance");
+    if ((distance !== null) && (sentityname in d)) {
+        distance.innerText = d[sentityname].sdist;
     }
     //console.log(templateAngle);
 }
