@@ -293,7 +293,6 @@ footer {
 @media only screen and (max-device-width : 480px) {
     /* Styles */
     .astrological-input {
-        /*padding-top: 400px;*/
         margin-left:0;
     }
     .astrological-output {
@@ -306,6 +305,12 @@ footer {
         display: none;
     }
     .title-bar {
+    }
+    .form-part2.invisible {
+        height: 0;
+    }
+    .svgtitle {
+        width: 100%;
     }
 }
 
