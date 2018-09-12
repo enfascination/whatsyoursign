@@ -201,7 +201,7 @@ function drawTick(el, angle, color='#000', thickness='1') {
 for(var i = 0; i < 32; i++) {
     var el = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     el = drawTick(el, (i*2*Math.PI/32));
-    document.querySelector('svg.illustration').appendChild(el);
+    document.querySelector('svg.illustration .astro-supporting-elements').appendChild(el);
 }
 const cardinalDirs = ['E', 'W', 'S', 'N'];
 for(var i = 0; i < 4; i++) {
@@ -209,7 +209,7 @@ for(var i = 0; i < 4; i++) {
     el.textContent = cardinalDirs[i];
     //el.setAttribute('fill', 'white');
     el.setAttribute('fill', '#866fa4');
-    document.querySelector('svg.illustration').appendChild(el);
+    document.querySelector('svg.illustration .astro-supporting-elements').appendChild(el);
     placeRadially(el, 300-7, 300+6, 160, i*Math.PI/2);
 }
 
@@ -828,7 +828,7 @@ function postSubmit(sAstroShell, elsvg, mode="counter") {
     var el = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     el = drawTick(el, Math.PI + astroAngle + angleOffset, '#558B95', thickness=3);
     el.classList.add('compass-tick');
-    document.querySelector('svg.illustration').appendChild(el);
+    document.querySelector('svg.illustration .astro-supporting-elements').appendChild(el);
 
     activateIllustration(elsvg[0]);
 
