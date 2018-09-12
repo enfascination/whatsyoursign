@@ -7,45 +7,25 @@
               * darkest blue: 080C3B
  * */
 body {
-    /*background: url("./back.png") no-repeat center center fixed;*/
     font-family: "Futura";
     position: relative;
     background-color: #ced5da; /*#DAE0E3;*/
-    /*
-    background-image: url('assets/stars_back2.svg');
-    height: 100%;
-  width: 100%;
-  */
 }
-/*body:after {
-    position:absolute;
-    top:0;
-    bottom:0;
-    height: 100%;
-    width: 100%;
-    opacity: 0.5;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-    -o-background-size: cover;
-    background-color: #DAE0E3;
-        background-color: rgba(75, 86, 160, 0.7);
-
-}*/
 body::after {
-      content: "";
+    content: "";
     background-image: url('assets/stars_back2.svg');
-          opacity: 0.2;
-            top: 0;
-              left: 0;
-                bottom: 0;
-                  right: 0;
-                    position: absolute;
-                      z-index: -1;   
-                  }
+    opacity: 0.2;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;   
+}
+
 h1, h2, h3, h4 {
     font-family: "Rockwell";
-	color: black;
+    color: black;
 }
 
 hr {
@@ -72,14 +52,13 @@ svg {
 }
 
 .navbar, 
-footer{
+footer {
     position:relative;
     background-image: url('assets/stars_back2.svg');
     background-color: #080C3B;
-      background-position: top-left; /* Center the image */
-        background-repeat: repeat-x; /* Do not repeat the image */
-          background-size: 30%; /* Resize the background image to cover the entire container */
-
+    background-position: top-left; /* Center the image */
+    background-repeat: repeat-x; /* Do not repeat the image */
+    background-size: 30%; /* Resize the background image to cover the entire container */
 }
 
 .nav-item ,
@@ -169,7 +148,7 @@ footer{
     font-size: 20pt;
     text-align: center;
     margin-left: 50px;
-    padding-top: 50px;
+    padding-top: 25px;
 }
 .astrological-output {
     padding-top: 10px;
@@ -178,6 +157,7 @@ footer{
 }
 
 .astrological-output > .illustration {
+    margin: auto;
 }
 
 .svg-obj-planetary {
@@ -195,10 +175,13 @@ footer{
 .form-part,
 .form-part input {
     text-align: center;
+    font-size: 16pt;
 }
 .form-part > label {
     /*display: inline;*/
     display: block;
+    font-size: 18pt;
+    line-height: 1.1;
 }
 .form-part input ,
 .form-part > select {
@@ -212,23 +195,53 @@ footer{
     padding: 5px;
 }
 .form-part > input.btnSubmit {
-    background-color: #4558de;
+    margin-top: 10px;
+    position:relative;
+    background-image: url('assets/stars_back2.svg');
+    background-color: #080C3B;
+    background-position: top-left; /* Center the image */
+    background-repeat: repeat-x; /* Do not repeat the image */
+    background-size: 200%; /* Resize the background image to cover the entire container */
     color: white;
-    box-shadow: 0 6px 15px 0 rgba(0,0,0,10);
 }
 .form-list-signs > label.disabled {
     cursor: not-allowed; /*change curser*/
     pointer-events: none; /*makes it so other radio options don't get deselected when this one is clicked*/
+}
+.form-list-signs > .btn {
+    background-color: white;
+    color: black;
+    border: 0;
+    outline: 0;
+    font-size: 16pt;
+    line-height: 1.1;
+    }
+
+.form-list-signs > .btn-secondary:not(:disabled):not(.disabled).active, .form-list-signs > .btn-secondary:not(:disabled):not(.disabled):active, .form-list-signs > .show>.btn-secondary.dropdown-toggle{
+    position:relative;
+    background-image: url('assets/stars_back2.svg');
+    background-color: #080C3B;
+    background-position: top-left; /* Center the image */
+    background-repeat: repeat-x; /* Do not repeat the image */
+    background-size: 300%; /* Resize the background image to cover the entire container */
 }
 
 /*map*/
 .gllpMap.gllpMap {
     min-width: 200px;
     width: 100%;
+    width: 250px;
     min-height: 200px;
     height: 100%;
+    border-radius: 10px 10px 0 0;
     -webkit-filter: grayscale(85%); /* Safari 6.0 - 9.0 */
     filter: grayscale(85%);
+    margin:auto;
+    
+}
+.gllpCoordinates.gllpCoordinates {
+    border-radius: 0 0 10px 10px;
+
 }
 
 
@@ -262,6 +275,15 @@ footer{
 }
 
 
+.placard {
+    width: 90%;
+    margin: auto;
+    text-align: center;
+	background-color: rgba(134, 111, 164, 0.25);
+    font-family: "Rockwell";
+    font-size: 18px;
+    color: black;
+}
 @media only screen and (max-device-width : 480px) {
     /* Styles */
     .astrological-input {
@@ -280,3 +302,4 @@ footer{
     .title-bar {
     }
 }
+
