@@ -112,6 +112,20 @@ var zodiacSigns = {
     'scorpio':8,
     'sagittarius':9,
 };
+const zodiacUTF = {
+    10: '♑︎',
+    11: '♒︎',
+    12: '♓︎',
+    1:  '♈︎',
+    2:  '♉︎',
+    3:  '♊',
+    4:  '♋︎',
+    5:  '♌︎',
+    6:  '♍︎',
+    7:  '♎︎',
+    8:  '♏︎',
+    9: '♐︎',
+}
 var zodiacSignsInv = {
     10: 'Capricorn',
     11: 'Aquarius',
@@ -697,6 +711,7 @@ function fetchSwissAstroSun( el ) {
 
     //reset image
     removeElementsByClass( 'compass-tick' );
+    removeElementsByClass( 'sign-brand' );
 
     if (signDiff === 0) {
         // if they do pick their current sign, nothing should happen
@@ -705,6 +720,7 @@ function fetchSwissAstroSun( el ) {
         activateIllustration( sunDesiredSVG[0], deactivate=true);
         // label prep: interpolate sign and manually show
         prepareLabels(  elNoChangeLabel, null, currentSunSign, sdesiredsign=null, sentityname='placard');
+        //addBrand(currentSunSign);
         replaceTemplate(elCenter, elNoChangeLabel);
 
     // still some cases to consider: did user click "no sign" (one object) or some sign besides their current sign (2 objects)
@@ -738,6 +754,7 @@ function fetchSwissAstroSun( el ) {
         ajax(astroUrlNewSun, function(dat) {
                 postSubmit(dat , sunDesiredSVG, mode="simulate");
                 }, null, null);
+        //addBrand(inDesiredSunSign);
     } else {
         // if they do pick "no sign", be sure to disappear the other objects
 
@@ -896,6 +913,18 @@ function imageAngleFromAstroAngle(ascendant, meridian, sunAngle) {
     astroAngle2 = astroAngle2.mod( 2*Math.PI );
     //console.log((astroAngle/(Math.PI*2)*360), (astroAngle2/(Math.PI*2)*360) );
     return(astroAngle);
+}
+
+function addBrand(sign) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    el.textContent = zodiacUTF[sign];
+    el.classList.add('special');
+    el.classList.add('sign-brand');
+    el.setAttribute('fill', 'black');
+    el.setAttribute('x',300-80);
+    el.setAttribute('y',300-60);
+    el.setAttribute('font-size',28);
+    document.querySelector('svg.illustration .astro-supporting-elements').appendChild(el);
 }
 
 function positionObjectInSVG(mass, radius, astroAngle) {
