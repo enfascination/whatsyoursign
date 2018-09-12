@@ -16,3 +16,10 @@ https://codepen.io/mohebifar/pen/KwdeMz (for an animated SVG to work our core il
 https://www.flaticon.com/ (for images)
 http://www.astro.com/swisseph/ (for astronomical/astrological data)
 https://atomiks.github.io/tippyjs/ (for adding tooltips to svg elements)
+
+TODO
+currently using average distances to solar body.  emphemeris reports real distance, so cound compute counter on the fly
+currently using only degree angle to solar body.  emphemeris reports minutes and seconds as well; greater acuracy
+site only shows sun sign.  using more objects for more bodies would be busy, but fun.
+site could be generalized to other zodiac systems (chinese)
+site could be generalized from newborns to events
