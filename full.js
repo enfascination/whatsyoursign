@@ -865,8 +865,8 @@ function getAngles(sAstroShell) {
     );
     sunSign = Math.floor(+(sunAngle[1]));
     sunAngle = sunAngle[2];
-    ascendant = sAstroShell.match(/\bAscendant\s+[0-9\.]+\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
-    meridian = sAstroShell.match(/\bMC\s+[0-9\.]+\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
+    ascendant = sAstroShell.match(/\bAscendant\s+[[0-9\.]+\s+]?(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
+    meridian = sAstroShell.match(/\bMC\s+[[0-9\.]+\s+]?(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
     // convert to radians
     sunAngle = (sunAngle / 360) * 2 * Math.PI;
     ascendant = (ascendant / 360) * 2 * Math.PI;
