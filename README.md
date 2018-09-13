@@ -23,3 +23,5 @@ currently using only degree angle to solar body.  emphemeris reports minutes and
 site only shows sun sign.  using more objects for more bodies would be busy, but fun.
 site could be generalized to other zodiac systems (chinese)
 site could be generalized from newborns to events
+different outfit/image/hat for baby for each sign
+for greater variety, imitate or scrape from https://www.bluebulbprojects.com/measureofthings or some database of things with mass
