@@ -53,7 +53,7 @@ Number.prototype.mod = function(n) {
 /** * * * * * * * * * * **\
  ** DEFINE globals
 \** * * * * * * * * * * **/
-const ephemerisURL = 'vendor/swisseph/swetest.php';
+const ephemerisURL = 'https://enfascination.com/swissephemeris/repo/swetest.php';
 
 /** * * * * * * * * * * **\
  ** DEFINE helpers: generic
@@ -116,6 +116,20 @@ var zodiacSigns = {
     'scorpio':8,
     'sagittarius':9,
 };
+const zodiacUTF = {
+    10: '♑︎',
+    11: '♒︎',
+    12: '♓︎',
+    1:  '♈︎',
+    2:  '♉︎',
+    3:  '♊',
+    4:  '♋︎',
+    5:  '♌︎',
+    6:  '♍︎',
+    7:  '♎︎',
+    8:  '♏︎',
+    9: '♐︎',
+}
 var zodiacSignsInv = {
     10: 'Capricorn',
     11: 'Aquarius',
@@ -701,6 +715,7 @@ function fetchSwissAstroSun( el ) {
 
     //reset image
     removeElementsByClass( 'compass-tick' );
+    removeElementsByClass( 'sign-brand' );
 
     if (signDiff === 0) {
         // if they do pick their current sign, nothing should happen
@@ -709,6 +724,7 @@ function fetchSwissAstroSun( el ) {
         activateIllustration( sunDesiredSVG[0], deactivate=true);
         // label prep: interpolate sign and manually show
         prepareLabels(  elNoChangeLabel, null, currentSunSign, sdesiredsign=null, sentityname='placard');
+        //addBrand(currentSunSign);
         replaceTemplate(elCenter, elNoChangeLabel);
 
     // still some cases to consider: did user click "no sign" (one object) or some sign besides their current sign (2 objects)
@@ -742,6 +758,7 @@ function fetchSwissAstroSun( el ) {
         ajax(astroUrlNewSun, function(dat) {
                 postSubmit(dat , sunDesiredSVG, mode="simulate");
                 }, null, null);
+        //addBrand(inDesiredSunSign);
     } else {
         // if they do pick "no sign", be sure to disappear the other objects
 
@@ -860,13 +877,20 @@ function getAngles(sAstroShell) {
     // now use regexes to search the printout for the right digits.
     //  according to the math team, we need angles for the sun, AC and MC.
     //console.log(sAstroShell);
+    //the regexes below works as follows:
+    //   capture three lines, the sun, acendant,a nd meridian
+    //   first group of hthe sun line gives the sun sign. 
+    //   second group gives angle off acendsant, in degrees.  thidr and fourth and fifth give minutes and seconds  and remaining fractions of that angle.
+    //   the ascendant line also has to parse the sun sign group, but doesn't capture it.
+    //       same with meridian, which I don't actually use anymore.
+    //   one problem is that different complilations/downloads fo the emphemeris binary either do or don't put he sun sign ont he ascendent line, meaning this regex has to not match those first digists in the ascenddant's regex line for this to work in those other versions.  the binary packages with the standalone branch shouldn't have this problem, but i don't understand the rpboelm or how I fixed it, so this is a note to self.
     sunAngle = sAstroShell.match(
         /\bSun\s+([0-9\.]+)\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/
     );
     sunSign = Math.floor(+(sunAngle[1]));
     sunAngle = sunAngle[2];
-    ascendant = sAstroShell.match(/\bAscendant\s+[[0-9\.]+\s+]?(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
-    meridian = sAstroShell.match(/\bMC\s+[[0-9\.]+\s+]?(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
+    ascendant = sAstroShell.match(/\bAscendant\s+[0-9\.]+\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
+    meridian = sAstroShell.match(/\bMC\s+[0-9\.]+\s+(\d{1,3})°\s?(\d\d?)'\s?(\d\d?).(\d{4})\s+/)[1];
     // convert to radians
     sunAngle = (sunAngle / 360) * 2 * Math.PI;
     ascendant = (ascendant / 360) * 2 * Math.PI;
@@ -901,6 +925,18 @@ function imageAngleFromAstroAngle(ascendant, meridian, sunAngle) {
     astroAngle2 = astroAngle2.mod( 2*Math.PI );
     //console.log((astroAngle/(Math.PI*2)*360), (astroAngle2/(Math.PI*2)*360) );
     return(astroAngle);
+}
+
+function addBrand(sign) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    el.textContent = zodiacUTF[sign];
+    el.classList.add('special');
+    el.classList.add('sign-brand');
+    el.setAttribute('fill', 'black');
+    el.setAttribute('x',300-80);
+    el.setAttribute('y',300-60);
+    el.setAttribute('font-size',28);
+    document.querySelector('svg.illustration .astro-supporting-elements').appendChild(el);
 }
 
 function positionObjectInSVG(mass, radius, astroAngle) {
