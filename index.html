@@ -194,7 +194,6 @@ Hey
 
                             
                                 </line>
-                                <!--SETH: To get the moon in place of the second hand, I commented out the <line> below and replaced it with the <image> command, which lets you embed an SVG (or other type of image) within an SVG image.  I pulled the image from flaticon.com By keeping the id="secondhand", I ensured that the javascript at the bottom of the page, in the <script> tags, would speak to this image rather than to the line that used to function as the second hand.  -->
                                 <!-- <line x1="300" y1="300" x2="300" y2="120" style="stroke-width: 2px; stroke: #C1EFED;" id="secondhand"> -->
                             
         </image>
@@ -210,7 +209,6 @@ Hey
             <image x="0" y="0" width="100" height="100" xlink:href="assets/skyscraper.svg"  id="simulated-sun" class="svg-obj-surrogate tooltipped invisible" onmouseover="inquireSurrogate(this, 'in');" onmouseout="inquireSurrogate(this, 'out');" title="" />
         </g>
         <circle style="fill:#128A86; stroke: #C1EFED; stroke-width: 2px;" cx="300" cy="300" r="6">  </circle>
-    <!--SETH: I got the baby in the middle by plugging it in with an image tag below. I wasn't sure where to put it, so I tried putting it in lots of places in the SVG until I got it right.  But an educated guess said to put it near the main middle circle, so I mainly just had to find that.  Is there something about the circle above that gives us a hint its the right one?-->
         <image id="center" class="tooltipped" x="200" y="200" width="200" height="200" xlink:href="assets/baby_surprised_birth.svg"  />
 
         </svg>
@@ -293,7 +291,7 @@ Hey
     </tbody>
                                     <caption class="figure-caption">
                                     <hr>
-                                    <strong>Planets and the earthbound objects that exert the same gravitational pull at about two meters away.</strong>  If you don't believe that a shared spiritual essence binds things across the cosmos to a common fate, keep in mind that the everyday object most gravitationally similar to Uranus is the toilet.
+                                    <strong>Planets and the earthbound objects that exert the same gravitational pull at about two meters away.</strong>  If you don't believe that a shared spiritual essence binds the objects of the cosmos to a common fate, keep in mind that the everyday object most gravitationally similar to Uranus is the toilet.
 
                                     </caption>
     </table>
@@ -321,15 +319,13 @@ Hey
     </footer>
         </div>
                         <div id="template-counter-sun-label" class="template invisible">
-                                At <strong class='body-distance'></strong> away, <strong class='body-name'></strong> has the same gravitational pull as <span class='body-cosmic-name'>the Sun</span>.
-                            <br>
-                            When placed at <strong class='body-angle'></strong> clockwise from North, it will cancel out the Sun sign <strong class='body-sign'></strong>.
+                        When placed <strong class='body-distance'></strong> away, at <strong class='body-angle'></strong> clockwise from North ,<br><strong class='body-name'></strong> will cancel out the Sun sign <strong class='body-sign'></strong>.
                         </div>
                         <div id="template-mass-sun-label" class="template invisible">
-                            The Sun, our nearest star, is <strong class='body-distance'></strong> away, at <strong class='body-angle'></strong>.
+                            The Sun, our nearest star, is <strong class='body-distance'></strong> away, at <strong class='body-angle'></strong> from North.
                         </div>
                         <div id="template-simulated-sun-label" class="template invisible">
-                            At <strong class='body-distance'></strong> away, and <strong class='body-angle'></strong> clockwise from North, <strong class='body-name'></strong> will act like <span class='body-cosmic-name'>the Sun</span> in <strong class='body-sign'></strong>.
+                        When placed <strong class='body-distance'></strong> away, at <strong class='body-angle'></strong> clockwise from North, <br><strong class='body-name'></strong> will act like <span class='body-cosmic-name'>the Sun</span> in <strong class='body-sign'></strong>.
                         </div>
                         <div id="template-default-sign-label" class="template invisible">
                             If your child was born right now, this would erase their astrological sign.
