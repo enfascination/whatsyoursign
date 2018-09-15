@@ -53,7 +53,8 @@ Number.prototype.mod = function(n) {
 /** * * * * * * * * * * **\
  ** DEFINE globals
 \** * * * * * * * * * * **/
-const ephemerisURL = 'https://enfascination.com/swissephemeris/repo/swetest.php';
+//const ephemerisURL = 'https://enfascination.com/swissephemeris/repo/swetest.php';
+const ephemerisURL = 'vendor/swisseph/swetest.php';
 
 /** * * * * * * * * * * **\
  ** DEFINE helpers: generic
