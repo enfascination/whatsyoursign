@@ -35,14 +35,17 @@ body {
 }
 body::after {
     content: "";
-    background-image: url('assets/stars_back.svg');
-    opacity: 0.2;
+    background-image: url('assets/stars_back_light.svg');
+    opacity: 0.3;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
     position: absolute;
     z-index: -1;   
+    background-position: top-left; /* Center the image */
+    background-repeat: repeat; /* Do not repeat the image */
+    background-size: 50%; /* Resize the background image to cover the entire container */
 }
 
 h1, h2, h3, h4 {
@@ -84,7 +87,7 @@ svg {
 .navbar, 
 footer {
     position:relative;
-    background-image: url('assets/stars_back.svg');
+    background-image: url('assets/stars_back_dark.svg');
     background-color: #080C3B;
     background-position: top-left; /* Center the image */
     background-repeat: repeat; /* Do not repeat the image */
@@ -206,12 +209,12 @@ footer {
 .form-part,
 .form-part input {
     text-align: center;
-    font-size: 16pt;
+    font-size: 15pt;
 }
 .form-part > label {
     /*display: inline;*/
     display: block;
-    font-size: 18pt;
+    font-size: 20pt;
     line-height: 1.1;
 }
 .form-part input ,
@@ -228,7 +231,7 @@ footer {
 .form-part > input.btnSubmit {
     margin-top: 10px;
     position:relative;
-    background-image: url('assets/stars_back.svg');
+    background-image: url('assets/stars_back_dark.svg');
     background-color: #080C3B;
     background-position: top-left; /* Center the image */
     background-repeat: repeat-x; /* Do not repeat the image */
@@ -245,13 +248,13 @@ footer {
     color: black;
     border: 0;
     outline: 0;
-    font-size: 16pt;
+    font-size: 15pt;
     line-height: 1.1;
     }
 
 .form-list-signs > .btn-secondary:not(:disabled):not(.disabled).active, .form-list-signs > .btn-secondary:not(:disabled):not(.disabled):active, .form-list-signs > .show>.btn-secondary.dropdown-toggle{
     position:relative;
-    background-image: url('assets/stars_back.svg');
+    background-image: url('assets/stars_back_dark.svg');
     background-color: #080C3B;
     background-position: top-left; /* Center the image */
     background-repeat: repeat-x; /* Do not repeat the image */
@@ -317,7 +320,7 @@ footer {
     text-align: center;
 	background-color: rgba(134, 111, 164, 0.25);
     font-family: "Rockwell";
-    font-size: 18px;
+    font-size: 20px;
     color: black;
 }
 @media only screen and (max-device-width : 480px) {
